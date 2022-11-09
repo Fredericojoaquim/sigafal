@@ -1,0 +1,44 @@
+.mytable{
+    min-height: 700px!important;
+    
+}
+
+.bnEditar{
+    color:#fff;
+    text-decoration: none;
+}
+
+.bnEditar:hover{
+    color:#fff;
+}
+.myresponsivetable{
+    max-width: 100%;
+    height: 500px;
+    overflow-x: scroll;
+}
+.exemplo{
+    color: blueviolet;
+    font-size: 200px;
+}
+.foto-perfil{
+    width: 100px;
+    height: 90px;
+    border: none;
+
+}
+
+.imagem-profile{
+    margin: 0 auto;
+    width: 150px;
+    height: 90px;
+    
+}
+
+.imagem-profile, img{
+    border-radius: 70%;
+}
+
+.imagem-profile, a{
+    text-align: center;
+    margin: 0 auto;
+}
