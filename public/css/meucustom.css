@@ -29,16 +29,17 @@
 
 .imagem-profile{
     margin: 0 auto;
-    width: 150px;
+    width: 250px;
     height: 90px;
     
 }
 
-.imagem-profile, img{
+.imagem-profile > img{
     border-radius: 70%;
+    width: 200px;
+    height: 200px;
 }
 
-.imagem-profile, a{
-    text-align: center;
-    margin: 0 auto;
+.btnaltearuser{
+    color: blue;
 }

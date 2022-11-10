@@ -55,7 +55,7 @@ class RegisteredUserController extends Controller
        $u->email=$request->email;
        $u->estado='ativo';
        $u->password=Hash::make($request->password);
-       $u->imagem='jjj';//adicionar o caminho da imagem aqui
+       $u->imagem=$request->imagem;//adicionar o caminho da imagem aqui
        $u->givePermissionTo($request->permission);
        if($request->hasFile('imagem')){
         

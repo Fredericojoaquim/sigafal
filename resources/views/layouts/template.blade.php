@@ -212,6 +212,7 @@
                             </ul>
                         </li>
                       
+
                         @can('Administrador')
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
@@ -245,9 +246,12 @@
                                     <a href="{{url('/dashboard/pagamentos')}}">Ver Todos</a>
                                     <a href="{{url('/dashboard/devedores')}}">Devedores</a>
                                     <a href="{{url('/dashboard/recibos')}}">Facturas-Recibo</a>
-                                
+                                </li>
                             </ul>
                         </li>
+
+
+                        
                     </ul>
                 </nav>
             </div>

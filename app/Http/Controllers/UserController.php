@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Models\ModelPermission;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -91,9 +92,25 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $u=User::findOrFail($request->id);
+        $u->name=$request->nome;
+        $u->email=$request->email;
+        $u->password=Hash::make($request->password);
+        if($request->hasFile('imagem')){
+        
+            $requestImagem = $request->imagem;
+            $extensao = $requestImagem->extension();
+            $nomeImagem = md5($requestImagem->getClientOriginalName().strtotime("now")).".".$extensao;
+            $request->imagem->move(public_path('imagens'),$nomeImagem);
+            $u->imagem = $nomeImagem;
+        }
+
+        $u->update();
+
+        return view('admin.perfil',['u'=>$u, 'sms'=>'Perfil actualizado com sucesso']);
+
     }
 
     /**

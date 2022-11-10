@@ -39,7 +39,7 @@ Route::get('/dashboard/user/profile{id}', [UserController::class,'perfil']);
 Route::post('/user/bloquear',[UserController::class,'bloquear'])->middleware('auth');
 Route::post('/user/desbloquear',[UserController::class,'desbloquear'])->middleware('auth');
 Route::delete('/user/delete',[UserController::class,'destroy'])->middleware('auth');
-
+Route::put('/user/update/', [UserController::class,'update']);
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth'])->name('dashboard');
