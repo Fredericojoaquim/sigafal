@@ -19,7 +19,7 @@
     <link href="{{url('assets/vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="assets/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="{{url('assets/bootstrap-4.1/bootstrap.min.css')}}" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
     <link href="{{url('assets/vendor/animsition/animsition.min.css')}}" rel="stylesheet" media="all">
