@@ -20,14 +20,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 /*Route::get('/', function () {
     return view('welcome');
 });*/
 
 Route::get('/', function () {
-    return view('auth/login');
+   // return view('auth/login');
+   return view('admin.login');
 });
+
+Route::post('/login',[UserController::class,'login']);
 
 /*Route::get('/dashboard/user', function () {
     return view('user');

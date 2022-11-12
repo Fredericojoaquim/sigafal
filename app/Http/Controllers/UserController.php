@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Models\ModelPermission;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -139,6 +141,14 @@ class UserController extends Controller
 
         return view('admin.perfil',['u'=>$u]);
 
+
+    }
+
+
+    public function login (LoginRequest $request){
+        $request->authenticate();
+        $request->session()->regenerate();
+        return redirect()->intended(RouteServiceProvider::HOME);
 
     }
 
