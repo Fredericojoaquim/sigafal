@@ -22,8 +22,8 @@ class PagamentoExport implements FromView, ShouldAutoSize
 
     public function __construct()
     {
-        $this->data1='2022-10-02';
-        $this->data2='2022-10-29';
+        $this->data1= $_SESSION['datainicio'];
+        $this->data2=  $_SESSION['datafim'];
         $this->pg=DB::table('clientepagamentos')
         ->whereBetween('pagamentos.datapagamento',[ $this->data1, $this->data2])
         ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
@@ -41,7 +41,7 @@ class PagamentoExport implements FromView, ShouldAutoSize
        
        
 
-          return view('relatorios.exemplo',['pg'=>$this->pg]);
+        return view('relatorios.extratopagamentoexcel',['pg'=>$this->pg]);
     }
     
 }
