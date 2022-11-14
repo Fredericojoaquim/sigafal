@@ -112,20 +112,20 @@
                     <td class="d-flex justify-content-center"> 
                         
                             
-                            <button class="btn btn-primary btn-sm editar mr-2 " id="">
+                            <button class="btn btn-primary btn-sm editar mr-1 " id="">
                                 <a class="bnEditar" href="{{url("/pagamentos/show$p->idpagamento")}}">Alterar</a>
                             </button>
 
-                        <button class="btn btn-secondary mr-2 btn-sm editar  " id="">
+                        <button class="btn btn-secondary mr-1 btn-sm editar  " id="">
                             <a class="bnEditar" href="{{url("/dashboard/pagamentos/$p->idpagamento")}}">Detalhes</a>
                         </button>
                         @can('Administrador')
                         @if($p->estado == 'não verificado')
-                            <button class="btn btn-success btn-sm editar mr-2 " id="$p->idpagamento" onclick="aprovar({{$p->idpagamento}})" data-toggle="modal"   data-target="#modalaprovar">
+                            <button class="btn btn-success btn-sm editar mr-1 " id="$p->idpagamento" onclick="aprovar({{$p->idpagamento}})" data-toggle="modal"   data-target="#modalaprovar">
                             Aprovar
                             </button>
                         @else
-                            <button disabled class="btn btn-warning btn-sm mr-2 editar mt-1" id="$p->idpagamento">
+                            <button disabled class="btn btn-warning btn-sm mr-1 editar mt-1" id="$p->idpagamento">
                                 Aprovar
                             </button>
 

@@ -68,12 +68,12 @@
                     @php
                          $caminho='imagens'.'/'.$u->imagem;
                       @endphp
-                    <td> <img src="{{url("$caminho")}}" alt="" class="foto-perfil"> </td>
+                    <td> <img src="{{url("$caminho")}}" alt="imagem-profile" class="foto-perfil rounded"> </td>
                     
-                    <td> 
+                    <td  class="d-flex justify-content-center"> 
 
-                        <button class="btn btn-md btn-primary">Alterar</button>
-                        <button class="btn btn-md btn-secondary ">bloquear</button >
+                        <button class="btn btn-md btn-primary mr-1">Alterar</button>
+                        <button class="btn btn-md btn-secondary mr-1">bloquear</button >
                          <button class="btn btn-md btn btn-danger eliminar" id="{{$u->id}}" onclick="retornaid({{$u->id}})" data-toggle="modal"   data-target="#smallmodal">
                                 <ion-icon name="trash-outline"></ion-icon> Eliminar
                          </button>

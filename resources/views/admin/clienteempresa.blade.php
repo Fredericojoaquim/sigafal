@@ -84,7 +84,7 @@
                     <td>{{ $c->preco}}</td>
                     <td>{{ $c->servico}}</td>
                     <td>{{ $c->pt}}</td>
-                    <td> 
+                    <td  class="d-flex justify-content-center"> 
                         <button class="btn btn-md btn-outline-primary editar" id="">
                             <a class="bnEditar" href="{{url("")}}">Alterar</a>
                         </button>

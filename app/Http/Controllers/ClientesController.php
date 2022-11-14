@@ -66,7 +66,7 @@ class ClientesController extends Controller
             $c->save();
             
             $u=new Ultimopagamento();
-            $u->cliente_id=$c->id();
+            $u->cliente_id=$c->id;
             $u->save();
             
         }else{
@@ -229,8 +229,8 @@ class ClientesController extends Controller
     public function consultarnif($nif){
         $c=Cliente::where('nif',$nif)
          ->get();
-
-         if(is_null($c)){
+        $num=count($c);
+         if($num==0){
             return true;
          }
          return false;

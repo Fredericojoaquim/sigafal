@@ -99,8 +99,8 @@
                     <td>{{ $valor}}</td>
                     <td>{{ $c->servico}}</td>
                     <td>{{ $c->pt}}</td>
-                    <td> 
-                        <button class="mb-2 btn btn-md btn-outline-primary editar" id="">
+                    <td class="d-flex justify-content-center"> 
+                        <button class="mr-1 btn btn-md btn-outline-primary editar" id="">
                             <a class="bnEditar" href="{{url("/dashboard/clientes/show/$c->id")}}">Alterar</a>
                         </button>
                         @can('Administrador')
