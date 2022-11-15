@@ -6,6 +6,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\Pt;
 use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\ContratoPagamento;
 use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\ServicoController;
 use Illuminate\Support\Facades\Route;
@@ -113,3 +114,6 @@ Route::get('/dashboard/pagamentos/{idpagamento}',[PagamentoController::class,'de
 Route::post('/dashboard/extratopagamento', [PagamentoController::class,'extratopagamento']);
 Route::get('/dashboard/contrato{id}', [ContratoController::class,'gerarcontrato']);
 Route::post('/dashboard/exportextratopagamentoexel', [PagamentoController::class,'exportextratopagamento']);
+
+//gestão de contratos
+Route::get('/dashboard/gestao-de-contratos', [ContratoPagamentotosController::class,'index']);

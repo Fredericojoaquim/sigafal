@@ -200,6 +200,10 @@
                                 <li>
                                     <a href="{{url('/dashboard/contratos')}}">Ver todos</a>
                                 </li>
+
+                                <li>
+                                    <a href="{{url('/dashboard/gestao-de-contratos')}}">Gestão de contratos</a>
+                                </li>
                             </ul>
                         </li>
                       
