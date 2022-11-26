@@ -72,9 +72,8 @@
                     
                     <td  class="d-flex justify-content-center"> 
 
-                        <button class="btn btn-md btn-primary mr-1">Alterar</button>
-                        <button class="btn btn-md btn-secondary mr-1">bloquear</button >
-                         <button class="btn btn-md btn btn-danger eliminar" id="{{$u->id}}" onclick="retornaid({{$u->id}})" data-toggle="modal"   data-target="#smallmodal">
+                        <button class="btn btn-sm btn-primary mr-1">Alterar</button>
+                         <button class="btn btn-sm btn btn-danger eliminar" id="{{$u->id}}" onclick="retornaid({{$u->id}})" data-toggle="modal"   data-target="#smallmodal">
                                 <ion-icon name="trash-outline"></ion-icon> Eliminar
                          </button>
                    

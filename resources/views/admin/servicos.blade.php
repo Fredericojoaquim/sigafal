@@ -79,11 +79,11 @@
                     <td>{{$s->descricao}}</td>
                     <td>{{$valor}}</td>
                     <td> 
-                        <button class="btn btn-md btn-outline-primary editar" id="{{$s->id}}">
+                        <button class="btn btn-sm btn-outline-primary editar" id="{{$s->id}}">
                             <a class="bnEditar" href="{{url("/dashboard/servicos/show/$s->id")}}">Alterar</a>
                         </button>
 
-                        <button class="btn btn-md btn btn-danger eliminar" id="{{$s->id}}" onclick="retornaid({{$s->id}})" data-toggle="modal"   data-target="#smallmodal">
+                        <button class="btn btn-sm btn btn-danger eliminar" id="{{$s->id}}" onclick="retornaid({{$s->id}})" data-toggle="modal"   data-target="#smallmodal">
                            <ion-icon name="trash-outline"></ion-icon> Eliminar
                         </button>
                     </td>

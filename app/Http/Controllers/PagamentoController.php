@@ -30,12 +30,7 @@ class PagamentoController extends Controller
     public function index()
     {
         //
-        $pg=DB::table('clientepagamentos')
-        ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
-        ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
-        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento')
-        ->orderBy('clientes.id','desc')
-        ->get();
+        $pg=$this->todosdados();
       
        
         return view('admin.pagamentos',['pg'=>$pg]);
@@ -98,6 +93,7 @@ class PagamentoController extends Controller
 
      return view('admin.pagamento', ['erro' => 'Esta referencia de pagamento ja foi registada','cliente' => $cliente
    ]);
+
     }
 
 
@@ -194,64 +190,57 @@ class PagamentoController extends Controller
     {
        
       
-        $erros=array();
+       $erros=array();
+       $mensagem="";
         
-        $u= Ultimopagamento::where('id',$_SESSION['id_cliente'])->get();
-
-        $p=new Pagamento();
-        $cp=ClientePagamento::where('cliente_id',$_SESSION['id_cliente'])->first();
+        $u= Ultimopagamento::where('cliente_id',$_SESSION['id_cliente'])->get();
+     
+       // $p=new Pagamento();
         //verificar se é o primeiro pagamento
-        if(is_null($cp)){
-            $p->modopagamento=$_SESSION['modo'];
-            $p->nomebanco=$_SESSION['banco'];
-            $p->id_docpagamento=$_SESSION['id_documento']; 
-            $p->qtd= $_SESSION['qtd'];
-            $p->user_id=Auth::user()->id;
-            $p->datapagamento = date('y-m-d');
-           
+        if($this->isPrimeiroPagamento($_SESSION['id_cliente'])){
+            $p=$this->retornaPagamento();
             $qtd=$p->qtd;
-            
+            //loop 
             for($i=0; $i<$qtd; $i++){
                 $c=new ClientePagamento();
                 $cont=$i+1;
                 $ano= explode('-', $request["data".$cont]);
                 $c->ano = $ano[0];
                 $c->mes = $this->retornaMes($ano[1]);
-                $multa=$this->moeda($request["multa".$cont]);
+               
+                $multa=$this->moeda($request["valor_multa".$cont]);
                 $valor=$this->moeda($request["preco".$cont]);
                 $c->multa=$multa;
                 $c->cliente_id = $_SESSION['id_cliente'];
-                $c->estado='não verficicado';
+                $c->estado='não verificado';
                 $c->pagamento_id = $p->id;
                 $c->valor =$valor;
                 //salvar o pagamento
                 $p->save();
                 //salvar o cliente pagamento
+                $c->pagamento_id=$p->id;
                 $c->save();
                 //update do ultimo pagamento
-                $u->dat=$request["data".$cont];
-                $u->update();
-
-    
+                $vector = ['data'=> $request["data".$cont]];
+                Ultimopagamento::findOrFail($u[0]->id)->update($vector);
+                $mensagem='Pagamento efectuado com sucesso!';
+               
             }
+            return view('admin.pagamentos',['erros'=>$erros,'pg'=>$this->todosdados(),'sms'=>$mensagem]);
+
         }else{
             //não é o primeiro pagamento
 
             //registar o pagamento
-            $p->modopagamento=$_SESSION['modo'];
-            $p->nomebanco=$_SESSION['banco'];
-            $p->id_docpagamento=$_SESSION['id_documento'];
-            $p->qtd= $_SESSION['qtd'];
-            $p->user_id=Auth::user()->id;
-            $p->datapagamento = date('y-m-d');
-          
-            $qtd=$_SESSION['qtd'];
+            $p=$this->retornaPagamento();
+            $qtd=$p->qtd;
 
             for($i=0; $i<$qtd; $i++){
                 $cont=$i+1;
                 $ano_request= explode('-', $request["data".$cont]);
                 $ano=$ano_request[0];
                 $mes= $this->retornaMes($ano_request[1]);
+
                 $cp=ClientePagamento::where('cliente_id',$_SESSION['id_cliente'])//vereificar se o pagamento ja
                 ->where('ano',$ano)
                 ->get();
@@ -262,7 +251,11 @@ class PagamentoController extends Controller
                 ->where('ano',$ano)
                 ->get();
 
-                if(!is_null( $cpagamento)){
+                //dd($cpagamento);
+                
+               $count=count($cpagamento);
+
+                if($count>0){
                      //possui dividas nos meses do ano anterior
                      $erros[]=" O mês de: $mes ja foi pago";
                      
@@ -291,7 +284,7 @@ class PagamentoController extends Controller
                              //possui dividas nos meses do ano anterior
                         $erros[]=" não é possivel efectuar o pagamento do mês de: $mes, pois o cliente possui divida no ano passado";
                         }else{
-                            $erros[]=" O mês de: $mes ja foi pago";
+                            $erros[]="O mês de: $mes ja foi pago";
                         }
                        
 
@@ -313,29 +306,17 @@ class PagamentoController extends Controller
                         $c->estado='não verificado';
                         $c->valor =$valor;
                         //salvar o pagamento
-                       
+                       //dd('entrou');
                         $p->save();
+                        
                         $c->pagamento_id = $p->id;
                         //salvar o cliente pagamento
                         $c->save();
                         //update do ultimo pagamento
-                        $u->dat=$request["data".$cont];
-                        $u->update();
-
-                        $pg=DB::table('clientepagamentos')
-                        ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
-                        ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
-                        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento')
-                        ->orderBy('clientes.id','desc')
-                        ->get();
-                        
-                       
-                        return view('admin.pagamentos',['erros'=>$erros,'pg'=>$pg]);
-    
-                      
-
-
-
+                        $vector = ['data'=> $request["data".$cont]];
+                         Ultimopagamento::findOrFail($u[0]->id)->update($vector);
+                         $mensagem='Pagamento efectuado com sucesso!';
+                        return view('admin.pagamentos',['erros'=>$erros,'pg'=>$this->todosdados(),'sms'=>$mensagem]);
                     }
 
                 }else{
@@ -363,13 +344,14 @@ class PagamentoController extends Controller
                     $c->estado='não verificado';
                     $c->valor =$valor;
                     //salvar o pagamento
-                   
                     $p->save();
                     //salvar o cliente pagamento
+                    $c->pagamento_id = $p->id;
                     $c->save();
                      //update do ultimo pagamento
-                     $u->dat=$request["data".$cont];
-                     $u->update();
+                     $mensagem='Pagamento efectuado com sucesso!';
+                     $vector = ['data'=> $request["data".$cont]];
+                     Ultimopagamento::findOrFail($u[0]->id)->update($vector);
 
                 }else{
                     $mes_seguinte=$this->retornaMes($ultimo_mes+1);
@@ -382,25 +364,14 @@ class PagamentoController extends Controller
                 
             }
           
-            $pg=DB::table('clientepagamentos')
-            ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
-            ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
-            ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento')
-            ->orderBy('clientes.id','desc')
-            ->get();
-            
-           
-            return view('admin.pagamentos',['erros'=>$erros,'pg'=>$pg]);
 
-          
-        }
-       /*
-        */
+         return view('admin.pagamentos',['erros'=>$erros,'pg'=>$this->todosdados(),'sms'=>$mensagem]);
         session_unset();
         session_destroy();
 
        
     }
+}
 
     /**
      * Display the specified resource.
@@ -720,10 +691,38 @@ class PagamentoController extends Controller
     public function exportextratopagamento(Request $request){
         $_SESSION['datainicio']= $request->datainicio;
         $_SESSION['datafim']= $request->datafim;
-     
-       
-
         return Excel::download(new PagamentoExport,'extrato-pagamento.xlsx');
+    }
+
+
+    public function isPrimeiroPagamento($cliente_id){
+
+        $cli=ClientePagamento::where('cliente_id',$cliente_id)->first();
+       
+        return is_null($cli);
+
+    }
+
+
+    public function retornaPagamento(){
+        $p=new Pagamento();
+        $p->modopagamento=$_SESSION['modo'];
+        $p->nomebanco=$_SESSION['banco'];
+        $p->id_docpagamento=$_SESSION['id_documento'];
+        $p->qtd= $_SESSION['qtd'];
+        $p->user_id=Auth::user()->id;
+        $p->datapagamento = date('y-m-d');
+        return $p;
+    }
+
+    public function todosdados(){
+        $pg=DB::table('clientepagamentos')
+        ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
+        ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
+        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento','clientepagamentos.ano as ano')
+        ->orderBy('clientes.id','desc')
+        ->get();
+        return $pg;
     }
 
 }

@@ -39,9 +39,7 @@
                  <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="overview-wrap">
-                            <h2 class="title-1">Contractos</h2>
-                            <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#registarcontratos" >
-                                <i class="zmdi zmdi-plus"></i>Registar</button>
+                            <h2 class="title-1">Pagamentos de Contracto</h2>
                         </div>
                     </div>
                 </div>
@@ -54,10 +52,9 @@
                     <th>Id</th>
                     <th>Cliente</th>
                     <th>Nif</th>
-                    <th>Modo de pagamento</th>
                     <th>Valor pago</th>
-                    <th>Valor do contracto</th>
-                    <th>Data</th> 
+                    <th>Data Pagamento</th>
+                    <th>Estado</th> 
                     <th>Acções</th>
                     </tr>
                 
@@ -68,33 +65,60 @@
                 @php 
                 //formatando o valor que vem da BD no formato de dinheiro
                // $valor = number_format($s->multa, 2,",",".");
-
+                
                 @endphp
-            @if(isset($contratos))
-                  @foreach($contratos as $c)
+            @if(isset($pc))
+                  @foreach($pc as $c)
                   
+                 
                
                 <tr>
-                    <td>{{ $c->id}}</td>
-                    <td>{{ $c->cliente}}</td>
+                    <td>{{ $c->codigo}}</td>
+                    <td>{{ $c->nome}}</td>
                     <td>{{ $c->nif}}</td>
-                    <td>{{ $c->modopagamento}}</td>
-                    <td>{{number_format( $c->valorpagamento, 2,",",".") }}</td>
-                    <td>{{number_format( $c->precocontrato, 2,",",".") }}</td>
-                    <td>{{$c->datacontrato  }}</td>
+                   
+                    <td>{{number_format( $c->valor, 2,",",".") }}</td>
+                  
+                    <td>{{$c->data  }}</td>
+                    @if($c->estado=="verificado")
+                    <td class="status--process"> {{ $c->estado}}</td>
+                    @else
+                        <td class="status--denied">{{ $c->estado}}</td>
+                    @endif
                     <td  class="d-flex justify-content-center"> 
+                        @if($c->estado =='não verficicado')
                         <button class="btn btn-sm btn-outline-primary editar mr-1" id="">
                             <a class="bnEditar" href="{{url("/dashboard/contratos/show/$c->id")}}">Alterar</a>
                         </button>
+                        @else
+                        @can('Administrador')
+                        <button class="btn btn-sm btn-outline-primary editar mr-1" id="">
+                            <a class="bnEditar" href="{{url("/dashboard/contratos-pagamento/$c->codigo")}}">Alterar</a>
+                        </button>
+                        @endcan
+
+                        @endif
 
                         <button class="btn btn-sm btn-secondary mr-1">
-                            <a href="{{url("/dashboard/contrato$c->id")}}" class="bnEditar" target="_blank">Imprimir</a>
+                            <a href="{{url("/dashboard/comprovativo-de-pagamento-contrato/$c->codigo")}}" class="bnEditar" target="_blank">Imprimir</a>
                         </button>
+
                         @can('Administrador')
-                        <button class="btn btn-sm btn btn-danger eliminar mr-1" id="{{$c->id}}" onclick="retornaid({{$c->id}})" data-toggle="modal"   data-target="#smallmodal">
-                          Eliminar
-                         </button>
-                        @endcan
+                        @if($c->estado == 'não verificado')
+
+                            <button class="btn btn-success btn-sm editar mr-1 " id="$c->codigo" onclick="aprovar({{$c->codigo}})" data-toggle="modal"   data-target="#modalaprovar">
+                            Aprovar
+                            </button>
+                        @else
+                            <button disabled class="btn btn-warning btn-sm mr-1 editar mt-1" id="$c->codigo">
+                                Aprovar
+                            </button>
+
+                        @endif
+                    @endcan
+
+                      
+                       
                     </td>
                    
 
@@ -208,8 +232,11 @@
 <!-- end modal medium -->
 
 
-<!-- modal small -->
-<div class="modal fade" id="smallmodal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+
+
+
+  <!-- modal small -->
+  <div class="modal fade" id="modalaprovar" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -220,12 +247,12 @@
             </div>
             <div class="modal-body">
                 <p class="mb-3">
-                    Tem certeza que deseja eliminar este registo?
+                    Tem certeza que deseja aprovar este pagamento?
                 </p>
-                <form action="{{url("/dashboard/contratos/delete")}}" method="post">
+                <form action="{{url("/dashboard/contrato/aprovar")}}" method="post">
                     @csrf
-                    @method('DELETE')
-                    <input type="hidden" value="" name="id" id="contrato_id">
+                    @method('PUT')
+                    <input type="hidden"  name="id" id="id_aprovar">
                     <div class="float-right">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
                         <button type="submit" class="btn btn-primary">Sim</button>
@@ -236,6 +263,8 @@
     </div>
 </div>
 <!-- end modal small -->
+
+
 
 
 
@@ -313,6 +342,10 @@
         function retornaid(id){
             $('#contrato_id').val(id);
         }
+
+        function aprovar(id){
+        $('#id_aprovar').val(id);
+         }
 </script>
 
 @endsection

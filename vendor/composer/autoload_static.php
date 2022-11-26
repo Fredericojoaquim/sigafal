@@ -590,6 +590,7 @@ class ComposerStaticInit819af6c1a9375ece7179c42d34e84102
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Exports\\PagamentoExport' => __DIR__ . '/../..' . '/app/Exports/PagamentoExport.php',
         'App\\Http\\Controllers\\Auth\\AuthenticatedSessionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AuthenticatedSessionController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmablePasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmablePasswordController.php',
         'App\\Http\\Controllers\\Auth\\EmailVerificationNotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/EmailVerificationNotificationController.php',
@@ -600,6 +601,7 @@ class ComposerStaticInit819af6c1a9375ece7179c42d34e84102
         'App\\Http\\Controllers\\Auth\\VerifyEmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerifyEmailController.php',
         'App\\Http\\Controllers\\ClientesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ClientesController.php',
         'App\\Http\\Controllers\\ContratoController' => __DIR__ . '/../..' . '/app/Http/Controllers/ContratoController.php',
+        'App\\Http\\Controllers\\ContratoPagamento' => __DIR__ . '/../..' . '/app/Http/Controllers/ContratoPagamento.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\PagamentoController' => __DIR__ . '/../..' . '/app/Http/Controllers/PagamentoController.php',
         'App\\Http\\Controllers\\Pt' => __DIR__ . '/../..' . '/app/Http/Controllers/Pt.php',
@@ -619,6 +621,7 @@ class ComposerStaticInit819af6c1a9375ece7179c42d34e84102
         'App\\Models\\Cliente' => __DIR__ . '/../..' . '/app/Models/Cliente.php',
         'App\\Models\\ClientePagamento' => __DIR__ . '/../..' . '/app/Models/ClientePagamento.php',
         'App\\Models\\Contracto' => __DIR__ . '/../..' . '/app/Models/Contracto.php',
+        'App\\Models\\Contratopagamentos' => __DIR__ . '/../..' . '/app/Models/Contratopagamentos.php',
         'App\\Models\\Models\\ModelPermission' => __DIR__ . '/../..' . '/app/Models/Models/ModelPermission.php',
         'App\\Models\\Pagamento' => __DIR__ . '/../..' . '/app/Models/Pagamento.php',
         'App\\Models\\Pt' => __DIR__ . '/../..' . '/app/Models/Pt.php',

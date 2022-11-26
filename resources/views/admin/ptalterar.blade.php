@@ -64,10 +64,10 @@
                     <td>{{$p->localizacao}}</td>
                    
                     <td> 
-                        <button class="btn btn-md btn-primary">
+                        <button class="btn btn-sm btn-primary">
                             <a href="{{url("/dashboard/Pts/show/$p->id")}}" class="bnEditar">Alterar</a>
                         </button>
-                        <button class="btn btn-md btn btn-danger eliminar" id="{{$p->id}}" onclick="retornaid({{$p->id}})" data-toggle="modal"   data-target="#smallmodal">
+                        <button class="btn btn-sm btn btn-danger eliminar" id="{{$p->id}}" onclick="retornaid({{$p->id}})" data-toggle="modal"   data-target="#smallmodal">
                             <ion-icon name="trash-outline"></ion-icon> Eliminar
                          </button>
                     </td>

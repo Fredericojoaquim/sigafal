@@ -44,8 +44,8 @@
 
          
 
-                 @if(isset($sms))
-
+                 @if(!empty($sms))
+                    
                  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
                      <span class="badge badge-pill badge-success">Success</span>
                      {{$sms}}
@@ -74,8 +74,9 @@
                         <th>Id</th>
                         <th>Cliente</th>
                         <th>Nif</th>
-                        <th>modo de pagamento</th>
+                        <th>Modo</th>
                         <th>Mês Pago</th>
+                        <th>Ano</th>
                         <th>Data</th> 
                         <th>Estado</th> 
                         <th>Acções</th>
@@ -101,6 +102,7 @@
                     <td>{{ $p->nif}}</td>
                     <td>{{ $p->modo}}</td>
                     <td>{{ $p->mes}}</td>
+                    <td>{{ $p->ano}}</td>
                     <td>{{ $p->data}}</td>
                     @if($p->estado=="verificado")
                         <td class="status--process"> {{ $p->estado}}</td>
@@ -111,10 +113,16 @@
                   
                     <td class="d-flex justify-content-center"> 
                         
-                            
-                            <button class="btn btn-primary btn-sm editar mr-1 " id="">
-                                <a class="bnEditar" href="{{url("/pagamentos/show$p->idpagamento")}}">Alterar</a>
+                        @if($p->estado=="verificado")
+                            <button disabled class="btn btn-primary btn-sm mr-1 " id="">
+                                Alterar
                             </button>
+                        @else
+                        <button class="btn btn-primary btn-sm editar mr-1 " id="">
+                            <a class="bnEditar" href="{{url("/pagamentos/show$p->idpagamento")}}">Alterar</a>
+                        </button>
+
+                         @endif
 
                         <button class="btn btn-secondary mr-1 btn-sm editar  " id="">
                             <a class="bnEditar" href="{{url("/dashboard/pagamentos/$p->idpagamento")}}">Detalhes</a>

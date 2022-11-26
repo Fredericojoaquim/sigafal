@@ -94,6 +94,10 @@
                         <button class="btn btn-sm btn btn-danger eliminar mr-1" id="{{$c->id}}" onclick="retornaid({{$c->id}})" data-toggle="modal"   data-target="#smallmodal">
                           Eliminar
                          </button>
+
+                         <button class="btn btn-sm btn btn-info mr-1" id="{{$c->id}}" >
+                           <a class="bnEditar" href="{{url("/dashboard/contratos-show/$c->id")}}">Pagar</a>
+                           </button>
                         @endcan
                     </td>
                    
@@ -240,12 +244,68 @@
 
 
 
+
+
+<!-- modal registar Contratos -->
+<div class="modal fade" id="pagamentocontrato" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Registar pagamento de Contrato</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div hidden class="sufee-alert alert with-close alert-danger alert-dismissible fade show" id="erro-registar">
+                                </div>
+                                <form id="form-registar-contrato" action="{{url('/dashboard/contratos/store')}}" method="Post" novalidate="novalidate">
+                                    @csrf
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="pagarcontrato" class="control-label mb-1">Valor a pagar</label>
+                                                <input id="pagarcontrato" name="valor" type="text" class="form-control cc-exp" required>
+                                                <span class="help-block" data-valmsg-for="cc-exp" data-valmsg-replace="true"></span>
+                                                <input id="contrato_id" name="contrato_id" type="hidden"required>
+
+                                            </div>
+                                        </div>   
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" id="btn-registar-contrato" class="btn btn-primary">Confirmar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- end modal medium -->
+
+
+
+
+
+
 <script>
     $(document).ready(function(){
         //mascaras com jmask
         $('#valor').mask('#.##0,00',{reverse: true});
         $('#valor').mask('#.##0,00',{reverse: true});
         $('#valorapagar').mask('#.##0,00',{reverse: true});
+        $('#pagarcontrato').mask('#.##0,00',{reverse: true});
 
 
     });
@@ -313,6 +373,11 @@
         function retornaid(id){
             $('#contrato_id').val(id);
         }
+
+        function pagar(id){
+            $('#contrato_id').val(id);
+        }
+
 </script>
 
 @endsection

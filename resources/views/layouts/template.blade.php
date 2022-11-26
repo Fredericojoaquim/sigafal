@@ -202,7 +202,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="{{url('/dashboard/gestao-de-contratos')}}">Gestão de contratos</a>
+                                    <a href="{{url('/dashboard/gestao-de-contratos')}}">Pagamento de Contrato</a>
                                 </li>
                             </ul>
                         </li>

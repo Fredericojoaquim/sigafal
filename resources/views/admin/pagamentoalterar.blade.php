@@ -119,7 +119,7 @@
                      
 
                         <button class="btn btn-secondary btn-sm editar  mr-1" id="">
-                            <a class="bnEditar" href="{{url("/dashboard/pagamentos/show/$p->idpagamento")}}">Detalhes</a>
+                            <a class="bnEditar" href="{{url("/dashboard/pagamentos/$p->idpagamento")}}">Detalhes</a>
                         </button>
                         @can('Administrador')
                             @if($p->estado == 'não verificado')

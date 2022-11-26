@@ -87,14 +87,17 @@ Route::delete('/dashboard/clientes/delete', [ClientesController::class,'destroy'
 Route::put('/dashboard/clientes/update', [ClientesController::class,'update']);
 Route::get('/dashboard/clientes/show/{id}', [ClientesController::class,'show']);
 //contractos
-
 Route::get('/dashboard/contratos', [ContratoController::class,'index']);
 Route::post('/dashboard/contratos/store', [ContratoController::class,'store']);
 Route::put('/dashboard/contratos/update', [ContratoController::class,'update']);
 Route::get('/dashboard/contratos/show/{id}', [ContratoController::class,'show']);
 Route::delete('/dashboard/contratos/delete', [ContratoController::class,'destroy']);
-
-
+// gestão de contratos
+Route::get('/dashboard/contratos-show/{id}', [ContratoController::class,'mostrarcontrato']);
+Route::get('/dashboard/comprovativo-de-pagamento-contrato/{id}', [ContratoPagamento::class,'gerarcomprovativo']);
+Route::put('/dashboard/contrato/aprovar', [ContratoPagamento::class,'aprovarpagamento']);
+Route::get('/dashboard/contratos-pagamento/{id}', [ContratoPagamento::class,'buscarpagamento']);
+Route::put('/dashboard/contrato-pagamento/update', [ContratoPagamento::class,'update']);
 //pagamentos
 Route::get('/dashboard/pagamentos', [PagamentoController::class,'index']);
 Route::post('/dashboard/pagamentos/buscarCliente', [PagamentoController::class,'buscarCliente']); 
@@ -103,7 +106,6 @@ Route::post('/dashboard/pagamento/store', [PagamentoController::class,'store']);
 Route::put('/pagamentos/aprovar', [PagamentoController::class,'aprovarPagamento']);
 Route::get('/pagamentos/show{id}', [PagamentoController::class,'mostarpagameto']);
 Route::put('/pagamentos/update', [PagamentoController::class,'update']);
-
 Route::get('/dashboard/devedores', [PagamentoController::class,'devedores']);
 
 //faturas e relatorios
@@ -116,4 +118,5 @@ Route::get('/dashboard/contrato{id}', [ContratoController::class,'gerarcontrato'
 Route::post('/dashboard/exportextratopagamentoexel', [PagamentoController::class,'exportextratopagamento']);
 
 //gestão de contratos
-Route::get('/dashboard/gestao-de-contratos', [ContratoPagamentotosController::class,'index']);
+Route::get('/dashboard/gestao-de-contratos', [ContratoPagamento::class,'index']);
+Route::post('/dashboard/pagar-contrato', [ContratoPagamento::class,'store']);

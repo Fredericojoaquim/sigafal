@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Contratopagamentos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; 
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ContratoPagamento extends Controller
 {
@@ -16,10 +18,15 @@ class ContratoPagamento extends Controller
     public function index()
     {
         $pc=DB::table('contratopagamentos')
-        ->join('contratos','contratopagamentos.contrato_id','=','contratos.id')
+        ->join('contratos','contratos.id','=','contratopagamentos.contrato_id')
         ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->select('clientes.*','contratos.*','contratopagamentos.valor as valor','contratopagamentos.created_at as data','contratopagamentos.id as codigo','contratopagamentos.estado as estado')
         ->get();
-        return view('contratopagamentos',['pc'=>$pc]);
+
+      
+     //  $pc= Contratopagamentos::all();
+
+       return view('admin.contratopagamentos',['pc'=>$pc]);
         
     }
 
@@ -45,7 +52,21 @@ class ContratoPagamento extends Controller
             $c=new Contratopagamentos();
             $c->contrato_id=$request->contrato_id;
             $c->valor=$this->moeda($request->valor);
+            $c->estado="não verficado";
+            $c->datapagamento=date('y-m-d');
             $c->save();
+
+            //
+
+            $pc=DB::table('contratopagamentos')
+            ->join('contratos','contratos.id','=','contratopagamentos.contrato_id')
+            ->join('clientes','contratos.cliente_id','=','clientes.id')
+            ->select('clientes.*','contratos.*','contratopagamentos.valor as valor','contratopagamentos.created_at as data','contratopagamentos.id as codigo','contratopagamentos.estado as estado')
+            ->get();
+
+            return view('admin.contratopagamentos',['pc'=>$pc,'sms'=>'pagamento efecuado com sucessos']);
+
+
     }
 
     /**
@@ -57,6 +78,7 @@ class ContratoPagamento extends Controller
     public function show($id)
     {
         $c=Contratopagamentos::findOrFail($id);
+        return view('admin.contratopagamentos',['cont'=>$c]);
 
 
     }
@@ -79,9 +101,19 @@ class ContratoPagamento extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+       // dd($request->valor);
+        $s=['valor'=>$this->moeda($request->valor)];
+        $p=Contratopagamentos::findOrFail($request->codigo)->update($s);
+
+        $pc=DB::table('contratopagamentos')
+        ->join('contratos','contratos.id','=','contratopagamentos.contrato_id')
+        ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->select('clientes.*','contratos.*','contratopagamentos.valor as valor','contratopagamentos.created_at as data','contratopagamentos.id as codigo','contratopagamentos.estado as estado')
+        ->get();
+
+        return view('admin.contratopagamentos',['pc'=>$pc,'sms'=>'pagamento alterado com sucesso']);
     }
 
     /**
@@ -102,12 +134,57 @@ class ContratoPagamento extends Controller
 		return $valor;	
 	}
 
-    public function buscarpagamentos($id){
-        $pc=DB::table('contratopagamentos')
-            ->where('contrato_id','=',$id)
-            ->get();
+    public function buscarpagamento($id){
+
         
-       return $pc;
+            $pc=DB::table('contratopagamentos')
+            ->where('contratopagamentos.id','=',$id)
+            ->join('contratos','contratos.id','=','contratopagamentos.contrato_id')
+            ->join('clientes','contratos.cliente_id','=','clientes.id')
+            ->select('clientes.*','contratopagamentos.valor as valor','contratopagamentos.created_at as data','contratopagamentos.id as codigo','contratopagamentos.estado as estado')
+            ->get();
+         
+            return view('admin.alterar_contrato_pagamento',['ct'=>$pc,'pg'=>$this->todosregistos()]);
+
+    }
+
+
+
+    public function gerarcomprovativo($id){
+        $pg=DB::table('contratopagamentos')
+        ->where('contratopagamentos.id','=',$id)
+        ->join('contratos','contratos.id','=','contratopagamentos.contrato_id')
+        ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->select('clientes.nome','clientes.telefone as telefone','clientes.nif','contratos.*','contratopagamentos.valor as valor','contratopagamentos.created_at as data','contratopagamentos.id as codigo','contratopagamentos.estado as estado')
+        ->get();
+
+        PDF::setOption(['isRemoteEnabled' => true]);
+        $pdf=PDF::loadView('relatorios.comprovativo_contrato',['pg'=>$pg]);
+        return $pdf->setPaper('a4')->stream('comprovatico-de-pagamento.pdf');
+    }
+
+    public function aprovarpagamento(Request $request){
+      
+        $s=['estado'=>'verificado'];
+        $p=Contratopagamentos::findOrFail($request->id)->update($s);
+
+        $pc=DB::table('contratopagamentos')
+        ->join('contratos','contratos.id','=','contratopagamentos.contrato_id')
+        ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->select('clientes.*','contratos.*','contratopagamentos.valor as valor','contratopagamentos.created_at as data','contratopagamentos.id as codigo','contratopagamentos.estado as estado')
+        ->get();
+
+        return view('admin.contratopagamentos',['pc'=>$pc,'sms'=>'pagamento aprovado com sucesso']);
+    }
+
+
+    public function todosregistos(){
+        $pc=DB::table('contratopagamentos')
+        ->join('contratos','contratos.id','=','contratopagamentos.contrato_id')
+        ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->select('clientes.*','contratos.*','contratopagamentos.valor as valor','contratopagamentos.created_at as data','contratopagamentos.id as codigo','contratopagamentos.estado as estado')
+        ->get();
+        return $pc;
     }
 
 

@@ -39,9 +39,7 @@
                  <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="overview-wrap">
-                            <h2 class="title-1">Contractos</h2>
-                            <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#registarcontratos" >
-                                <i class="zmdi zmdi-plus"></i>Registar</button>
+                            <h2 class="title-1">Pagamentos de Contracto</h2>
                         </div>
                     </div>
                 </div>
@@ -51,14 +49,13 @@
             <thead class="table-dark">
            
                 <tr>
-                        <th>Id</th>
-                        <th>Cliente</th>
-                        <th>Nif</th>
-                        <th>Modo de pagamento</th>
-                        <th>Valor pago</th>
-                        <th>Valor do contracto</th>
-                        <th>Data</th> 
-                        <th>Acções</th>
+                    <th>Id</th>
+                    <th>Cliente</th>
+                    <th>Nif</th>
+                    <th>Valor pago</th>
+                    <th>Data Pagamento</th> 
+                    <th>Estado</th> 
+                    <th>Acções</th>
                     </tr>
                 
             </thead>
@@ -68,29 +65,59 @@
                 @php 
                 //formatando o valor que vem da BD no formato de dinheiro
                // $valor = number_format($s->multa, 2,",",".");
-
+                
                 @endphp
-            @if(isset($contratos))
-                  @foreach($contratos as $c)
+            @if(isset($pg))
+                  @foreach($pg as $c)
                   
                
                 <tr>
-                    <td>{{ $c->id}}</td>
-                    <td>{{ $c->cliente}}</td>
+                    <td>{{ $c->codigo}}</td>
+                    <td>{{ $c->nome}}</td>
                     <td>{{ $c->nif}}</td>
-                    <td>{{ $c->modopagamento}}</td>
-                    <td>{{number_format( $c->valorpagamento, 2,",",".") }}</td>
-                    <td>{{number_format( $c->precocontrato, 2,",",".") }}</td>
-                    <td>{{$c->datacontrato  }}</td>
-                    <td class="d-flex justify-content-center"> 
-                        <button class="btn btn-sm mr-1 btn-outline-primary editar" id="">
+                   
+                    <td>{{number_format( $c->valor, 2,",",".") }}</td>
+                  
+                    <td>{{$c->data  }}</td>
+                    @if($c->estado=="verificado")
+                    <td class="status--process"> {{ $c->estado}}</td>
+                    @else
+                        <td class="status--denied">{{ $c->estado}}</td>
+                    @endif
+                    <td  class="d-flex justify-content-center"> 
+                        @if($c->estado =='não verficicado')
+                        <button class="btn btn-sm btn-outline-primary editar mr-1" id="">
                             <a class="bnEditar" href="{{url("/dashboard/contratos/show/$c->id")}}">Alterar</a>
                         </button>
-                        <button class="btn btn-sm btn-secondary mr-1">Imprimir</button>
+                        @else
+                        @can('Administrador')
+                        <button class="btn btn-sm btn-outline-primary editar mr-1" id="">
+                            <a class="bnEditar" href="{{url("/dashboard/contratos/show/$c->id")}}">Alterar</a>
+                        </button>
+                        @endcan
 
-                        <button class="btn btn-sm btn btn-danger eliminar mr-1" id="{{$c->id}}" onclick="retornaid({{$c->id}})" data-toggle="modal"   data-target="#smallmodal">
-                            Eliminar
-                           </button>
+                        @endif
+
+                        <button class="btn btn-sm btn-secondary mr-1">
+                            <a href="{{url("/dashboard/comprovativo-de-pagamento-contrato/$c->codigo")}}" class="bnEditar" target="_blank">Imprimir</a>
+                        </button>
+
+                        @can('Administrador')
+                        @if($c->estado == 'não verificado')
+
+                            <button class="btn btn-success btn-sm editar mr-1 " id="$c->codigo" onclick="aprovar({{$c->codigo}})" data-toggle="modal"   data-target="#modalaprovar">
+                            Aprovar
+                            </button>
+                        @else
+                            <button disabled class="btn btn-warning btn-sm mr-1 editar mt-1" id="$c->codigo">
+                                Aprovar
+                            </button>
+
+                        @endif
+                    @endcan
+
+                      
+                       
                     </td>
                    
 
@@ -107,7 +134,7 @@
 
 
 
-<!-- modal registar usuario -->
+<!-- modal registar Contratos -->
 <div class="modal fade" id="registarcontratos" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -144,8 +171,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-
-                                            
                                         </div>
 
 
@@ -181,11 +206,13 @@
                                                 <span class="help-block" data-valmsg-for="cc-exp" data-valmsg-replace="true"></span>
                                             </div>
                                         </div>
+
+                                        
+
+                                        
+
                                         
                                     </div>
-                                    
-                                    
-                                    
 
                                     <div class="text-right">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -204,118 +231,11 @@
 <!-- end modal medium -->
 
 
-<!-- modal alterar contratos -->
-<div class="modal fade" id="alterarcontratos" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="mediumModalLabel">Alterar Contratos</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                @php
-                                   //dd($contrat);
-                                  $id=$contrat[0]->id;
-                                    @endphp
-                                    <div hidden class="sufee-alert alert with-close alert-danger alert-dismissible fade show" id="erro-alterar">
-                                    </div>
-                                <form id="form-alterar-contrato" action="{{url("/dashboard/contratos/update")}}" method="post" novalidate="novalidate">
-                                    @csrf
-                                    
-                                    {{ method_field('PUT') }}
-                                    @if(isset($contrat))
-                                    
-
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="row form-group">
-                                                <div class="col col-md-12">
-                                                    <label for="clientealt" class=" form-control-label">Cliente</label>
-                                                </div>
-                                                <div class="col-12 col-md-12">
-                                                    <select name="cliente" id="clientealt" class="form-control">
-                                                        <option value="{{$contrat[0]->cliente_id}}">{{$contrat[0]->cliente}}</option>
-                                                        @if(isset($clientes))
-                                                            @foreach($clientes as $c)
-                                                        <option value="{{$c->id}}">{{$c->nome}}</option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="valoralt" class="control-label mb-1">Valor</label>
-                                                <input id="valoralt" name="valor_alt" type="text" class="form-control cc-exp" value="{{number_format( $contrat[0]->precocontrato, 2,",",".")}}" required>
-                                                <input id="id_contrato" name="id" type="hidden" value={{$contrat[0]->id}}>
-                                                <span class="help-block" data-valmsg-for="cc-exp" data-valmsg-replace="true"></span>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-6">
-                                            <div class="row form-group">
-                                                <div class="col col-md-12">
-                                                    <label for="modopagamentoalt" class=" form-control-label">Modo de pagamento</label>
-                                                </div>
-                                                <div class="col-12 col-md-12">
-                                                    <select name="modopagamento" id="modopagamentoalt" class="form-control">
-                                                        <option value="{{$contrat[0]->modopagamento}}">{{$contrat[0]->modopagamento}}</option>
-                                                        <option value="Prestação">Prestação</option>
-                                                        <option value="Completo">Completo</option>
-                                                       
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-    
-    
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="valorapagaralt" class="control-label mb-1">Valor a pagar</label>
-                                                <input id="valorapagaralt" value="{{number_format($contrat[0]->valorpagamento, 2,",",".")}}" name="valorapagar" type="text" class="form-control cc-exp" required>
-                                                <span class="help-block" data-valmsg-for="cc-exp" data-valmsg-replace="true"></span>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-
-
-                                    
-                                    
-                                    
-                                    
-
-                                    <div class="text-right">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" id="btn-alterar-contrato" class="btn btn-primary">Confirmar</button>
-                                    </div>
-                                    @endif
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</div>
-<!-- end modal medium -->
 
 
 
-<!-- modal small -->
-<div class="modal fade" id="smallmodal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+  <!-- modal small -->
+  <div class="modal fade" id="modalaprovar" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -326,12 +246,12 @@
             </div>
             <div class="modal-body">
                 <p class="mb-3">
-                    Tem certeza que deseja eliminar este registo?
+                    Tem certeza que deseja aprovar este pagamento?
                 </p>
-                <form action="{{url("/dashboard/contratos/delete")}}" method="post">
+                <form action="{{url("/dashboard/contrato/aprovar")}}" method="post">
                     @csrf
-                    @method('DELETE')
-                    <input type="hidden" value="" name="id" id="contrato_id">
+                    @method('PUT')
+                    <input type="hidden"  name="id" id="id_aprovar">
                     <div class="float-right">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
                         <button type="submit" class="btn btn-primary">Sim</button>
@@ -346,35 +266,92 @@
 
 
 
+<!-- modal registar Contratos -->
+<div class="modal fade" id="pagamentocontrato" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Alterar pagamento de Contrato</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div hidden class="sufee-alert alert with-close alert-danger alert-dismissible fade show" id="erro-registar">
+                                </div>
+                                <div class="mb-2">
+                                    <p> Cliente: {{$ct[0]->nome}} </p>
+                                    <p> Nif: {{$ct[0]->nif}} </p>
+                                </div>
+                                <form id="form-registar-contrato" action="{{url('/dashboard/contrato-pagamento/update')}}" method="Post" novalidate="novalidate">
+                                    @csrf
+                                    {{ method_field('PUT') }}
+                                  
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="pagarcontrato" class="control-label mb-1">Valor a pagar</label>
+                                                <input id="pagarcontrato" name="valor" value="{{number_format($ct[0]->valor, 2,",",".")}}" type="text" class="form-control cc-exp" required>
+                                                <span class="help-block" data-valmsg-for="cc-exp" data-valmsg-replace="true"></span>
+                                                <input id="contrato_id"  value="{{$ct[0]->codigo}}" name="codigo" type="hidden">
+
+                                            </div>
+                                        </div>   
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" id="btn-registar-contrato" class="btn btn-primary">Confirmar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- end modal medium -->
+
+
+
+
+
+
 <script>
     $(document).ready(function(){
         //mascaras com jmask
         $('#valor').mask('#.##0,00',{reverse: true});
-        $('#valor_alt').mask('#.##0,00',{reverse: true});
-        $('#valorapagaralt').mask('#.##0,00',{reverse: true});
+        $('#valor').mask('#.##0,00',{reverse: true});
         $('#valorapagar').mask('#.##0,00',{reverse: true});
-        $('#alterarcontratos').modal('show');
+      
+        $('#pagamentocontrato').modal('show');
+        $('#pagarcontrato').mask('#.##0,00',{reverse: true});
+
+
     });
-    
-    
-   
-    
     
     $(document).ready(function(){
         //codigo para inicializar a data table
        var table=$('#datatable').DataTable();
 
-       btn_registar=document.getElementById("btn-registar-contrato");
-       btn_registar.addEventListener('click', (event)=>{
+    btn_registar=document.getElementById("btn-registar-contrato");
+    btn_registar.addEventListener('click', (event)=>{
 
             event.preventDefault();
             var formregistar=document.getElementById("form-registar-contrato");
             var cliente=document.getElementById("cliente").value;
             var valor=document.getElementById("valor").value;
-            var erro= document.getElementById("erro-registar");
             var modo=document.getElementById("modopagamento").value;
             var valorapagar=document.getElementById("valorapagar").value;
-
+            var erro= document.getElementById("erro-registar");
 
             if(cliente == 'Selecione'){
                 erro.innerHTML="Por favor Selecione um cliente";
@@ -392,7 +369,6 @@
                 return false;
             }else{
                 erro.setAttribute('hidden', true);
-                
             }
 
             if(modo == 'Selecione'){
@@ -407,77 +383,28 @@
             if(valorapagar == ''){
                 erro.innerHTML="O campo <strong> Valor a pagar </strong> é de Obrigatório";
                 erro.removeAttribute('hidden');
-              
+                cliente.focus();
                 return false;
             }else{
                 erro.setAttribute('hidden', true);
                 formregistar.submit();
             }
 
+
+
+
+
+        });
             
-
-        });
-
-      
-
-
-      btn_alterar=document.getElementById("btn-alterar-contrato");
-      btn_alterar.addEventListener('click', (event)=>{
-
-            event.preventDefault();
-            var formralterar=document.getElementById("form-alterar-contrato");
-            var clientealt=document.getElementById("clientealt").value;
-            var valoralt=document.getElementById("valoralt").value;
-            var erroalt= document.getElementById("erro-alterar");
-            var modoalt=document.getElementById("modopagamentoalt").value;
-            var valorapagaralt=document.getElementById("valorapagaralt").value;
-
-            if(clientealt == 'Selecione'){
-                erroalt.innerHTML="Por favor Selecione um cliente";
-                erroalt.removeAttribute('hidden');
-             
-                return false;
-            }else{
-                erroalt.setAttribute('hidden', true);
-            }
-
-            if(valoralt == ''){
-                erroalt.innerHTML="O campo <strong> Valor </strong> é de Obrigatório";
-                erroalt.removeAttribute('hidden');
-                cliente.focus();
-                return false;
-            }else{
-                erroalt.setAttribute('hidden', true);
-               
-            }
-
-            if(modoalt == 'Selecione'){
-                erroalt.innerHTML="Por favor Selecione um <strong> modo de pagamento </strong>";
-                erroalt.removeAttribute('hidden');
-              
-                return false;
-            }else{
-                erroalt.setAttribute('hidden', true);
-            }
-
-            if(valorapagaralt == ''){
-                erroalt.innerHTML="O campo <strong> Valor a pagar </strong> é de Obrigatório";
-                erroalt.removeAttribute('hidden');
-               
-                return false;
-            }else{
-                erroalt.setAttribute('hidden', true);
-                formralterar.submit();
-            }
-
-        });
-     
-            
-        });
+   });
 
         function retornaid(id){
             $('#contrato_id').val(id);
         }
+
+        function aprovar(id){
+        $('#id_aprovar').val(id);
+         }
 </script>
 
 @endsection

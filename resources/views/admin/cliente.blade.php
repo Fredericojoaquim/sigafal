@@ -100,11 +100,11 @@
                     <td>{{ $c->servico}}</td>
                     <td>{{ $c->pt}}</td>
                     <td class="d-flex justify-content-center"> 
-                        <button class="mr-1 btn btn-md btn-outline-primary editar" id="">
+                        <button class="mr-1 btn btn-sm btn-outline-primary editar" id="">
                             <a class="bnEditar" href="{{url("/dashboard/clientes/show/$c->id")}}">Alterar</a>
                         </button>
                         @can('Administrador')
-                            <button class="btn btn-md btn btn-danger eliminar" id="{{$c->id}}" onclick="retornaid({{$c->id}})" data-toggle="modal"   data-target="#smallmodal">
+                            <button class="btn btn-sm btn btn-danger eliminar" id="{{$c->id}}" onclick="retornaid({{$c->id}})" data-toggle="modal"   data-target="#smallmodal">
                                 <ion-icon name="trash-outline"></ion-icon> Eliminar
                             </button>
                          @endcan

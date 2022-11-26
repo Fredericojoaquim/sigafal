@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Exports\\PagamentoExport' => $baseDir . '/app/Exports/PagamentoExport.php',
     'App\\Http\\Controllers\\Auth\\AuthenticatedSessionController' => $baseDir . '/app/Http/Controllers/Auth/AuthenticatedSessionController.php',
     'App\\Http\\Controllers\\Auth\\ConfirmablePasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmablePasswordController.php',
     'App\\Http\\Controllers\\Auth\\EmailVerificationNotificationController' => $baseDir . '/app/Http/Controllers/Auth/EmailVerificationNotificationController.php',
@@ -18,6 +19,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\VerifyEmailController' => $baseDir . '/app/Http/Controllers/Auth/VerifyEmailController.php',
     'App\\Http\\Controllers\\ClientesController' => $baseDir . '/app/Http/Controllers/ClientesController.php',
     'App\\Http\\Controllers\\ContratoController' => $baseDir . '/app/Http/Controllers/ContratoController.php',
+    'App\\Http\\Controllers\\ContratoPagamento' => $baseDir . '/app/Http/Controllers/ContratoPagamento.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\PagamentoController' => $baseDir . '/app/Http/Controllers/PagamentoController.php',
     'App\\Http\\Controllers\\Pt' => $baseDir . '/app/Http/Controllers/Pt.php',
@@ -37,6 +39,7 @@ return array(
     'App\\Models\\Cliente' => $baseDir . '/app/Models/Cliente.php',
     'App\\Models\\ClientePagamento' => $baseDir . '/app/Models/ClientePagamento.php',
     'App\\Models\\Contracto' => $baseDir . '/app/Models/Contracto.php',
+    'App\\Models\\Contratopagamentos' => $baseDir . '/app/Models/Contratopagamentos.php',
     'App\\Models\\Models\\ModelPermission' => $baseDir . '/app/Models/Models/ModelPermission.php',
     'App\\Models\\Pagamento' => $baseDir . '/app/Models/Pagamento.php',
     'App\\Models\\Pt' => $baseDir . '/app/Models/Pt.php',

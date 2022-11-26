@@ -189,4 +189,32 @@ class ContratoController extends Controller
          return $pdf->setPaper('a4')->stream('contrato.pdf');
  
      }
+
+
+     public function mostrarcontrato($id){
+
+        $cont=DB::table('contratos')
+        ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->select('contratos.*', 'clientes.nome as cliente','clientes.nif','clientes.morada','clientes.telefone')
+        ->where('contratos.id','=',$id)
+        ->get();
+
+
+        $contratos=DB::table('contratos')
+        ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->select('contratos.*', 'clientes.nome as cliente','clientes.nif','clientes.morada','clientes.telefone','contratos.id as codigo_contrato')
+        ->orderBy('contratos.id','desc')
+        ->get();
+        $clientes=Cliente::orderBy('id','desc')->get();
+       
+       
+
+        return view('admin.pagarcontrato', ['contratos'=>$contratos,'cont'=>$cont]);
+
+
+
+
+
+
+     }
 }

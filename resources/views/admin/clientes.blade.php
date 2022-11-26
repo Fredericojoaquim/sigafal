@@ -54,9 +54,9 @@
                     <td>{{$u->email}}</td>
                     <td>{{$u->permicao}}</td>
                     
-                    <td> 
-                        <button class="btn btn-md btn-primary">Alterar</button>
-                        <button class="btn btn-md btn-secondary ">bloquear</button >
+                    <td class="d-flex justify-content-center"> 
+                        <button class="btn btn-sm btn-primary">Alterar</button>
+                        <button class="btn btn-sm btn-secondary ">bloquear</button >
                     </td>
                     @endforeach
                    

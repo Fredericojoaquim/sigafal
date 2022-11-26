@@ -67,6 +67,7 @@ class ClientesController extends Controller
             
             $u=new Ultimopagamento();
             $u->cliente_id=$c->id;
+           // $u->data=date('y-m');
             $u->save();
             
         }else{

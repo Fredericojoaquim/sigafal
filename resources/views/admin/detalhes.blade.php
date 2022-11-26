@@ -109,21 +109,21 @@
                     <td>{{ $p->mes}}</td>
                     <td>{{ $p->data}}</td>
                     <td>{{ $p->estado}}</td>
-                    <td> 
-                        <button class="btn btn-primary btn-sm editar" id="">
-                            <a class="bnEditar" href="{{url("/dashboard/pagamentos/details/$p->idpagamento")}}">Alterar</a>
+                    <td class="d-flex justify-content-center"> 
+                        <button class="btn btn-primary btn-sm edita mr-1" id="">
+                            <a class="bnEditar" href="{{url("/pagamentos/show$p->idpagamento")}}">Alterar</a>
                         </button>
 
-                        <button class="btn btn-secondary btn-sm editar  mt-1" id="">
+                        <button class="btn btn-secondary btn-sm editar  mr-1" id="">
                             <a class="bnEditar" href="{{url("/dashboard/pagamentos/$p->idpagamento")}}">Detalhes</a>
                         </button>
 
                         @if($p->estado == 'não verificado')
-                        <button class="btn btn-success btn-sm editar mt-1" id="$p->idpagamento" onclick="aprovar({{$p->idpagamento}})" data-toggle="modal"   data-target="#modalaprovar">
+                        <button class="btn btn-success btn-sm editar mr-1" id="$p->idpagamento" onclick="aprovar({{$p->idpagamento}})" data-toggle="modal"   data-target="#modalaprovar">
                            Aprovar
                         </button>
                     @else
-                        <button disabled class="btn btn-warning btn-sm editar mt-1" id="$p->idpagamento">
+                        <button disabled class="btn btn-warning btn-sm editar mr-1" id="$p->idpagamento">
                             Aprovar
                         </button>
 
