@@ -174,6 +174,10 @@
                                         
                                         <div class="col-6">
                                             <label for="morada" class="control-label mb-1">Mês Pago: {{$detalhes[0]->mes}}</label>
+                                            
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="morada" class="control-label mb-1">Valor: {{number_format($detalhes[0]->valor, 2,",",".")}}</label>
                                         </div>
                                         
                 
@@ -188,7 +192,7 @@
                                             <label for="select" class=" form-control-label">Modo de Pagamento: {{$detalhes[0]->modo}}</label>   
                                         </div>
                                         <div class="col-6">
-                                            <label for="select" class=" form-control-label">Multa: {{$detalhes[0]->multa}}</label>   
+                                            <label for="select" class=" form-control-label">Multa: {{number_format($detalhes[0]->multa, 2,",",".")}}</label>   
                                         </div>
                                     </div>
                                     <div class="row">

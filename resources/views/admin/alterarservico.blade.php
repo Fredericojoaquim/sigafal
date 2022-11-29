@@ -195,6 +195,7 @@
                                                     <select name="descricao" id="descricaoalt" class="form-control">
                                                         <option selected="{{$se->servicocodigo}}">{{$se->descricao}}</option>
                                                         <option value="Monofásico">Monofásico</option>
+                                                        <option value="Bifásico">Bifasico</option>
                                                         <option value="Trifásico">Trifásico</option>
                                                     </select>
                                                 </div>

@@ -36,7 +36,7 @@
 
                     <div id="cabecario" style="margin-top:-50px; ">
                         <h6>N&B Comércio Geral, LDA</h6>  
-                        <h6>RUA DIREITA-PARTE BRAÇO ZONA 20-BAIRRO <br>LUANDA-ANGOLA</h6>           
+                        <h6>RUA DIREITA-PARTE BRAÇO ZONA 20 <br> BAIRRO DANGEREUX <br>LUANDA-ANGOLA</h6>           
                     </div><br>
                     <div id="dados_enpresa">
                         <label for="">Telefone: 944337971</label><br>
@@ -79,7 +79,7 @@
                         </fieldset>
                     </div>
                     
-                    <label for="">Processado por Computador</label>
+               
                 </div>
 
                 <div style="clear: both; ">
@@ -141,9 +141,11 @@
                 </div>
                 <br>
                  <br>
+                 <p style="text-align: center">Processado por computador</p>
                 <p style="text-align: center">Emitido em:{{date('d/m/y H:i:s')}}  por: {{Auth::user()->name}}</p>
                 @if($i==0)
                 <br><br><br>
+               
                <P style="width: 100%;">--------------------------------------------------------------------------------------------------------------------------------------</P>
                 @endif
         </div>

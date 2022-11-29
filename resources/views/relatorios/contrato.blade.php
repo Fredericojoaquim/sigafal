@@ -36,7 +36,7 @@
 
                     <div id="cabecario" style="margin-top:-50px; ">
                         <h6>N&B Comércio Geral, LDA</h6>  
-                        <h6>RUA DIREITA-PARTE BRAÇO ZONA 20-BAIRRO <br>LUANDA-ANGOLA</h6>           
+                        <h6>RUA DIREITA-PARTE BRAÇO ZONA 20 <br> BAIRRO DANGEREUX <br>LUANDA-ANGOLA</h6>           
                     </div><br>
                     <div id="dados_enpresa">
                         <label for="">Telefone: 944337971</label><br>
@@ -74,14 +74,13 @@
                                     <label for="">PT:<strong> {{$c[0]->localizacao}} </strong></label><br>
                                     <label for="">Valor do contrato: <strong> {{number_format($c[0]->precocontrato, 2,",",".")}}</strong> </label><br>
                                     <label for="">Modo de pagamento: <strong> {{$c[0]->modopagamento}} </strong> </label><br>
-                                    <label for="">Valor Pago: <strong>{{number_format($c[0]->valorpagamento, 2,",",".")}}</strong> </label>
                                 </div>
                             </div>
                             
                         </fieldset>
                     </div>
                     
-                    <label for="">Processado por Computador</label>
+             
                 </div>
 
                 <div style="clear: both; margin-top: 10px; ">
@@ -93,10 +92,11 @@
                         <li>A transmissão de energia a terceiros será punivel ao corte definitivo sem aviso prévio e a anulação do contrato</li>
                         <li>O valor mês será alterado sempre que se verifique alteração no custo da ENDE</li>
                         <li>O consumidor que tiver mais de 1 mês sem liquidar a sua mensalidade será passível a anulação do contrato</li>
-                        <li>Nº de contas bancárias, BFA 119139919/30 KZ, BIC 91330091/10, MILLENNIUM 5006589141, BPC 0049-M152270-011</li>
+                        <li> <strong>Nº de contas bancárias, BFA 119139919/30 KZ, BIC 91330091/10, MILLENNIUM 5006589141, BPC 0049-M152270-011 </strong> </li>
                     </ol>
                     
                 </div>
+                <p style="text-align: center">Processado por Computador</p>
                 <p style="text-align: center">Emitido em:{{date('d/m/y H:i:s')}}  por: {{Auth::user()->name}}</p>
                 @if($i==0)
               

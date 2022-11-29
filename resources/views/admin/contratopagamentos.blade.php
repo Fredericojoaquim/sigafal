@@ -76,7 +76,6 @@
                     <td>{{ $c->codigo}}</td>
                     <td>{{ $c->nome}}</td>
                     <td>{{ $c->nif}}</td>
-                   
                     <td>{{number_format( $c->valor, 2,",",".") }}</td>
                   
                     <td>{{$c->data  }}</td>

@@ -55,7 +55,7 @@
                     <th>Cliente</th>
                     <th>Nif</th>
                     <th>Modo de pagamento</th>
-                    <th>Valor pago</th>
+                   
                     <th>Valor do contracto</th>
                     <th>Data</th> 
                     <th>Acções</th>
@@ -79,7 +79,7 @@
                     <td>{{ $c->cliente}}</td>
                     <td>{{ $c->nif}}</td>
                     <td>{{ $c->modopagamento}}</td>
-                    <td>{{number_format( $c->valorpagamento, 2,",",".") }}</td>
+                   
                     <td>{{number_format( $c->precocontrato, 2,",",".") }}</td>
                     <td>{{$c->datacontrato  }}</td>
                     <td  class="d-flex justify-content-center"> 
@@ -95,8 +95,8 @@
                           Eliminar
                          </button>
 
-                         <button class="btn btn-sm btn btn-info mr-1" id="{{$c->id}}"  data-toggle="modal"   data-target="#pagamentocontrato">
-                           <a class="bnEditar" href="">Pagar</a>
+                         <button class="btn btn-sm btn btn-info mr-1" id="{{$c->id}}">
+                           <a class="bnEditar" href="{{url("/dashboard/contratos-show/$c->id")}}">Pagar</a>
                            </button>
                         @endcan
                     </td>

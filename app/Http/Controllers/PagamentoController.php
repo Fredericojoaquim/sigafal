@@ -257,9 +257,15 @@ class PagamentoController extends Controller
 
                 if($count>0){
                      //possui dividas nos meses do ano anterior
-                     $erros[]=" O mês de: $mes ja foi pago";
-                     
-                     return view('admin.pagamentos',['erros'=>$erros,'pg'=>$this->returnadados()]);
+                     $erros[]=" O mês de: $mes de $ano, ja foi pago ";
+                    
+                     $p=DB::table('clientepagamentos')
+                    ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
+                    ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
+                    ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento','clientepagamentos.ano as ano')
+                    ->orderBy('clientes.id','desc')
+                    ->get();
+                     return view('admin.pagamentos',['erros'=>$erros,'pg'=>$p]);
                 }
 
                 if( $size==0){
@@ -570,6 +576,7 @@ class PagamentoController extends Controller
             'clientepagamentos.mes as mes',
             'clientepagamentos.ano as ano',
             'clientepagamentos.multa as multa',
+            'clientepagamentos.valor as valor',
             'pagamentos.datapagamento as data',
             'clientepagamentos.estado as estado',
             'clientepagamentos.created_at as data_pagamento',
@@ -664,25 +671,33 @@ class PagamentoController extends Controller
 
     public function devedores(){
         $dataAtual = new DateTime('-1 month');
-
+      
         $devedores = DB::table('ultimopagamentos')
+        ->where('ultimopagamentos.data','<>',null)
         ->join('clientes','ultimopagamentos.cliente_id','=','clientes.id')
         ->select('clientes.nome as cliente','clientes.nif as nif', 'ultimopagamentos.data as ultimo_pagamento','clientes.id as id')
         ->get();
+
+      
+       
         $qtdmes = [];
         $devedor = [];
+
+
        
         foreach ($devedores as $dev){
-            if($dev->ultimo_pagamento != null){
+
+           
                 $ultimoPagamento = new DateTime($dev->ultimo_pagamento);
                 $diferenca = $dataAtual->diff($ultimoPagamento);
                
-                if($dataAtual > $ultimoPagamento && $diferenca->m != 0){
+                if(($dataAtual > $ultimoPagamento) && ($diferenca->m != 0)){
                     $devedor[] = $dev;
                     $qtdmes[] = $diferenca->m;
                 }
-            }
+            
         }
+        
        
         return view('admin.devedores', ['devedor'=>$devedor, 'qtdmes'=>$qtdmes]);
     }
@@ -722,6 +737,7 @@ class PagamentoController extends Controller
         ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento','clientepagamentos.ano as ano')
         ->orderBy('clientes.id','desc')
         ->get();
+       
         return $pg;
     }
 

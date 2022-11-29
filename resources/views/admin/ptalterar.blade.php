@@ -58,14 +58,14 @@
               
             </thead>
             <tbody>
-          @foreach($pt as $p)
+          @foreach($pt as $t)
                 <tr>
-                    <td>{{$p->id}}</td>
-                    <td>{{$p->localizacao}}</td>
+                    <td>{{$t->id}}</td>
+                    <td>{{$t->localizacao}}</td>
                    
                     <td> 
                         <button class="btn btn-sm btn-primary">
-                            <a href="{{url("/dashboard/Pts/show/$p->id")}}" class="bnEditar">Alterar</a>
+                            <a href="{{url("/dashboard/Pts/show/$t->id")}}" class="bnEditar">Alterar</a>
                         </button>
                         <button class="btn btn-sm btn btn-danger eliminar" id="{{$p->id}}" onclick="retornaid({{$p->id}})" data-toggle="modal"   data-target="#smallmodal">
                             <ion-icon name="trash-outline"></ion-icon> Eliminar

@@ -55,7 +55,7 @@
                     <th>Cliente</th>
                     <th>Nif</th>
                     <th>Modo de pagamento</th>
-                    <th>Valor pago</th>
+                   
                     <th>Valor do contracto</th>
                     <th>Data</th> 
                     <th>Acções</th>
@@ -79,7 +79,7 @@
                     <td>{{ $c->cliente}}</td>
                     <td>{{ $c->nif}}</td>
                     <td>{{ $c->modopagamento}}</td>
-                    <td>{{number_format( $c->valorpagamento, 2,",",".") }}</td>
+                   
                     <td>{{number_format( $c->precocontrato, 2,",",".") }}</td>
                     <td>{{$c->datacontrato  }}</td>
                     <td  class="d-flex justify-content-center"> 

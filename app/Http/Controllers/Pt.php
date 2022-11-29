@@ -56,6 +56,7 @@ class Pt extends Controller
     public function show($id)
     {
         $p=ModelsPt::findOrFail($id);
+        
         $pt=ModelsPt::all();
         return view('admin.ptalterar',['pt'=> $pt,'p'=>$p]);
         

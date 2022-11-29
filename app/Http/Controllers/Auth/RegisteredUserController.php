@@ -35,11 +35,20 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $regras=[
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        ];
+
+        $mensagem=
+        [
+            'name.required'=>'O campo nome é um campo obrigatório',
+            'password.confirmed'=>'Senha ou email Inválido',
+            'auth.failed'=>'Senha ou email Inválido'
+        ];
+        
+        $request->validate($regras, $mensagem);
       //  dd($request);
       
        /* $user = User::create([

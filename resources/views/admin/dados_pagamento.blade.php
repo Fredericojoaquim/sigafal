@@ -135,7 +135,10 @@
 
     $(document).ready(function(){
         $('.preco').mask('#.##0,00',{reverse: true});
+        $('.multa_valor').val(000);
         $('.multa_valor').mask('#.##0,00',{reverse: true});
+        
+
 
        
         

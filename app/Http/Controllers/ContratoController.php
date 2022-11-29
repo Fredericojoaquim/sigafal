@@ -57,9 +57,9 @@ class ContratoController extends Controller
        // date_default_timezone_set('America/Sao_Paulo');
        // dd(date_default_timezone_get());
       // dd($request);
+
         $c=new Contracto;
         $c->cliente_id=$request->cliente;
-       
         $c->precocontrato = $this->moeda($request->valor);
         $c->datacontrato=date('y-m-d');
         $c->valorpagamento= $this->moeda($request->valorapagar);
@@ -126,7 +126,6 @@ class ContratoController extends Controller
        $contrato=[
         'precocontrato'=>$valor,
         'cliente_id'=>$request->cliente,
-        'valorpagamento'=>$this->moeda($request->valorapagar),
         'modopagamento'=>$request->modopagamento
          ];
 

@@ -131,6 +131,7 @@
                                                     <select name="descricao" id="descricao" class="form-control">
                                                         <option selected="selected">Selecione</option>
                                                         <option value="Monofásico">Monofásico</option>
+                                                        <option value="Trifásico">Bifasico</option>
                                                         <option value="Trifásico">Trifásico</option>
                                                     </select>
                                                 </div>

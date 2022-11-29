@@ -55,7 +55,6 @@
                         <th>Cliente</th>
                         <th>Nif</th>
                         <th>Modo de pagamento</th>
-                        <th>Valor pago</th>
                         <th>Valor do contracto</th>
                         <th>Data</th> 
                         <th>Acções</th>
@@ -79,7 +78,6 @@
                     <td>{{ $c->cliente}}</td>
                     <td>{{ $c->nif}}</td>
                     <td>{{ $c->modopagamento}}</td>
-                    <td>{{number_format( $c->valorpagamento, 2,",",".") }}</td>
                     <td>{{number_format( $c->precocontrato, 2,",",".") }}</td>
                     <td>{{$c->datacontrato  }}</td>
                     <td class="d-flex justify-content-center"> 
@@ -262,7 +260,7 @@
                                         </div>
 
 
-                                        <div class="col-6">
+                                        <div class="col-12">
                                             <div class="row form-group">
                                                 <div class="col col-md-12">
                                                     <label for="modopagamentoalt" class=" form-control-label">Modo de pagamento</label>
@@ -279,13 +277,7 @@
                                         </div>
     
     
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="valorapagaralt" class="control-label mb-1">Valor a pagar</label>
-                                                <input id="valorapagaralt" value="{{number_format($contrat[0]->valorpagamento, 2,",",".")}}" name="valorapagar" type="text" class="form-control cc-exp" required>
-                                                <span class="help-block" data-valmsg-for="cc-exp" data-valmsg-replace="true"></span>
-                                            </div>
-                                        </div>
+                                        
                                         
                                     </div>
 
@@ -373,7 +365,7 @@
             var valor=document.getElementById("valor").value;
             var erro= document.getElementById("erro-registar");
             var modo=document.getElementById("modopagamento").value;
-            var valorapagar=document.getElementById("valorapagar").value;
+          
 
 
             if(cliente == 'Selecione'){
@@ -404,15 +396,7 @@
                 erro.setAttribute('hidden', true);
             }
 
-            if(valorapagar == ''){
-                erro.innerHTML="O campo <strong> Valor a pagar </strong> é de Obrigatório";
-                erro.removeAttribute('hidden');
-              
-                return false;
-            }else{
-                erro.setAttribute('hidden', true);
-                formregistar.submit();
-            }
+           
 
             
 
@@ -430,7 +414,7 @@
             var valoralt=document.getElementById("valoralt").value;
             var erroalt= document.getElementById("erro-alterar");
             var modoalt=document.getElementById("modopagamentoalt").value;
-            var valorapagaralt=document.getElementById("valorapagaralt").value;
+           
 
             if(clientealt == 'Selecione'){
                 erroalt.innerHTML="Por favor Selecione um cliente";
@@ -441,16 +425,6 @@
                 erroalt.setAttribute('hidden', true);
             }
 
-            if(valoralt == ''){
-                erroalt.innerHTML="O campo <strong> Valor </strong> é de Obrigatório";
-                erroalt.removeAttribute('hidden');
-                cliente.focus();
-                return false;
-            }else{
-                erroalt.setAttribute('hidden', true);
-               
-            }
-
             if(modoalt == 'Selecione'){
                 erroalt.innerHTML="Por favor Selecione um <strong> modo de pagamento </strong>";
                 erroalt.removeAttribute('hidden');
@@ -458,17 +432,10 @@
                 return false;
             }else{
                 erroalt.setAttribute('hidden', true);
-            }
-
-            if(valorapagaralt == ''){
-                erroalt.innerHTML="O campo <strong> Valor a pagar </strong> é de Obrigatório";
-                erroalt.removeAttribute('hidden');
-               
-                return false;
-            }else{
-                erroalt.setAttribute('hidden', true);
                 formralterar.submit();
             }
+
+           
 
         });
      

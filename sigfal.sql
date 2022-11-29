@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 12-Nov-2022 às 10:18
+-- Tempo de geração: 28-Nov-2022 às 07:45
 -- Versão do servidor: 5.7.36
 -- versão do PHP: 8.0.13
 
@@ -42,24 +42,18 @@ CREATE TABLE IF NOT EXISTS `clientepagamentos` (
   PRIMARY KEY (`id`),
   KEY `clientepagamentos_cliente_id_foreign` (`cliente_id`),
   KEY `clientepagamentos_pagamento_id_foreign` (`pagamento_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Extraindo dados da tabela `clientepagamentos`
 --
 
 INSERT INTO `clientepagamentos` (`id`, `ano`, `mes`, `cliente_id`, `pagamento_id`, `created_at`, `updated_at`, `valor`, `multa`, `estado`) VALUES
-(1, '2022', 'Abril', 11, 2, '2022-10-01 23:29:22', '2022-11-03 20:27:25', 5000, 0, 'verificado'),
-(2, '2022', 'Março', 11, 2, NULL, '2022-10-29 13:42:32', 100, 0, 'verificado'),
-(3, '2022', 'Maio', 11, 36, '2022-10-29 08:40:34', '2022-11-02 18:13:40', 5000, 1, 'verificado'),
-(4, '2022', 'Junho', 11, 37, '2022-10-29 09:26:24', '2022-10-29 09:26:24', 1, 1, 'não verificado'),
-(5, '2022', 'Julho', 11, 37, '2022-10-29 09:26:24', '2022-10-29 09:26:24', 1, 0, 'não verificado'),
-(6, '2022', 'Agosto', 11, 37, '2022-10-29 09:26:24', '2022-10-29 09:26:24', 2, 2, 'não verificado'),
-(7, '2022', 'Setembro', 11, 38, '2022-10-29 09:28:42', '2022-10-29 09:28:42', 5, 1, 'não verificado'),
-(8, '2022', 'Outubro', 11, 38, '2022-10-29 09:28:42', '2022-10-29 09:28:42', 12, 0, 'não verificado'),
-(9, '2022', 'Novembro', 11, 38, '2022-10-29 09:28:42', '2022-10-29 09:28:42', 10, 1, 'não verificado'),
-(10, '2022', 'Dezembro', 11, 38, '2022-10-29 09:28:42', '2022-10-29 09:28:42', 1, 0, 'não verificado'),
-(11, '2023', 'Janeiro', 11, 41, '2022-11-06 11:49:40', '2022-11-06 11:49:40', 2000, 1000, 'não verificado');
+(24, '2022', 'Novembro', 11, 61, '2022-11-24 20:20:23', '2022-11-24 20:20:23', 1, 1, 'não verificado'),
+(25, '2022', 'Dezembro', 11, 62, '2022-11-24 20:21:56', '2022-11-24 20:21:56', 1, 1, 'não verificado'),
+(26, '2022', 'Novembro', 17, 63, '2022-11-27 13:35:49', '2022-11-27 13:35:49', 2000, 0, 'não verificado'),
+(27, '2022', 'Outubro', 18, 64, '2022-11-27 14:21:15', '2022-11-27 14:21:15', 1, 1, 'não verificado'),
+(28, '2022', 'Setembro', 19, 65, '2022-11-27 14:43:52', '2022-11-27 14:43:52', 1, 1, 'não verificado');
 
 -- --------------------------------------------------------
 
@@ -74,18 +68,18 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `nif` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
   `telefone` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tipo` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(125) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `morada` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
   `servico_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `pt_id` bigint(20) UNSIGNED NOT NULL,
   `preco` double NOT NULL,
-  `observacao` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `observacao` varchar(125) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `clientes_servico_id_foreign` (`servico_id`),
   KEY `clientes_pt_id_foreign` (`pt_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Extraindo dados da tabela `clientes`
@@ -93,7 +87,40 @@ CREATE TABLE IF NOT EXISTS `clientes` (
 
 INSERT INTO `clientes` (`id`, `nome`, `nif`, `telefone`, `tipo`, `email`, `morada`, `servico_id`, `created_at`, `updated_at`, `pt_id`, `preco`, `observacao`) VALUES
 (11, 'Fred Joaquim', '004983291KS049', '+244 923-905-781', 'Empresa', 'aa@gmail.com', 'Benfica', 8, '2022-10-27 21:52:43', '2022-10-31 08:21:12', 2, 9000, 'aaa'),
-(13, 's', '1', '912', 'Particular', 'ggg@gmail', 'aa', 8, '2022-10-31 07:51:45', '2022-10-31 07:51:45', 2, 1.11, 'q');
+(13, 's', '004983291KS041', '912', 'Particular', 'ggg@gmail', 'aa', 8, '2022-10-31 07:51:45', '2022-10-31 07:51:45', 2, 1.11, 'q'),
+(14, 'Santos Joaquim Lisboa', '004983291KS010', '+244 923-702-935', 'Particular', 'frederico22joaquim@gmail.com', 'Bairro Dangereux', 8, '2022-11-14 08:11:19', '2022-11-14 08:11:19', 2, 5000, NULL),
+(15, 'Mano', '004983291KS040', '+244 947-042-925', 'Particular', 'frederico22joaquim@gmail.com', 'Dangere', 8, '2022-11-20 20:26:04', '2022-11-20 20:26:04', 2, 10000, NULL),
+(16, 'manu', '004983291KS046', '+244 947-042-925', 'Particular', 'frederico22joaquim@gmail.com', 'município  de talatona Bairro Dangereux', 8, '2022-11-20 20:29:19', '2022-11-20 20:29:19', 3, 20000, NULL),
+(17, 'Manuel da Silva', '004983291LA049', '+244 991-204-726', 'Particular', 'MANUEL', 'Dangereux', 11, '2022-11-27 13:35:07', '2022-11-27 13:35:07', 2, 2000, NULL),
+(18, 'Fernando João', '004983291KN041', '+244 922-390-989', 'Particular', NULL, 'Talatoa', 11, '2022-11-27 14:20:35', '2022-11-27 14:20:35', 3, 2000, NULL),
+(19, 'Marta Domingos', '004983291CA010', '+244 921-303-020', 'Particular', NULL, 'Benfica', 11, '2022-11-27 14:43:20', '2022-11-27 14:43:20', 3, 1000, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `contratopagamentos`
+--
+
+DROP TABLE IF EXISTS `contratopagamentos`;
+CREATE TABLE IF NOT EXISTS `contratopagamentos` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `contrato_id` bigint(20) UNSIGNED NOT NULL,
+  `valor` double NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `estado` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `datapagamento` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `contratopagamentos_contrato_id_foreign` (`contrato_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `contratopagamentos`
+--
+
+INSERT INTO `contratopagamentos` (`id`, `contrato_id`, `valor`, `created_at`, `updated_at`, `estado`, `datapagamento`) VALUES
+(6, 6, 20000, '2022-11-20 06:20:13', '2022-11-24 10:56:06', 'verificado', NULL),
+(5, 7, 10000, '2022-11-20 06:11:53', '2022-11-20 08:56:09', 'verificado', NULL);
 
 -- --------------------------------------------------------
 
@@ -109,7 +136,6 @@ CREATE TABLE IF NOT EXISTS `contratos` (
   `cliente_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `valorpagamento` double NOT NULL,
   `modopagamento` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `contratos_cliente_id_foreign` (`cliente_id`)
@@ -119,14 +145,14 @@ CREATE TABLE IF NOT EXISTS `contratos` (
 -- Extraindo dados da tabela `contratos`
 --
 
-INSERT INTO `contratos` (`id`, `datacontrato`, `precocontrato`, `cliente_id`, `created_at`, `updated_at`, `valorpagamento`, `modopagamento`) VALUES
-(1, '2022-09-25', 70000, 4, '2022-09-25 14:20:01', '2022-09-25 14:20:01', 0, ''),
-(2, '2022-09-25', 70000, 1, '2022-09-25 14:28:13', '2022-09-25 14:28:13', 0, ''),
-(5, '2022-10-02', 2000, 10, '2022-10-02 19:07:43', '2022-10-02 19:07:43', 0, ''),
-(6, '2022-10-03', 70000, 11, '2022-10-03 07:44:11', '2022-10-31 08:24:26', 0, ''),
-(7, '2022-10-31', 20000, 13, '2022-10-31 09:11:41', '2022-11-05 15:09:32', 10000, 'Prestação'),
-(8, '2022-10-31', 8, 13, '2022-10-31 09:24:49', '2022-10-31 09:24:49', 0, ''),
-(9, '2022-11-05', 11, 13, '2022-11-05 14:38:44', '2022-11-05 15:00:13', 50000, 'Prestação');
+INSERT INTO `contratos` (`id`, `datacontrato`, `precocontrato`, `cliente_id`, `created_at`, `updated_at`, `modopagamento`) VALUES
+(1, '2022-09-25', 70000, 4, '2022-09-25 14:20:01', '2022-09-25 14:20:01', ''),
+(2, '2022-09-25', 70000, 1, '2022-09-25 14:28:13', '2022-09-25 14:28:13', ''),
+(5, '2022-10-02', 2000, 10, '2022-10-02 19:07:43', '2022-10-02 19:07:43', ''),
+(6, '2022-10-03', 70000, 11, '2022-10-03 07:44:11', '2022-10-31 08:24:26', ''),
+(7, '2022-10-31', 20000, 13, '2022-10-31 09:11:41', '2022-11-05 15:09:32', 'Prestação'),
+(8, '2022-10-31', 8, 13, '2022-10-31 09:24:49', '2022-10-31 09:24:49', ''),
+(9, '2022-11-05', 11, 13, '2022-11-05 14:38:44', '2022-11-05 15:00:13', 'Prestação');
 
 -- --------------------------------------------------------
 
@@ -159,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Extraindo dados da tabela `migrations`
@@ -196,7 +222,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (28, '2022_11_06_134847_create_ultimopagamentos_table', 23),
 (29, '2022_11_06_140151_create_ultimopagamentos_table', 24),
 (30, '2022_11_06_153442_add_imagem_to_users', 25),
-(31, '2022_11_06_161604_add_imagem_to_users', 26);
+(31, '2022_11_06_161604_add_imagem_to_users', 26),
+(32, '2022_11_15_075336_create_contratopagamentos_table', 27),
+(33, '2022_11_20_070355_add_estado_to_contratopagamentos', 28),
+(34, '2022_11_20_202459_add_data_to_contratopagamentos', 29);
 
 -- --------------------------------------------------------
 
@@ -258,54 +287,18 @@ CREATE TABLE IF NOT EXISTS `pagamentos` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `pagamentos_user_id_foreign` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Extraindo dados da tabela `pagamentos`
 --
 
 INSERT INTO `pagamentos` (`id`, `datapagamento`, `modopagamento`, `nomebanco`, `id_docpagamento`, `qtd`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, '2022-10-02', 'TPA', 'BFA', '1234', 2, 7, '2022-10-01 23:27:57', '2022-10-01 23:27:57'),
-(2, '2022-10-02', 'TPA', 'BAI', '1234', 1, 7, '2022-10-01 23:29:22', '2022-10-01 23:29:22'),
-(3, '2022-10-15', 'TPA', 'Milenium Atlântico', '11', 1, 11, '2022-10-15 13:53:34', '2022-10-15 13:53:34'),
-(4, '2022-10-15', 'Deposito', 'Milenium Atlântico', '11', 1, 11, '2022-10-15 13:55:27', '2022-10-15 13:55:27'),
-(5, '2022-10-15', 'Deposito', 'Milenium Atlântico', '11', 1, 11, '2022-10-15 13:56:38', '2022-10-15 13:56:38'),
-(6, '2022-10-15', 'TPA', 'BPC', '11', 1, 11, '2022-10-15 13:58:35', '2022-10-15 13:58:35'),
-(7, '2022-10-15', 'TPA', 'BPC', '11', 1, 11, '2022-10-15 14:01:35', '2022-10-15 14:01:35'),
-(8, '2022-10-15', 'TPA', 'BPC', '11', 1, 11, '2022-10-15 14:03:37', '2022-10-15 14:03:37'),
-(9, '2022-10-15', 'Deposito', 'BNI', '11', 1, 11, '2022-10-15 14:05:00', '2022-10-15 14:05:00'),
-(10, '2022-10-15', 'Deposito', 'BNI', '11', 1, 11, '2022-10-15 14:16:32', '2022-10-15 14:16:32'),
-(11, '2022-10-15', 'TPA', 'Privado Atlântico', '11', 1, 11, '2022-10-15 14:18:18', '2022-10-15 14:18:18'),
-(12, '2022-10-22', 'TPA', 'Privado Atlântico', '1', 1, 11, '2022-10-22 07:46:52', '2022-10-22 07:46:52'),
-(13, '2022-10-22', 'TPA', 'BPC', '1', 1, 11, '2022-10-22 07:49:05', '2022-10-22 07:49:05'),
-(14, '2022-10-27', 'TPA', 'BFA', '1', 1, 11, '2022-10-27 22:48:23', '2022-10-27 22:48:23'),
-(15, '2022-10-27', 'TPA', 'BAI', '1', 1, 11, '2022-10-27 22:50:17', '2022-10-27 22:50:17'),
-(16, '2022-10-27', 'TPA', 'BPC', '1', 1, 11, '2022-10-27 22:52:46', '2022-10-27 22:52:46'),
-(17, '2022-10-27', 'TPA', 'BPC', '1', 1, 11, '2022-10-27 22:57:44', '2022-10-27 22:57:44'),
-(18, '2022-10-27', 'TPA', 'BPC', '1', 1, 11, '2022-10-27 22:58:41', '2022-10-27 22:58:41'),
-(19, '2022-10-28', 'Deposito', 'BNI', '1', 1, 11, '2022-10-27 23:00:57', '2022-10-27 23:00:57'),
-(20, '2022-10-28', 'TPA', 'SOL', '1', 1, 11, '2022-10-27 23:01:45', '2022-10-27 23:01:45'),
-(21, '2022-10-28', 'TPA', 'BNI', '\\', 1, 11, '2022-10-27 23:02:46', '2022-10-27 23:02:46'),
-(22, '2022-10-29', 'TPA', 'BNI', '1', 1, 11, '2022-10-29 07:48:53', '2022-10-29 07:48:53'),
-(23, '2022-10-29', 'TPA', 'BNI', '1', 1, 11, '2022-10-29 07:51:41', '2022-10-29 07:51:41'),
-(24, '2022-10-29', 'TPA', 'Privado Atlântico', '1', 1, 11, '2022-10-29 07:53:47', '2022-10-29 07:53:47'),
-(25, '2022-10-29', 'TPA', 'Privado Atlântico', '1', 1, 11, '2022-10-29 07:54:09', '2022-10-29 07:54:09'),
-(26, '2022-10-29', 'TPA', 'Prestígio', '1', 1, 11, '2022-10-29 07:56:33', '2022-10-29 07:56:33'),
-(27, '2022-10-29', 'TPA', 'Prestígio', '1', 1, 11, '2022-10-29 07:57:36', '2022-10-29 07:57:36'),
-(28, '2022-10-29', 'TPA', 'Prestígio', '1', 1, 11, '2022-10-29 07:59:00', '2022-10-29 07:59:00'),
-(29, '2022-10-29', 'TPA', 'BNI', '1', 1, 11, '2022-10-29 08:22:31', '2022-10-29 08:22:31'),
-(30, '2022-10-29', 'TPA', 'Privado Atlântico', '2', 1, 11, '2022-10-29 08:28:16', '2022-10-29 08:28:16'),
-(31, '2022-10-29', 'TPA', 'Milenium Atlântico', '4', 1, 11, '2022-10-29 08:30:40', '2022-10-29 08:30:40'),
-(32, '2022-10-29', 'TPA', 'BPC', '1', 1, 11, '2022-10-29 08:31:55', '2022-10-29 08:31:55'),
-(33, '2022-10-29', 'TPA', 'BPC', '1', 1, 11, '2022-10-29 08:37:37', '2022-10-29 08:37:37'),
-(34, '2022-10-29', 'TPA', 'BPC', '1', 1, 11, '2022-10-29 08:39:01', '2022-10-29 08:39:01'),
-(35, '2022-10-29', 'TPA', 'BPC', '1', 1, 11, '2022-10-29 08:40:07', '2022-10-29 08:40:07'),
-(36, '2022-10-29', 'TPA', 'BPC', '1', 1, 11, '2022-10-29 08:40:34', '2022-10-29 08:40:34'),
-(37, '2022-10-29', 'TPA', 'Privado Atlântico', '2', 3, 11, '2022-10-29 09:26:24', '2022-10-29 09:26:24'),
-(38, '2022-10-29', 'TPA', 'BPC', '12', 4, 11, '2022-10-29 09:28:42', '2022-10-29 09:28:42'),
-(39, '2022-10-29', 'TPA', 'Privado Atlântico', '1', 1, 11, '2022-10-29 09:29:29', '2022-10-29 09:29:29'),
-(40, '2022-11-06', 'TPA', 'BPC', '1234567', 1, 11, '2022-11-06 11:48:38', '2022-11-06 11:48:38'),
-(41, '2022-11-06', 'TPA', 'BPC', '1234567', 1, 11, '2022-11-06 11:49:40', '2022-11-06 11:49:40');
+(65, '2022-11-27', 'Cash', NULL, '1669563822418', 1, 11, '2022-11-27 14:43:52', '2022-11-27 14:43:52'),
+(63, '2022-11-27', 'TPA', 'KEVE', '111000', 1, 11, '2022-11-27 13:35:49', '2022-11-27 13:35:49'),
+(64, '2022-11-27', 'Cash', NULL, '1669562464851', 1, 11, '2022-11-27 14:21:15', '2022-11-27 14:21:15'),
+(61, '2022-11-24', 'Cash', NULL, '1669324814890', 1, 11, '2022-11-24 20:20:23', '2022-11-24 20:20:23'),
+(62, '2022-11-24', 'Cash', NULL, '1669324908857', 1, 11, '2022-11-24 20:21:56', '2022-11-24 20:21:56');
 
 -- --------------------------------------------------------
 
@@ -465,14 +458,19 @@ CREATE TABLE IF NOT EXISTS `ultimopagamentos` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ultimopagamentos_cliente_id_foreign` (`cliente_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Extraindo dados da tabela `ultimopagamentos`
 --
 
 INSERT INTO `ultimopagamentos` (`id`, `data`, `cliente_id`, `created_at`, `updated_at`) VALUES
-(1, '2022-09', 11, NULL, NULL);
+(1, '2022-12', 11, NULL, '2022-11-24 20:21:56'),
+(2, NULL, 15, '2022-11-20 20:26:04', '2022-11-20 20:26:04'),
+(3, '2023-01', 16, '2022-11-20 20:29:19', '2022-11-24 10:35:23'),
+(4, '2022-11', 17, '2022-11-27 13:35:07', '2022-11-27 13:35:49'),
+(5, '2022-10', 18, '2022-11-27 14:20:35', '2022-11-27 14:21:15'),
+(6, '2022-09', 19, '2022-11-27 14:43:20', '2022-11-27 14:43:52');
 
 -- --------------------------------------------------------
 

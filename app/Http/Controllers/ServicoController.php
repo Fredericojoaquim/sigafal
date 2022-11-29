@@ -94,6 +94,7 @@ class ServicoController extends Controller
         Servico::findOrFail($request->id)->update($s);
         $servicos=Servico::all();
         $mensagem='registo alterado com sucesso';
+        return view('admin.alterarservico',['servicos'=>$servicos, 'sms'=>$mensagem]);
         }catch(QueryException $e){
             $erro="Erro ao alterar";
             $servicos=Servico::all();

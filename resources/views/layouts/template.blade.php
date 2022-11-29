@@ -451,7 +451,7 @@
 
 
             <!-- meu Js       -->
-      <script src="{{ url('js/meujs.js')}}"> </script>
+ 
       <!-- Vendor JS       -->
       <script src="{{ url('assets/vendor/slick/slick.min.js')}}"> </script>
       <script src="{{ url('assets/vendor/wow/wow.min.js')}}"></script>
