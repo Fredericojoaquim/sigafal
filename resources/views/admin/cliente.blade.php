@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('layouts.template2')
 
 @section('title', 'Clientes')
 
@@ -67,7 +67,6 @@
                         <th>Nif</th>
                         <th>Morada</th>
                         <th>Telefone</th>
-                        <th>Email</th>
                         <th>Tipo</th>
                         <th>Mensalidade</th>
                         <th>Serviço</th>
@@ -94,7 +93,6 @@
                     <td>{{ $c->nif}}</td>
                     <td>{{ $c->morada}}</td>
                     <td>{{ $c->telefone}}</td>
-                    <td>{{ $c->email}}</td>
                     <td>{{ $c->tipo}}</td>
                     <td>{{ $valor}}</td>
                     <td>{{ $c->servico}}</td>
@@ -104,10 +102,14 @@
                             <a class="bnEditar" href="{{url("/dashboard/clientes/show/$c->id")}}">Alterar</a>
                         </button>
                         @can('Administrador')
-                            <button class="btn btn-sm btn btn-danger eliminar" id="{{$c->id}}" onclick="retornaid({{$c->id}})" data-toggle="modal"   data-target="#smallmodal">
+                            <button class="btn btn-sm btn btn-danger eliminar mr-1" id="{{$c->id}}" onclick="retornaid({{$c->id}})" data-toggle="modal"   data-target="#smallmodal">
                                 <ion-icon name="trash-outline"></ion-icon> Eliminar
                             </button>
                          @endcan
+
+                         <button class="btn btn-sm btn btn-info mr-1" id="" >
+                            <a class="bnEditar" href="{{url("/dashboard/pagamentos/buscarCliente/$c->id")}}">Pagar</a>
+                        </button>
                     </td>
                    
 

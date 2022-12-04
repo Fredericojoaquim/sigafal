@@ -60,6 +60,19 @@ class PagamentoController extends Controller
  
     }
 
+    public function buscarclienteId($id){
+        $cliente=DB::table('clientes')->where('clientes.id',$id)
+        ->join('servicos','clientes.servico_id','=','servicos.id')
+        ->join('pts','clientes.pt_id','=','pts.id')
+        ->select('clientes.*', 'servicos.descricao as servico','pts.localizacao as pt')->first();
+       
+        return view("admin.pagamento", [
+            'cliente' => $cliente
+            
+        ]); 
+
+    }
+
     public function pagamento(Request $request){
 
       //  $this->verificar_idDocumento($numero)
@@ -422,7 +435,7 @@ class PagamentoController extends Controller
         $pg=DB::table('clientepagamentos')
         ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
         ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
-        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento')
+        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento','clientepagamentos.ano as ano')
         ->orderBy('clientes.id','desc')
         ->get();
 
@@ -459,7 +472,7 @@ class PagamentoController extends Controller
         $pg=DB::table('clientepagamentos')
         ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
         ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
-        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento')
+        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento','clientepagamentos.ano as ano')
         ->orderBy('clientes.id','desc')
         ->get();
       

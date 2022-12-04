@@ -43,3 +43,16 @@
 .btnaltearuser{
     color: blue;
 }
+
+.logo-sigfal{
+    width: 200px;
+    height: 250px;
+}
+
+.margem{
+    padding-left: 70px !important;
+}
+
+.centralizar{
+margin: 0 auto;
+}

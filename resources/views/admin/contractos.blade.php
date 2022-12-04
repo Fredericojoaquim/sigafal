@@ -164,7 +164,7 @@
                                         </div>
 
 
-                                        <div class="col-6">
+                                        <div class="col-12">
                                             <div class="row form-group">
                                                 <div class="col col-md-12">
                                                     <label for="modopagamento" class=" form-control-label">Modo de pagamento</label>
@@ -179,20 +179,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="valorapagar" class="control-label mb-1">Valor a pagar</label>
-                                                <input id="valorapagar" name="valorapagar" type="text" class="form-control cc-exp" required>
-                                                <span class="help-block" data-valmsg-for="cc-exp" data-valmsg-replace="true"></span>
-                                            </div>
-                                        </div>
-
-                                        
-
-                                        
-
-                                        
+  
                                     </div>
 
                                     <div class="text-right">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 28-Nov-2022 às 07:45
+-- Tempo de geração: 30-Nov-2022 às 11:19
 -- Versão do servidor: 5.7.36
 -- versão do PHP: 8.0.13
 
@@ -51,9 +51,9 @@ CREATE TABLE IF NOT EXISTS `clientepagamentos` (
 INSERT INTO `clientepagamentos` (`id`, `ano`, `mes`, `cliente_id`, `pagamento_id`, `created_at`, `updated_at`, `valor`, `multa`, `estado`) VALUES
 (24, '2022', 'Novembro', 11, 61, '2022-11-24 20:20:23', '2022-11-24 20:20:23', 1, 1, 'não verificado'),
 (25, '2022', 'Dezembro', 11, 62, '2022-11-24 20:21:56', '2022-11-24 20:21:56', 1, 1, 'não verificado'),
-(26, '2022', 'Novembro', 17, 63, '2022-11-27 13:35:49', '2022-11-27 13:35:49', 2000, 0, 'não verificado'),
-(27, '2022', 'Outubro', 18, 64, '2022-11-27 14:21:15', '2022-11-27 14:21:15', 1, 1, 'não verificado'),
-(28, '2022', 'Setembro', 19, 65, '2022-11-27 14:43:52', '2022-11-27 14:43:52', 1, 1, 'não verificado');
+(26, '2022', 'Novembro', 17, 63, '2022-11-27 13:35:49', '2022-11-29 20:52:30', 2000, 0, 'não verificado'),
+(27, '2022', 'Outubro', 18, 64, '2022-11-27 14:21:15', '2022-11-29 20:48:30', 1, 1, 'não verificado'),
+(28, '2022', 'Setembro', 19, 65, '2022-11-27 14:43:52', '2022-11-29 20:52:10', 1, 1, 'não verificado');
 
 -- --------------------------------------------------------
 
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `contratopagamentos` (
   `datapagamento` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `contratopagamentos_contrato_id_foreign` (`contrato_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Extraindo dados da tabela `contratopagamentos`
@@ -120,7 +120,9 @@ CREATE TABLE IF NOT EXISTS `contratopagamentos` (
 
 INSERT INTO `contratopagamentos` (`id`, `contrato_id`, `valor`, `created_at`, `updated_at`, `estado`, `datapagamento`) VALUES
 (6, 6, 20000, '2022-11-20 06:20:13', '2022-11-24 10:56:06', 'verificado', NULL),
-(5, 7, 10000, '2022-11-20 06:11:53', '2022-11-20 08:56:09', 'verificado', NULL);
+(5, 7, 10000, '2022-11-20 06:11:53', '2022-11-20 08:56:09', 'verificado', NULL),
+(7, 6, 20000, '2022-11-29 17:03:35', '2022-11-29 17:03:35', 'não verificado', '2022-11-29'),
+(8, 10, 10000, '2022-11-29 20:08:05', '2022-11-29 20:08:05', 'não verificado', '2022-11-29');
 
 -- --------------------------------------------------------
 
@@ -139,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `contratos` (
   `modopagamento` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `contratos_cliente_id_foreign` (`cliente_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Extraindo dados da tabela `contratos`
@@ -149,10 +151,9 @@ INSERT INTO `contratos` (`id`, `datacontrato`, `precocontrato`, `cliente_id`, `c
 (1, '2022-09-25', 70000, 4, '2022-09-25 14:20:01', '2022-09-25 14:20:01', ''),
 (2, '2022-09-25', 70000, 1, '2022-09-25 14:28:13', '2022-09-25 14:28:13', ''),
 (5, '2022-10-02', 2000, 10, '2022-10-02 19:07:43', '2022-10-02 19:07:43', ''),
-(6, '2022-10-03', 70000, 11, '2022-10-03 07:44:11', '2022-10-31 08:24:26', ''),
+(6, '2022-10-03', 70000, 11, '2022-10-03 07:44:11', '2022-11-28 07:18:01', 'Prestação'),
 (7, '2022-10-31', 20000, 13, '2022-10-31 09:11:41', '2022-11-05 15:09:32', 'Prestação'),
-(8, '2022-10-31', 8, 13, '2022-10-31 09:24:49', '2022-10-31 09:24:49', ''),
-(9, '2022-11-05', 11, 13, '2022-11-05 14:38:44', '2022-11-05 15:00:13', 'Prestação');
+(10, '2022-11-29', 100000, 16, '2022-11-29 20:05:40', '2022-11-29 20:05:40', 'Prestação');
 
 -- --------------------------------------------------------
 
@@ -385,7 +386,7 @@ INSERT INTO `pts` (`id`, `localizacao`, `created_at`, `updated_at`) VALUES
 (2, 'Praça da alegria', '2022-09-17 20:15:35', '2022-09-17 20:15:35'),
 (3, 'Rua da Paula', '2022-09-17 20:19:39', '2022-09-17 20:19:39'),
 (4, '2-muxixeiro', '2022-09-26 08:15:57', '2022-10-02 19:56:22'),
-(6, 'Luanda', '2022-10-31 17:16:16', '2022-10-31 17:22:50');
+(6, 'Talatona', '2022-10-31 17:16:16', '2022-11-29 17:56:21');
 
 -- --------------------------------------------------------
 
@@ -439,9 +440,9 @@ CREATE TABLE IF NOT EXISTS `servicos` (
 --
 
 INSERT INTO `servicos` (`id`, `descricao`, `multa`, `created_at`, `updated_at`) VALUES
-(8, 'Monofásico', 5000, '2022-09-30 20:44:32', '2022-10-31 09:55:48'),
+(8, 'Bifásico', 5000, '2022-09-30 20:44:32', '2022-11-29 07:56:56'),
 (11, 'Trifásico', 1000, '2022-09-30 20:52:49', '2022-09-30 20:52:49'),
-(12, 'Monofásico', 222.22, '2022-10-29 08:13:06', '2022-10-29 08:13:06');
+(12, 'Trifásico', 222.22, '2022-10-29 08:13:06', '2022-11-29 07:55:41');
 
 -- --------------------------------------------------------
 

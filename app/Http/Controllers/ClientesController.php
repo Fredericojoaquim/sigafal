@@ -108,6 +108,20 @@ class ClientesController extends Controller
 
     }
 
+
+    public function showparticular(){
+
+        $cliente=DB::table('clientes')
+        ->join('servicos','clientes.servico_id','=','servicos.id')
+        ->join('pts','clientes.pt_id','=','pts.id')
+        ->select('clientes.*', 'servicos.descricao as servico','pts.localizacao as pt')
+        ->where('clientes.tipo','=','Particular')
+        ->orderBy('clientes.id','desc')
+        ->get();
+        return view('admin.clienteparticluar',['cliente'=>$cliente]);
+
+    }
+
     /**
      * Display the specified resource.
      *

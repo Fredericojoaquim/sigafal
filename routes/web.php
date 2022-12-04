@@ -31,6 +31,11 @@ Route::get('/', function () {
    return view('admin.login');
 });
 
+Route::get('/novo', function () {
+    // return view('auth/login');
+    return view('layouts.template2');
+ });
+
 Route::post('/login',[UserController::class,'login']);
 
 /*Route::get('/dashboard/user', function () {
@@ -98,9 +103,12 @@ Route::get('/dashboard/comprovativo-de-pagamento-contrato/{id}', [ContratoPagame
 Route::put('/dashboard/contrato/aprovar', [ContratoPagamento::class,'aprovarpagamento']);
 Route::get('/dashboard/contratos-pagamento/{id}', [ContratoPagamento::class,'buscarpagamento']);
 Route::put('/dashboard/contrato-pagamento/update', [ContratoPagamento::class,'update']);
+Route::get('/dashboard/gestao-contrato', [ContratoController::class,'gestaocontrato']);
+Route::get('/dashboard/contratos-detalhes/{id}', [ContratoController::class,'detalhes']);
 //pagamentos
 Route::get('/dashboard/pagamentos', [PagamentoController::class,'index']);
 Route::post('/dashboard/pagamentos/buscarCliente', [PagamentoController::class,'buscarCliente']); 
+Route::get('/dashboard/pagamentos/buscarCliente/{id}', [PagamentoController::class,'buscarclienteId']); 
 Route::post('/dashboard/pagamento', [PagamentoController::class,'pagamento']);
 Route::post('/dashboard/pagamento/store', [PagamentoController::class,'store']);
 Route::put('/pagamentos/aprovar', [PagamentoController::class,'aprovarPagamento']);

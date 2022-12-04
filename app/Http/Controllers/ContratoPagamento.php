@@ -52,7 +52,7 @@ class ContratoPagamento extends Controller
             $c=new Contratopagamentos();
             $c->contrato_id=$request->contrato_id;
             $c->valor=$this->moeda($request->valor);
-            $c->estado="não verficado";
+            $c->estado="não verificado";
             $c->datapagamento=date('y-m-d');
             $c->save();
 

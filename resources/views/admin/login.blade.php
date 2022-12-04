@@ -32,10 +32,17 @@
 
     <!-- Main CSS-->
     <link href="{{url('css/theme.css')}}" rel="stylesheet" media="all">
+    <link href="{{url('css/meucustom.css')}}" rel="stylesheet" media="all">
 
 </head>
 
 <body class="animsition">
+    <style>
+        .logo{
+            width: 179px;
+            height: 52px;
+        }
+    </style>
     <div class="page-wrapper">
         <div class="page-content--bge5">
             <div class="container">
@@ -43,7 +50,7 @@
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="{{url('images/icon/logo.png')}}" alt="CoolAdmin">
+                                <img src="{{url('images/icon/SIGFAL.png')}}" class="logo-sigfal" alt="CoolAdmin">
                             </a>
                         </div>
                         <div class="login-form">

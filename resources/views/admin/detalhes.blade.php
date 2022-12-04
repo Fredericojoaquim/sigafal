@@ -1,5 +1,5 @@
 
-@extends('layouts.template')
+@extends('layouts.template2')
 
 @section('title', 'Pagamentos')
 
@@ -85,6 +85,7 @@
                         <th>Nif</th>
                         <th>modo de pagamento</th>
                         <th>Mês Pago</th>
+                    
                         <th>Data</th> 
                         <th>Estado</th> 
                         <th>Acções</th>
@@ -107,6 +108,7 @@
                     <td>{{ $p->nif}}</td>
                     <td>{{ $p->modo}}</td>
                     <td>{{ $p->mes}}</td>
+                  
                     <td>{{ $p->data}}</td>
                     <td>{{ $p->estado}}</td>
                     <td class="d-flex justify-content-center"> 

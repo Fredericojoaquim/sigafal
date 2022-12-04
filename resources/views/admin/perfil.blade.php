@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('title', 'Pagamento')
+@section('title', 'Perfil-User')
 
 
 @section('content')
@@ -24,17 +24,29 @@ $caminho='imagens'.'/'.$u->imagem;
 
         @endif
 
-        <div class="row">
-            <div class="rounded imagem-profile text-center ">
-                 <img class="" src="{{url("$caminho")}}" alt="">
-                 <p style="text-align: center">Nome: {{$u->name}}</p>
-                 <p style="text-align: center">Email: {{$u->email}}</p>
-                 <p style="text-align: center;  color:green;">Estado: {{$u->estado}}</p>
-                 <button class="float-center btnaltearuser" data-toggle="modal" data-target="#alteraruser">Alterar</button>
-            </div>
-        </div>
+        
+            
 
+            <div class="col-md-6 centralizar">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title mb-3">Meu Perfil</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="mx-auto d-block">
+                            <img class="rounded-circle mx-auto d-block" src="{{url("$caminho")}}" alt="Card image cap">
+                            <h5 class="text-sm-center mt-2 mb-1">{{$u->name}}</h5>
+                            <div class="location text-sm-center">
+                               <div> <i class="fa fa-map-status"></i> Email: {{$u->email}}</div>
+                               <div> <i class="fa fa-email"></i> Estado: {{$u->estado}}</div>
+                                <button class="float-center btnaltearuser" data-toggle="modal" data-target="#alteraruser">Alterar</button>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
        
+    </div>
     </div>
 </div>
 

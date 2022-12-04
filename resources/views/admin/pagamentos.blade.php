@@ -1,5 +1,5 @@
 
-@extends('layouts.template')
+@extends('layouts.template2')
 
 @section('title', 'Pagamentos')
 
@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="section__content section__content--p30">
-    <div class="container-fluid">
+    <div class="container-fluid margem">
 
         @if($errors->any())
               
@@ -66,8 +66,8 @@
                     </div>
                 </div>
 
-        <div class=" table-responsive table-responsive-data3 ">
-        <table class="table table-responsive " id="datatable">
+        <div class="table-responsive table-responsive-data3">
+        <table class="pl-3 table table-responsive" id="datatable">
             <thead class="table-dark">
            
                 <tr>

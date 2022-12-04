@@ -62,7 +62,6 @@ class ContratoController extends Controller
         $c->cliente_id=$request->cliente;
         $c->precocontrato = $this->moeda($request->valor);
         $c->datacontrato=date('y-m-d');
-        $c->valorpagamento= $this->moeda($request->valorapagar);
         $c->modopagamento= $request->modopagamento;
         $c->save();
 
@@ -213,6 +212,57 @@ class ContratoController extends Controller
 
 
 
+
+
+     }
+
+
+     public function gestaocontrato (){
+        $contratos=DB::table('contratos')
+        ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->select('contratos.*', 'clientes.nome as cliente','clientes.nif','clientes.morada','clientes.telefone')
+        ->orderBy('contratos.id','desc')
+        ->get();
+
+        return view('admin.gestaocontratos',['contratos'=>$contratos]);
+       
+        
+        
+
+     }
+
+
+
+     public function detalhes($id){
+
+        $contratos=DB::table('contratos')
+        ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->select('contratos.*', 'clientes.nome as cliente','clientes.nif','clientes.morada','clientes.telefone')
+        ->orderBy('contratos.id','desc')
+        ->get();
+
+
+        $cont=DB::table('contratopagamentos')
+        ->where('contratopagamentos.contrato_id','=',$id)
+        ->join('contratos','contratos.id','=','contratopagamentos.contrato_id')
+        ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->select('clientes.*','contratos.*','contratopagamentos.valor as valor','contratopagamentos.created_at as data','contratopagamentos.id as codigo','contratopagamentos.estado as estado')
+        ->get();
+
+     
+
+        $total=0;
+        $qtd=0;
+
+       foreach($cont as $c){
+        $total=$total+$c->valor;
+        $qtd=$qtd+1;
+       }
+
+
+       
+
+       return view('admin.detalhes-contrato', ['cont'=>$cont, 'total' => $total, 'qtd'=>$qtd, 'cont'=>$cont,'contratos'=>$contratos]);
 
 
      }
