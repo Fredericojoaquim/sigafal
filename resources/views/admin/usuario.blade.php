@@ -68,7 +68,11 @@
                     @php
                          $caminho='imagens'.'/'.$u->imagem;
                       @endphp
+                    @if($u->imagem!=null)
                     <td> <img src="{{url("$caminho")}}" alt="imagem-profile" class="foto-perfil rounded"> </td>
+                    @else
+                    <td> </td>
+                    @endif
                     
                     <td  class="d-flex justify-content-center"> 
 
