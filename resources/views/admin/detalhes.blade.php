@@ -85,7 +85,6 @@
                         <th>Nif</th>
                         <th>modo de pagamento</th>
                         <th>Mês Pago</th>
-                    
                         <th>Data</th> 
                         <th>Estado</th> 
                         <th>Acções</th>
@@ -107,8 +106,7 @@
                     <td>{{ $p->cliente}}</td>
                     <td>{{ $p->nif}}</td>
                     <td>{{ $p->modo}}</td>
-                    <td>{{ $p->mes}}</td>
-                  
+                    <td>{{ $p->mes}}/{{ $p->ano}}</td>
                     <td>{{ $p->data}}</td>
                     <td>{{ $p->estado}}</td>
                     <td class="d-flex justify-content-center"> 
@@ -175,17 +173,12 @@
                                     <div class="row">
                                         
                                         <div class="col-6">
-                                            <label for="morada" class="control-label mb-1">Mês Pago: {{$detalhes[0]->mes}}</label>
+                                            <label for="morada" class="control-label mb-1">Mês Pago: {{$detalhes[0]->mes}}/{{$detalhes[0]->ano}}</label>
                                             
                                         </div>
                                         <div class="col-6">
                                             <label for="morada" class="control-label mb-1">Valor: {{number_format($detalhes[0]->valor, 2,",",".")}}</label>
-                                        </div>
-                                        
-                
-                                        <div class="col-6">
-                                            <label for="telefone" class="control-label mb-1">Ano: {{$detalhes[0]->ano}}</label>
-                                        </div>    
+                                        </div>   
                                     </div>
 
                                     <div class="row">
@@ -258,6 +251,43 @@
     </div>
 </div>
 <!-- end modal small -->
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalbuscar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Buscar Cliente</h5>
+          
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div hidden id="div_erro" class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+            <span class="badge badge-pill badge-danger">Erro</span>
+            <p>Por favor digite um nif no campo de busca</p>
+        </div>
+
+        <div hidden id="nif_invalido" class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+            <span class="badge badge-pill badge-danger">Invalido</span>
+            <p>Por favor digite um nif válido</p>
+        </div>
+
+        <div class="modal-body">
+            <form id="formenviar" class="d-flex" action="{{url('/dashboard/pagamentos/buscarCliente')}}" method="Post" role="search">
+                @csrf
+                <input id="nif" name="nif" class="form-control me-2" type="search" placeholder="Informe o NIF do Cliente" aria-label="Search" autofocus>
+                <button class="btn btn-outline-success" id="btn_send" type="submit">Buscar</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <!-- End Modal -->
+
 
 <script>
    $(document).ready(function(){

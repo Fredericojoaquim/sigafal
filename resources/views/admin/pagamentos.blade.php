@@ -76,7 +76,6 @@
                         <th>Nif</th>
                         <th>Modo</th>
                         <th>Mês Pago</th>
-                        <th>Ano</th>
                         <th>Data</th> 
                         <th>Estado</th> 
                         <th>Acções</th>
@@ -102,8 +101,7 @@
                     <td>{{ $p->cliente}}</td>
                     <td>{{ $p->nif}}</td>
                     <td>{{ $p->modo}}</td>
-                    <td>{{ $p->mes}}</td>
-                    <td>{{ $p->ano}}</td>
+                    <td>{{ $p->mes}}/{{ $p->ano}}</td>
                     <td>{{ $p->data}}</td>
                     @if($p->estado=="verificado")
                         <td class="status--process"> {{ $p->estado}}</td>

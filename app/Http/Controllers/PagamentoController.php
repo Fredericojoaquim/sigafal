@@ -573,7 +573,7 @@ class PagamentoController extends Controller
         $pg=DB::table('clientepagamentos')
             ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
             ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
-            ->select('clientes.nome as cliente','clientepagamentos.id as idpagamento', 'clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id')
+            ->select('clientes.nome as cliente','clientepagamentos.id as idpagamento', 'clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.ano as ano')
             ->orderBy('clientes.id','desc')
             ->get(); 
 
