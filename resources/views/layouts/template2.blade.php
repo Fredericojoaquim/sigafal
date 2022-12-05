@@ -45,8 +45,8 @@
             <div class="section__content section__content--p35">
                 <div class="header3-wrap">
                     <div class="header__logo">
-                        <a href="#">
-                            <img src="images/icon/logo-white.png" alt="CoolAdmin" />
+                        <a href="{{url('/dashboard')}}">
+                            <img src="{{url('images/icon/novo1.png')}}" alt="CoolAdmin" />
                         </a>
                     </div>
                     <div class="header__navbar">
