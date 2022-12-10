@@ -31,7 +31,14 @@ class PagamentoController extends Controller
     {
         //
         $pg=$this->todosdados();
+        $cp=DB::table('clientepagamentos')
+        ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
       
+        ->groupBy('clientepagamentos.cliente_id')
+        ->select('clientes.id','clientes.nome','clientes.nif',DB::raw('SUM(clientepagamentos.valor) as total'),DB::raw('COUNT(clientepagamentos.cliente_id) as qtd'))
+         ->get();
+
+      dd($cp);
        
         return view('admin.pagamentos',['pg'=>$pg]);
     }
@@ -260,12 +267,11 @@ class PagamentoController extends Controller
 
                 $size=count($cp);
                 //verificar se o mês ja foi pago;
-                $cpagamento=ClientePagamento::where('mes', $mes)//vereificar se o pagamento ja
+                $cpagamento=ClientePagamento::where('cliente_id',$_SESSION['id_cliente'])//vereificar se o pagamento ja
+                ->where('mes', $mes)
                 ->where('ano',$ano)
                 ->get();
 
-                //dd($cpagamento);
-                
                $count=count($cpagamento);
 
                 if($count>0){

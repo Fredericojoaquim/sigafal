@@ -50,7 +50,7 @@
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="{{url('images/icon/SIGFAL.png')}}" class="logo-sigfal" alt="CoolAdmin">
+                                <img src="{{url('images/icon/novo.png')}}" class="" alt="CoolAdmin">
                             </a>
                         </div>
                         <div class="login-form">
