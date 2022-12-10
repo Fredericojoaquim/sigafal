@@ -85,16 +85,17 @@
                         <td class="status--denied">{{ $c->estado}}</td>
                     @endif
                     <td  class="d-flex justify-content-center"> 
-                        @if($c->estado =='não verificicado')
+                        @if($c->estado =='não verificado')
                         <button class="btn btn-sm btn-outline-primary editar mr-1" id="">
                             <a class="bnEditar" href="{{url("/dashboard/contratos/show/$c->id")}}">Alterar</a>
                         </button>
                         @else
-                        @can('Administrador')
-                        <button class="btn btn-sm btn-outline-primary editar mr-1" id="">
-                            <a class="bnEditar" href="{{url("/dashboard/contratos-pagamento/$c->codigo")}}">Alterar</a>
+                        
+                        <button class="btn btn-sm btn-outline-primary editar mr-1" id="" disabled>
+                            Alterar
                         </button>
-                        @endcan
+                      
+                  
 
                         @endif
 

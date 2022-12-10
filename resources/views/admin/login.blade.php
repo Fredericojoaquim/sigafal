@@ -59,7 +59,12 @@
                                     @foreach($errors->all() as $erro)
                                     <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
                                         <span class="badge badge-pill badge-danger">Erro</span>
+                                        @if($erro=='auth.failed')
+                                        <p style="text-align: center; color:black">  Email ou Password inválido</p>
+                                        @else
                                         {{$erro}} 
+                                        @endif
+                                        
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>

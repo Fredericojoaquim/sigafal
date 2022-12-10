@@ -38,7 +38,7 @@ class PagamentoController extends Controller
         ->select('clientes.id','clientes.nome','clientes.nif',DB::raw('SUM(clientepagamentos.valor) as total'),DB::raw('COUNT(clientepagamentos.cliente_id) as qtd'))
          ->get();
 
-      dd($cp);
+    //  dd($cp);
        
         return view('admin.pagamentos',['pg'=>$pg]);
     }
