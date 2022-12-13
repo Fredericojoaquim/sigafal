@@ -80,30 +80,30 @@
 
                
             @if(isset($cliente))
-                  @foreach($cliente as $c)
+                  @foreach($cliente as $cl)
 
                   @php 
                   //  formatando o valor que vem da BD no formato de dinheiro
-                   $valor = number_format($c->preco, 2,",",".");
+                   $valor = number_format($cl->preco, 2,",",".");
     
                     @endphp
                 <tr>
-                    <td>{{ $c->id}}</td>
-                    <td>{{ $c->nome}}</td>
-                    <td>{{ $c->nif}}</td>
-                    <td>{{ $c->morada}}</td>
-                    <td>{{ $c->telefone}}</td>
-                    <td>{{ $c->tipo}}</td>
+                    <td>{{ $cl->id}}</td>
+                    <td>{{ $cl->nome}}</td>
+                    <td>{{ $cl->nif}}</td>
+                    <td>{{ $cl->morada}}</td>
+                    <td>{{ $cl->telefone}}</td>
+                    <td>{{ $cl->tipo}}</td>
                     <td>{{ $valor}}</td>
-                    <td>{{ $c->servico}}</td>
-                    <td>{{ $c->pt}}</td>
+                    <td>{{ $cl->servico}}</td>
+                    <td>{{ $cl->pt}}</td>
                     <td class="d-flex justify-content-center"> 
                         <button class="mr-1 btn btn-sm btn-outline-primary editar" id="">
-                            <a class="bnEditar" href="{{url("/dashboard/clientes/update")}}">Alterar</a>
+                            <a class="bnEditar" href="{{url("/dashboard/clientes/show/$cl->id")}}">Alterar</a>
                         </button>
 
                         @can('Administrador')
-                            <button class="btn btn-sm btn btn-danger eliminar" id="{{$c->id}}" onclick="retornaid({{$c->id}})" data-toggle="modal"   data-target="#smallmodal">
+                            <button class="btn btn-sm btn btn-danger eliminar" id="{{$cl->id}}" onclick="retornaid({{$cl->id}})" data-toggle="modal"   data-target="#smallmodal">
                                 <ion-icon name="trash-outline"></ion-icon> Eliminar
                             </button>
                          @endcan
@@ -308,14 +308,14 @@
                                         <div class="col-6">
                                             <label for="nomealt" class="control-label mb-1">Nome</label>
                                             <div class="input-group">
-                                                <input id="nomealt" name="nome"  type="text" value="{{$c->nome}}"class="form-control"  required>
+                                                <input id="nomealt" name="nome"  type="text" value="{{$c[0]->nome}}"class="form-control"  required>
                                             </div>
                                         </div>
 
                                         <div class="col-6">
                                             <label for="nifalt" class="control-label mb-1">Nif</label>
                                             <div class="input-group">
-                                                <input id="nifalt" name="nif" type="text" value="{{$c->nif}}" class="form-control"  required>
+                                                <input id="nifalt" name="nif" type="text" value="{{$c[0]->nif}}" class="form-control"  required>
                                             </div>
                                         </div>
                                     </div>
@@ -326,14 +326,14 @@
                                         <div class="col-6">
                                             <label for="moradaalt" class="control-label mb-1">Morada</label>
                                             <div class="input-group">
-                                                <input id="moradaalt" name="morada" type="text" value="{{$c->morada}}" class="form-control"  required>
+                                                <input id="moradaalt" name="morada" type="text" value="{{$c[0]->morada}}" class="form-control"  required>
                                             </div>
                                         </div>
 
                                         <div class="col-6">
                                             <label for="telefonealt" class="control-label mb-1">Telefone</label>
                                             <div class="input-group">
-                                                <input id="telefonealt" name="telefone" value="{{$c->telefone}}" type="text" class="form-control"  required>
+                                                <input id="telefonealt" name="telefone" value="{{$c[0]->telefone}}" type="text" class="form-control"  required>
                                             </div>
                                         </div>
                                     </div>
@@ -343,7 +343,7 @@
                                         <div class="col-6">
                                             <label for="emailalt" class="control-label mb-1">Email</label>
                                             <div class="input-group">
-                                                <input id="emailalt" name="email" value="{{$c->email}}" type="text" class="form-control"  required>
+                                                <input id="emailalt" name="email" value="{{$c[0]->email}}" type="text" class="form-control"  required>
                                             </div>
                                         </div>
 
@@ -354,7 +354,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12">
                                                     <select name="tipo" id="tipoalt" class="form-control">
-                                                        <option selected="{{$c->tipo}}">{{$c->tipo}}</option>
+                                                        <option selected="{{$c[0]->tipo}}">{{$c[0]->tipo}}</option>
                                                         <option value="Particular">Particular</option>
                                                         <option value="Empresa">Empresa</option>
                                                     </select>
@@ -376,7 +376,7 @@
                                               
                                                 <div class="col-12 col-md-12">
                                                     <select name="servico" id="servicoalt" class="form-control">
-                                                        <option value="{{$c->servico_id}}">{{$c->servico}}</option>
+                                                        <option value="{{$c[0]->servico_id}}">{{$c[0]->servico}}</option>
                                                         @foreach($servicos as $s)
                                                         <option value="{{$s->id}}">{{$s->descricao}}</option>
                                                         @endforeach
@@ -393,7 +393,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-12">
                                                     <select name="pt" id="ptalt" class="form-control">
-                                                        <option value ="{{$c->pt_id}}">{{$c->pt}}</option>
+                                                        <option value ="{{$c[0]->pt_id}}">{{$c[0]->pt}}</option>
                                                         @foreach( $pt as $p)
                                                         <option value="{{$p->id}}">{{$p->localizacao}}</option>
                                                         @endforeach
@@ -409,18 +409,16 @@
                                         <div class="col-6">
                                             <label for="precoalt" class="control-label mb-1">Preço</label>
                                             <div class="input-group">
-                                                @php
-                                                $valor = number_format($c->preco, 2,",",".");
-                                                @endphp
-                                                <input id="precoalt" name="precoalt" value="{{number_format($c->preco, 2,",",".")}}" type="text" class="form-control"  required>
+                                               
+                                                <input id="precoalt" name="precoalt" value="{{number_format($c[0]->preco, 2,",",".")}}" type="text" class="form-control"  required>
                                             </div>
                                         </div>
 
                                         <div class="col-6">
                                             <label for="obsalt" class="control-label mb-1">Observação</label>
                                             <div class="input-group">
-                                                <input id="obsalt" value="{{$c->observacao}}" name="observacao" type="text" class="form-control"  required>
-                                                <input id="id" value="{{$c->id}}" name="id" type="hidden" class="form-control"  required>
+                                                <input id="obsalt" value="{{$c[0]->observacao}}" name="observacao" type="text" class="form-control"  required>
+                                                <input id="id" value="{{$c[0]->id}}" name="id" type="hidden" class="form-control"  required>
                                             </div>
                                         </div>
                                     </div>

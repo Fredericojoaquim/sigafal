@@ -137,6 +137,7 @@ class ClientesController extends Controller
         ->orderBy('clientes.id','desc')
         ->get();
         //
+       
         $c=DB::table('clientes')
         ->join('servicos','clientes.servico_id','=','servicos.id')
         ->join('pts','clientes.pt_id','=','pts.id')
@@ -144,6 +145,8 @@ class ClientesController extends Controller
         ->where('clientes.id','=',$id)
         ->orderBy('clientes.id','desc')
         ->get();
+
+       
        
 
         $pt=Pt::all();

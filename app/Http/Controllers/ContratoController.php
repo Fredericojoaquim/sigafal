@@ -218,11 +218,20 @@ class ContratoController extends Controller
 
 
      public function gestaocontrato (){
-        $contratos=DB::table('contratos')
+        /*$contratos=DB::table('contratos')
         ->join('clientes','contratos.cliente_id','=','clientes.id')
         ->select('contratos.*', 'clientes.nome as cliente','clientes.nif','clientes.morada','clientes.telefone')
         ->orderBy('contratos.id','desc')
-        ->get();
+        ->get();*/
+
+        $contratos=DB::table('contratopagamentos')
+        ->join('contratos','contratopagamentos.contrato_id','=','contratos.id')
+         ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->groupBy('contratopagamentos.contrato_id')
+        ->select('contratos.id as idcontrato','clientes.nome as nome','clientes.nif as nif','contratos.modopagamento as modo','contratos.precocontrato as valor',DB::raw('SUM(contratopagamentos.valor) as total'),DB::raw('COUNT(contratopagamentos.contrato_id) as qtd'))
+         ->get();
+
+         //dd($cp);
 
         return view('admin.gestaocontratos',['contratos'=>$contratos]);
        

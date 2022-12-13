@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('title', 'Pagamento')
+@section('title', 'registarfactura')
 
 
 @section('content')
@@ -92,7 +92,7 @@
                         </div>
 
                    @endif
-                    <form action="/dashboard/pagamento" method="Post"  novalidate="novalidate" id="form_pag">
+                    <form action="{{url('/dashboard/pagamentos/gerar-codigo-fatura')}}" method="Post"  novalidate="novalidate" id="form_pag">
                         
                         
                         @csrf
@@ -145,17 +145,9 @@
 
                         <div class="row">
                             
-                            <div class="col-6">
-                                <label for="morada" class="control-label mb-1">Qtd Meses</label>
-                                <div class="input-group">
+                            
 
-                                    <!--id do cliente-->
-                                    <input hidden type="text" id="id_cliente" name="id_cliente" value="{{$cliente->id}}">
-                                    <input id="qtd" name="qtd" type="number" class="form-control"  required>
-                                </div>
-                            </div>
-
-                            <div class="col-6">
+                            <div class="col-12">
                                 <label for="telefone" class="control-label mb-1">ID Documento Bancário</label>
                                 <div class="input-group">
                                     <input id="id_documento" name="id_documento" type="text" class="form-control required"  required>
@@ -197,7 +189,7 @@
            
            var modo= document.getElementById("modo_pagamento").value;
            var banco= document.getElementById("banco").value;
-           var qtd= document.getElementById("qtd").value;
+       
            var id_documento= document.getElementById("id_documento").value;
            var erro= document.getElementById("erro");
           
@@ -211,22 +203,6 @@
 
            if(banco=="Selecione"){
             erro.innerHTML="Porfavor selecione um nome do Banco";
-            erro.removeAttribute('hidden');
-            return false;
-           }else{
-            erro.setAttribute('hidden', true);
-           }
-
-           if(qtd==""){
-            erro.innerHTML="Porfavor digite a quantidade de mês a ser pago";
-            erro.removeAttribute('hidden');
-            return false;
-           }else{
-            erro.setAttribute('hidden', true);
-           }
-
-           if(qtd<0 || qtd==0){
-            erro.innerHTML="Porfavor digite uma quantidade válida";
             erro.removeAttribute('hidden');
             return false;
            }else{
@@ -255,7 +231,7 @@
                 
                 $('#id_documento').val(Date.now());
                 $('#banco').val('N/h');
-                $('#banco').setAttribute('disable',true);
+               // $('#banco').setAttribute('disable',true);
 
             }else{
                

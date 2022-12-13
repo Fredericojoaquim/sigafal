@@ -40,6 +40,23 @@
      <script src="{{ url('assets/vendor/bootstrap-4.1/bootstrap.min.js')}}"></script>
 </head>
 
+@php
+
+if(Auth::check())
+{
+    $nomeuser=Auth::user()->name;
+    $imagemuser=Auth::user()->imagem;
+    $email=Auth::user()->email;
+    $id=Auth::user()->id;
+}
+@endphp
+
+@if(!isset($nomeuser))
+{{url('/')}}
+@endif
+
+
+
 <body class="animsition">
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
@@ -387,12 +404,12 @@
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
                                             @php
-                                            $caminho='imagens'.'/'.Auth::user()->imagem;
+                                            $caminho='imagens'.'/'.$imagemuser;
                                             @endphp
                                             <img src="{{url("$caminho")}}" alt="user" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">{{ Auth::user()->name }}</a>
+                                            <a class="js-acc-btn" href="#">{{ $nomeuser }}</a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
@@ -406,14 +423,11 @@
                                                         <a href="#">{{ Auth::user()->name }}</a>
                                                         
                                                     </h5>
-                                                    <span class="email">{{ Auth::user()->email }}</span>
+                                                    <span class="email">{{ $email }}</span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
-                                                @php
-                                                $id=Auth::user()->id;
-
-                                                @endphp
+                   
                                                 <div class="account-dropdown__item">
                                                     <a href="{{url("/dashboard/user/profile$id")}}">
                                                         <i class=""></i>Account</a>

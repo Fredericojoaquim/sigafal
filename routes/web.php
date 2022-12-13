@@ -115,7 +115,8 @@ Route::put('/pagamentos/aprovar', [PagamentoController::class,'aprovarPagamento'
 Route::get('/pagamentos/show{id}', [PagamentoController::class,'mostarpagameto']);
 Route::put('/pagamentos/update', [PagamentoController::class,'update']);
 Route::get('/dashboard/devedores', [PagamentoController::class,'devedores']);
-
+Route::post('/dashboard/pagamentos/gerar-codigo-fatura', [PagamentoController::class,'salvarPagamento']);
+Route::post('/dashboard/pagamentos/salvar-dados-pagamento', [PagamentoController::class,'salvardadosPagamento']);
 //faturas e relatorios
 Route::get('/pagamentos/recibo{id}', [PagamentoController::class,'gerarfatura']);
 Route::get('/pagamentos/recibo', [PagamentoController::class,'teste']);

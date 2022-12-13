@@ -1,3 +1,18 @@
+@php
+if(Auth::check())
+{
+    $nomeuser=Auth::user()->name;
+    $imagemuser=Auth::user()->imagem;
+    $email=Auth::user()->email;
+    $id=Auth::user()->id;
+}
+@endphp
+
+@if(!isset($nomeuser))
+
+@endif
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -215,25 +230,29 @@
                             </div>
                         </div>
                         <div class="account-wrap">
+                            @php
+                                $caminho='imagens'.'/'.$imagemuser;
+                                @endphp
                             <div class="account-item account-item--style2 clearfix js-item-menu">
                                 <div class="image">
-                                    <img src="images/icon/avatar-01.jpg" alt="John Doe" />
+                                    <img src="{{url("$caminho")}}" alt="{{$nomeuser}}" />
                                 </div>
                                 <div class="content">
-                                    <a class="js-acc-btn" href="#">john doe</a>
+                                    <a class="js-acc-btn" href="#">{{{$nomeuser}}}</a>
                                 </div>
+                                
                                 <div class="account-dropdown js-dropdown">
                                     <div class="info clearfix">
                                         <div class="image">
                                             <a href="#">
-                                                <img src="images/icon/avatar-01.jpg" alt="John Doe" />
+                                                <img src="{{url("$caminho")}}" alt="{{$nomeuser}}" />
                                             </a>
                                         </div>
                                         <div class="content">
                                             <h5 class="name">
-                                                <a href="#">john doe</a>
+                                                <a href="#">{{{$nomeuser}}}</a>
                                             </h5>
-                                            <span class="email">johndoe@example.com</span>
+                                            <span class="email">{{{$email}}}</span>
                                         </div>
                                     </div>
                                     <div class="account-dropdown__body">
@@ -251,8 +270,10 @@
                                         </div>
                                     </div>
                                     <div class="account-dropdown__footer">
-                                        <a href="#">
-                                            <i class="zmdi zmdi-power"></i>Logout</a>
+                                        <form action="/logout" method="POST">
+                                            @csrf
+                                      <a href="/logout" class="zmdi zmdi-power" onclick="event.preventDefault(); this.closest('form').submit();"> Logout</a>
+                                   </form>
                                     </div>
                                 </div>
                             </div>
@@ -456,25 +477,28 @@
                     </div>
                 </div>
                 <div class="account-wrap">
+                                 @php
+                                $caminho='imagens'.'/'.$imagemuser;
+                                @endphp
                     <div class="account-item account-item--style2 clearfix js-item-menu">
                         <div class="image">
-                            <img src="images/icon/avatar-01.jpg" alt="John Doe" />
+                            <img src="{{url("$caminho")}}" alt="{{$nomeuser}}" />
                         </div>
                         <div class="content">
-                            <a class="js-acc-btn" href="#">john doe</a>
+                            <a class="js-acc-btn" href="#">{{$nomeuser}}</a>
                         </div>
                         <div class="account-dropdown js-dropdown">
                             <div class="info clearfix">
                                 <div class="image">
                                     <a href="#">
-                                        <img src="images/icon/avatar-01.jpg" alt="John Doe" />
+                                        <img src="{{url("$caminho")}}" alt="{{$nomeuser}}" />
                                     </a>
                                 </div>
                                 <div class="content">
                                     <h5 class="name">
-                                        <a href="#">john doe</a>
+                                        <a href="#">{{$nomeuser}}</a>
                                     </h5>
-                                    <span class="email">johndoe@example.com</span>
+                                    <span class="email">{{$email}}</span>
                                 </div>
                             </div>
                             <div class="account-dropdown__body">
@@ -559,6 +583,9 @@
 
     <!-- Main JS-->
     <script src="{{url('js/main.js')}}"></script>
+    
+    <!-- J MASK-->
+    <script type= "text/javascript" src="{{url('js/jquery.mask.js')}}"></script>
 
 
       <!--DATA TABLE-->

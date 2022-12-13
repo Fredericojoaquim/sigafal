@@ -73,10 +73,18 @@ class PagamentoController extends Controller
         ->join('pts','clientes.pt_id','=','pts.id')
         ->select('clientes.*', 'servicos.descricao as servico','pts.localizacao as pt')->first();
        
-        return view("admin.pagamento", [
-            'cliente' => $cliente
-            
-        ]); 
+        $size=count(array($cliente));
+        if($size>0){
+            $_SESSION['id_cliente'] = $id;
+            return view("admin.codigofatura", [
+                'cliente' => $cliente
+                
+            ]); 
+        }
+
+        //enviar uma menssagem caso o cliente não for encontrado
+        
+      
 
     }
 
@@ -743,7 +751,6 @@ class PagamentoController extends Controller
         $p->modopagamento=$_SESSION['modo'];
         $p->nomebanco=$_SESSION['banco'];
         $p->id_docpagamento=$_SESSION['id_documento'];
-        $p->qtd= $_SESSION['qtd'];
         $p->user_id=Auth::user()->id;
         $p->datapagamento = date('y-m-d');
         return $p;
@@ -758,6 +765,41 @@ class PagamentoController extends Controller
         ->get();
        
         return $pg;
+    }
+
+
+    public function salvarPagamento(Request $request){
+        $p=new Pagamento();
+        $p->modopagamento=$request->modo_pagamento;
+        $p->nomebanco=$request->banco;
+        $p->id_docpagamento=$request->id_documento;
+        $p->user_id=Auth::user()->id;
+        $p->datapagamento = date('y-m-d');
+        $p->save();
+        $codigopagamento = $p->id;
+        return view('admin.dadosdepagamento',['codigopagamento'=>$codigopagamento,'sms'=>'codigo de pagamento gerado com sucesso']);
+
+    }
+
+
+    public function salvardadosPagamento(Request $request){
+                     $c=new ClientePagamento();
+                    
+                    $ano= explode('-', $request->data);
+                    $c->ano = $ano[0];
+                    $c->mes = $this->retornaMes($ano[1]);
+                    $c->multa=$this->moeda($request->valor_multa);
+                    $c->cliente_id = $_SESSION['id_cliente'];
+                    $c->pagamento_id =$request->codigopagamento;
+                    $c->estado='não verificado';
+                    $c->valorbanco=$this->moeda($request->valorbanco);
+                    $c->valorcaixa=$this->moeda($request->valorcaixa);
+
+                    $codigopagamento = $c->pagamento_id;
+                    $c->save();
+
+        return view('admin.dadosdepagamento',['sms'=>'pagamento efectuado com sucesso','codimpressao'=>0,'codigopagamento'=> $codigopagamento]);
+
     }
 
 }
