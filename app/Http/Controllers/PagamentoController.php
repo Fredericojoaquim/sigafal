@@ -783,23 +783,92 @@ class PagamentoController extends Controller
 
 
     public function salvardadosPagamento(Request $request){
-                     $c=new ClientePagamento();
-                    
-                    $ano= explode('-', $request->data);
+                $c=new ClientePagamento();
+                    $erros=array();
+                    $mensagem="";
+                    $ano = explode('-', $request->data);
                     $c->ano = $ano[0];
                     $c->mes = $this->retornaMes($ano[1]);
-                    $c->multa=$this->moeda($request->valor_multa);
+                    $c->multa = $this->moeda($request->valor_multa);
                     $c->cliente_id = $_SESSION['id_cliente'];
-                    $c->pagamento_id =$request->codigopagamento;
-                    $c->estado='não verificado';
-                    $c->valorbanco=$this->moeda($request->valorbanco);
-                    $c->valorcaixa=$this->moeda($request->valorcaixa);
-
+                    $c->pagamento_id = $request->codigopagamento;
+                    $c->estado = 'não verificado';
+                    $c->valorbanco = $this->moeda($request->valorbanco);
+                    $c->valorcaixa = $this->moeda($request->valorcaixa);
+        
                     $codigopagamento = $c->pagamento_id;
-                    $c->save();
+                    $codigopagamento = $request->codigopagamento;
+                   $u= Ultimopagamento::where('cliente_id',$_SESSION['id_cliente'])->get();
+       
+                    //dd($this->diferencaMes($request->data, $_SESSION['id_cliente']));
+        if ($this->isPrimeiroPagamento($_SESSION['id_cliente'])) {
+           
+            //salvar o primeiro pagamento
+            $c->save();
+            $vector = ['data'=> $request->data];
+            Ultimopagamento::findOrFail($u[0]->id)->update($vector);
+            return view('admin.dadosdepagamento',['sms'=>'pagamento efectuado com sucesso','codimpressao'=>0,'codigopagamento'=> $codigopagamento]);
+        }
+        $mes_a_pagar = $ano[1];
+       // dd($mes_a_pagar);
+        $mes_ult_pagamento=explode('-', $u[0]->data);
+        $mesUltimoPagamento=$mes_ult_pagamento[1];
+        
+        $diferencaMes=$this->diferencaMes($request->data, $_SESSION['id_cliente']);
+       // $diferencaAno=$this->diferencaAno($request->data,$_SESSION['id_cliente'] );
+        
+        //dd($diferencaMes);
 
-        return view('admin.dadosdepagamento',['sms'=>'pagamento efectuado com sucesso','codimpressao'=>0,'codigopagamento'=> $codigopagamento]);
+        if($mesUltimoPagamento>$mes_a_pagar){
+            $diferencaMes=$diferencaMes*(-1);
+        }
+        if(($diferencaMes>1) && ($this->diferencaAno($mes_ult_pagamento[0], $ano[0],$mes_a_pagar)==true)){
+            $erros[]=" O mês de: $c->mes/$c->ano, não pode ser pago, pois o cliente possui divida no /os meses anteriores ";
+            return view('admin.dadosdepagamento',['erros'=>$erros,'codigopagamento'=> $codigopagamento]);
+        }
+
+        if(($diferencaMes<1) && ($this->diferencaAno($mes_ult_pagamento[0], $ano[0],$mes_a_pagar)==true)){
+            $erros[]=" O mês de: $c->mes/$c->ano, já foi pago";
+            return view('admin.dadosdepagamento',['erros'=>$erros,'codigopagamento'=> $codigopagamento]);
+        }
+
+        if(($diferencaMes==1) && ($this->diferencaAno($mes_ult_pagamento[0], $ano[0],$mes_a_pagar)==true)){
+            $c->save();
+            $vector = ['data'=> $request->data];
+            Ultimopagamento::findOrFail($u[0]->id)->update($vector);
+            return view('admin.dadosdepagamento',['sms'=>'pagamento efectuado com sucesso','codimpressao'=>0,'codigopagamento'=> $codigopagamento]);
+        }
+        $erros[]="Não é possivel efectuar o pagamento por favor verifique o mês/ano a pagar";
+            return view('admin.dadosdepagamento',['erros'=>$erros,'codigopagamento'=> $codigopagamento]);
+       
 
     }
+
+
+    public function diferencaMes($data, $liente_id){
+       // $dataAtual = new DateTime('-1 month');
+       $u= Ultimopagamento::where('cliente_id','=',$liente_id)->get();
+        //$diferenca = $dataAtual->diff($ultimoPagamento);
+        $u = $u[0]->data;
+        $ultimoPagamento = new DateTime($u);
+        $dt=new DateTime($data);
+        $diferenca =  $ultimoPagamento->diff($dt)->m;
+        //dd($ultimoPagamento->diff($dt));
+        return  $diferenca;
+       
+    }
+
+    public function diferencaAno($ano_ult_pag, $ano_pagamento,$mes){
+      $qtd=$ano_pagamento-$ano_ult_pag;
+
+        if($qtd==0){
+            return true;
+        } 
+
+        if($qtd>1 && $mes==1){
+            return true;
+        }
+        return false;
+     }
 
 }

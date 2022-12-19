@@ -48,6 +48,20 @@
  
                  @endif
 
+                 @if(isset($erros))
+
+                 <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+                    <span class="badge badge-pill badge-danger">Erro</span>
+                    @foreach($erros as $erro)
+                    {{$erro}} 
+                    @endforeach
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+ 
+                 @endif
+
 
         <div class="row mb-3">
             <div class="col-md-12">

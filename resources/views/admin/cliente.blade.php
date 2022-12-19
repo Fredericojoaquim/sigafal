@@ -107,9 +107,14 @@
                             </button>
                          @endcan
 
-                         <button class="btn btn-sm btn btn-info mr-1" id="" >
+                         <button class="btn btn-sm btn btn-success mr-1" id="" >
                             <a class="bnEditar" href="{{url("/dashboard/pagamentos/buscarCliente/$c->id")}}">Pagar</a>
                         </button>
+
+                        <button class="btn btn-sm btn btn-info mr-1" id="" >
+                            <a class="bnEditar" href="{{url("")}}">Histórico</a>
+                        </button>
+
                     </td>
                    
 

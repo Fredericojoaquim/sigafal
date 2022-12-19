@@ -107,7 +107,7 @@
                                     <option value="Deposito">Depósito</option>
                                     <option value="Tranferencia">Transferência</option>
                                     <option value="Cash">Cash</option>
-                                    <option value="Cash">Cash & banco</option>
+                                    <option value="Cash & banco">Cash & banco</option>
                                 </select>
                             </div>
                             

@@ -105,6 +105,8 @@ Route::get('/dashboard/contratos-pagamento/{id}', [ContratoPagamento::class,'bus
 Route::put('/dashboard/contrato-pagamento/update', [ContratoPagamento::class,'update']);
 Route::get('/dashboard/gestao-contrato', [ContratoController::class,'gestaocontrato']);
 Route::get('/dashboard/contratos-detalhes/{id}', [ContratoController::class,'detalhes']);
+
+Route::get('/dashboard/testo', [PagamentoController::class,'diferencaMes']);
 //pagamentos
 Route::get('/dashboard/pagamentos', [PagamentoController::class,'index']);
 Route::post('/dashboard/pagamentos/buscarCliente', [PagamentoController::class,'buscarCliente']); 
@@ -129,3 +131,5 @@ Route::post('/dashboard/exportextratopagamentoexel', [PagamentoController::class
 //gestão de contratos
 Route::get('/dashboard/gestao-de-contratos', [ContratoPagamento::class,'index']);
 Route::post('/dashboard/pagar-contrato', [ContratoPagamento::class,'store']);
+
+
