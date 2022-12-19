@@ -70,8 +70,8 @@
                         Pt: <label style="color:black" class=" form-control-label">  {{$cliente->pt}} </label><br>
                         Multa: <label style="color:black" class=" form-control-label"> </label><br>
                         Dívida: <label style="color:black" class=" form-control-label"> </label><br>
-                        Qtd Meses: <label style="color:black" class=" form-control-label"> </label><br>
-                        Valor a Pagar:<label style="color:black" class=" form-control-label"> </label>
+                        Qtd Meses: <label style="color:black" class=" form-control-label"> {{$qtd}} </label><br>
+                        Valor a Pagar:<label style="color:black" class=" form-control-label"> {{$qtd * $valorPagar}}</label>
                         
                   
                   </div>

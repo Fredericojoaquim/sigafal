@@ -26,9 +26,9 @@
 
          <!-- -->
 
-         @if(isset($erros))
+         @if(isset($erro))
               
-                         @foreach($erros as $erro)
+                         
                             <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
                                 <span class="badge badge-pill badge-danger">Erro</span>
                                 {{$erro}} 
@@ -36,7 +36,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                        @endforeach            
+                                  
                     
 
          @endif  
@@ -361,7 +361,7 @@ function aprovar(id){
          var botaopesquisar=document.getElementById('btn_send');
       
 
-        const nif_valido = /^[0-9]{9}(bo|BO|Bo|bO |ba|BA|Ba|bA |be|BE|Be|bE |ca|CA|Ca|cA |cc|CC|Cc|cC |kn|KN|Kn|kN |ks|KS|Ks|ks |ce|CE|Ce|cE |ho|HO|Ho|hO |ha|HA|Ha|hA |la|LA|La|lA |ln|LN|Ln|lN |ls|LS|Ls|lS |me|ME|Me|mE |mo|MO|Mo|mO |na|NA|Na|nA |ue|UE|Ue|uE |za|ZA|Za|zA)[0-9]{3}$/;
+       // const nif_valido = /^[0-9]{9}(bo|BO|Bo|bO |ba|BA|Ba|bA |be|BE|Be|bE |ca|CA|Ca|cA |cc|CC|Cc|cC |kn|KN|Kn|kN |ks|KS|Ks|ks |ce|CE|Ce|cE |ho|HO|Ho|hO |ha|HA|Ha|hA |la|LA|La|lA |ln|LN|Ln|lN |ls|LS|Ls|lS |me|ME|Me|mE |mo|MO|Mo|mO |na|NA|Na|nA |ue|UE|Ue|uE |za|ZA|Za|zA)[0-9]{3}$/;
 
         botaopesquisar.addEventListener('click', (event)=>{
                
@@ -379,7 +379,9 @@ function aprovar(id){
                     nif_invalido.setAttribute('hidden', true);
                     return false;
                     
-                }else if(!nif_valido.test(nif)){
+                }
+                forme.submit();
+                /*else if(!nif_valido.test(nif)){
 
                     nif_invalido.removeAttribute('hidden');
                     erro.setAttribute('hidden', true); 
@@ -388,7 +390,7 @@ function aprovar(id){
                     erro.setAttribute('hidden', true);
                     nif_invalido.setAttribute('hidden', true);
                     forme.submit();
-                }
+                }*/
 
 
                });

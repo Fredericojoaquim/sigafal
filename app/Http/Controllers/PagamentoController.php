@@ -45,27 +45,28 @@ class PagamentoController extends Controller
 
     public function buscarCliente(Request $request){
         
-        $nif = $request->get('nif');
-        $_SESSION['nif']=$request->get('nif');
-        if(!($clientes = Cliente::where('nif',$nif)->first())){  
-            return redirect()->back()
-            ->with('sms_erro', 'Cliente Inexistente, Verifique se o NIF está correto');
-        }
-        
-        /*$servico = Servico::where('id',$cliente->servico_id)->first();
-        $pt = Pt::where('id',$cliente->servico_id)->first();
-*/
-        $cliente=DB::table('clientes')->where('nif',$nif)
+        $cliente=DB::table('clientes')->where('clientes.id', $request->nif)
         ->join('servicos','clientes.servico_id','=','servicos.id')
         ->join('pts','clientes.pt_id','=','pts.id')
         ->select('clientes.*', 'servicos.descricao as servico','pts.localizacao as pt')->first();
+       
+        $cli=array($cliente);
+       
+        if(!is_null($cli[0])){
+            $_SESSION['id_cliente'] = $request->nif;
 
-        return view("admin.pagamento", [
-            'cliente' => $cliente
-            
-        ]); 
+            return view("admin.codigofatura", [
+                'cliente' => $cliente
+                
+            ]); 
+        }
+        
+        $erro="Cliente não encontrado";
+        $pg=$this->todosdados();
+        return view('admin.pagamentos', ['erro'=>$erro, 'pg'=>$pg]);
  
     }
+
 
     public function buscarclienteId($id){
         $cliente=DB::table('clientes')->where('clientes.id',$id)
@@ -73,23 +74,30 @@ class PagamentoController extends Controller
         ->join('pts','clientes.pt_id','=','pts.id')
         ->select('clientes.*', 'servicos.descricao as servico','pts.localizacao as pt')->first();
        
-        $size=count(array($cliente));
-        if($size>0){
+        $cli=array($cliente);
+
+        if(!is_null($cli[0])){
             $_SESSION['id_cliente'] = $id;
+
+            $c=Cliente::findOrFail($id);
+           
+            $qtdMeses=$this->dividaaPagar($id);
+           
             return view("admin.codigofatura", [
-                'cliente' => $cliente
+                'cliente' => $cliente,
+                'qtd'=>$qtdMeses,
+                'valorPagar'=>$c->preco
                 
             ]); 
         }
-
-        //enviar uma menssagem caso o cliente não for encontrado
-        
-      
-
+        $erro="Cliente não encontrado";
+        $pg=$this->todosdados();
+        return view('admin.pagamentos', ['erro'=>$erro, 'pg'=>$pg]);
     }
 
-    public function pagamento(Request $request){
 
+
+    public function pagamento(Request $request){
       //  $this->verificar_idDocumento($numero)
      //$p= Pagamento::where('id_docpagamento',$request->id_documento)->first();
      $pa=DB::table('pagamentos')
@@ -98,10 +106,6 @@ class PagamentoController extends Controller
      ->get();
 
      $total=count($pa);
-    
-
-    
-
      if($total==0){
         $_SESSION['modo']=$request->modo_pagamento;
         $_SESSION['banco']=$request->banco;
@@ -518,6 +522,7 @@ class PagamentoController extends Controller
         ->get();
         $total=0;
         $multas=0;
+        
         foreach($pg as $p){
             $total=$total+$p->valor;
             $multas=$multas + $p->multa;
@@ -815,10 +820,6 @@ class PagamentoController extends Controller
         $mesUltimoPagamento=$mes_ult_pagamento[1];
         
         $diferencaMes=$this->diferencaMes($request->data, $_SESSION['id_cliente']);
-       // $diferencaAno=$this->diferencaAno($request->data,$_SESSION['id_cliente'] );
-        
-        //dd($diferencaMes);
-
         if($mesUltimoPagamento>$mes_a_pagar){
             $diferencaMes=$diferencaMes*(-1);
         }
@@ -869,6 +870,16 @@ class PagamentoController extends Controller
             return true;
         }
         return false;
+     }
+     public function dividaaPagar($liente_id){
+        $u= Ultimopagamento::where('cliente_id','=',$liente_id)->get();
+      //  dd($u);
+        $dataAtual = new DateTime('-1 month');
+        $ultimoPagamento = new DateTime($u[0]->data);
+        $diferenca=$ultimoPagamento->diff($dataAtual)->m;
+      //  dd($diferenca);
+        return $diferenca;
+        
      }
 
 }
