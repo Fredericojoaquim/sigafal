@@ -1,5 +1,10 @@
+    @if (!Auth::check())
+        <input type="hiden" name="is_logado" value="1" >
+    @endif
+
 <!DOCTYPE html>
 <html lang="en">
+
 
 <head>
     <!-- Required meta tags-->
@@ -51,9 +56,7 @@ if(Auth::check())
 }
 @endphp
 
-@if(!isset($nomeuser))
-{{url('/')}}
-@endif
+
 
 
 
@@ -201,7 +204,7 @@ if(Auth::check())
                                     <a href="{{url('/dashboard/clientes')}}">Ver todos</a>
                                 </li>
                                 <li>
-                                    <a href="{{url('/dashboard/clientes')}}">Particulares</a>
+                                    <a href="{{url('/dashboard/clientesParticular')}}">Particulares</a>
                                 </li>
 
                                 <li>
@@ -487,6 +490,20 @@ if(Auth::check())
    <!--DATA TABLE-->
    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
       
+      
+      <script>
+
+       $('document').ready(function(){
+       var valor =  $('input[name=is_logado]').val();
+             
+             if (valor==1) {
+                window.location.href ="{{url('/')}}";
+             }
+
+
+       })
+      
+      </script>
 </body>
     
 </html>

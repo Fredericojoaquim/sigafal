@@ -112,7 +112,7 @@
                         </button>
 
                         <button class="btn btn-sm btn btn-info mr-1" id="" >
-                            <a class="bnEditar" href="{{url("")}}">Histórico</a>
+                            <a class="bnEditar" href="{{url("/dashboard/clientes/historico/$c->id")}}">Histórico</a>
                         </button>
 
                     </td>

@@ -85,6 +85,8 @@
                         <th>Nif</th>
                         <th>modo de pagamento</th>
                         <th>Mês Pago</th>
+                        <th>Banco</th>
+                        <th>Caixa</th>
                         <th>Data</th> 
                         <th>Estado</th> 
                         <th>Acções</th>
@@ -107,8 +109,14 @@
                     <td>{{ $p->nif}}</td>
                     <td>{{ $p->modo}}</td>
                     <td>{{ $p->mes}}/{{ $p->ano}}</td>
+                    <td>{{number_format($p->banco, 2,",",".");}}</td>
+                    <td>{{number_format($p->caixa, 2,",",".");}}</td>
                     <td>{{ $p->data}}</td>
-                    <td>{{ $p->estado}}</td>
+                    @if($p->estado=="verificado")
+                        <td class="status--process"> {{ $p->estado}}</td>
+                    @else
+                         <td class="status--denied">{{ $p->estado}}</td>
+                    @endif
                     <td class="d-flex justify-content-center"> 
                         <button class="btn btn-primary btn-sm edita mr-1" id="">
                             <a class="bnEditar" href="{{url("/pagamentos/show$p->idpagamento")}}">Alterar</a>
@@ -195,7 +203,7 @@
                                             <label for="select" class=" form-control-label">Estado do Pagamento: {{$detalhes[0]->estado}} </label>   
                                         </div>
                                         <div class="col-6">
-                                            <label for="select" class=" form-control-label">Banco: {{$detalhes[0]->banco}}</label>   
+                                            <label for="select" class=" form-control-label">Banco: {{$detalhes[0]->nomebanco}}</label>   
                                         </div>
                                     </div>
                                     <div class="row">

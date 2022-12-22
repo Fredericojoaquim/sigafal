@@ -1,7 +1,7 @@
 
 @extends('layouts.template2')
 
-@section('title', 'Clientes Empresa')
+@section('title', 'Clientes Particular')
 
 
 @section('content')
@@ -84,9 +84,9 @@
                     <td>{{ $c->preco}}</td>
                     <td>{{ $c->servico}}</td>
                     <td>{{ $c->pt}}</td>
-                    <td   class="d-flex justify-content-center"> 
+                    <td  class="d-flex justify-content-center"> 
                         <button class="btn btn-sm btn-outline-primary editar" id="">
-                            <a  class="bnEditar"   href="{{url("")}}">Alterar</a>
+                            <a class="bnEditar" href="{{url("")}}">Alterar</a>
                         </button>
                     </td>
                    

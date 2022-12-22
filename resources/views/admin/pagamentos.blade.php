@@ -76,6 +76,8 @@
                         <th>Nif</th>
                         <th>Modo</th>
                         <th>Mês Pago</th>
+                        <th>Banco</th>
+                        <th>Caixa</th>
                         <th>Data</th> 
                         <th>Estado</th> 
                         <th>Acções</th>
@@ -102,6 +104,8 @@
                     <td>{{ $p->nif}}</td>
                     <td>{{ $p->modo}}</td>
                     <td>{{ $p->mes}}/{{ $p->ano}}</td>
+                    <td>{{number_format($p->banco, 2,",",".");}}</td>
+                    <td>{{number_format($p->caixa, 2,",",".");}}</td>
                     <td>{{ $p->data}}</td>
                     @if($p->estado=="verificado")
                         <td class="status--process"> {{ $p->estado}}</td>

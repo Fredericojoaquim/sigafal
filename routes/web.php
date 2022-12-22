@@ -88,9 +88,11 @@ Route::get('/dashboard/clientes', [ClientesController::class,'index']);
 Route::post('/dashboard/clientes/store', [ClientesController::class,'store']);
 
 Route::get('/dashboard/clientesempresa', [ClientesController::class,'showEmpresa']);
+Route::get('/dashboard/clientesParticular', [ClientesController::class,'showparticular']);
 Route::delete('/dashboard/clientes/delete', [ClientesController::class,'destroy']);
 Route::put('/dashboard/clientes/update', [ClientesController::class,'update']);
 Route::get('/dashboard/clientes/show/{id}', [ClientesController::class,'show']);
+Route::get('/dashboard/clientes/historico/{id}', [ClientesController::class,'']);
 //contractos
 Route::get('/dashboard/contratos', [ContratoController::class,'index']);
 Route::post('/dashboard/contratos/store', [ContratoController::class,'store']);
@@ -127,7 +129,7 @@ Route::get('/dashboard/pagamentos/{idpagamento}',[PagamentoController::class,'de
 Route::post('/dashboard/extratopagamento', [PagamentoController::class,'extratopagamento']);
 Route::get('/dashboard/contrato{id}', [ContratoController::class,'gerarcontrato']);
 Route::post('/dashboard/exportextratopagamentoexel', [PagamentoController::class,'exportextratopagamento']);
-
+Route::post('/dashboard/extrato-de-divida', [PagamentoController::class,'extratodivida']);
 //gestão de contratos
 Route::get('/dashboard/gestao-de-contratos', [ContratoPagamento::class,'index']);
 Route::post('/dashboard/pagar-contrato', [ContratoPagamento::class,'store']);

@@ -15,10 +15,28 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use DateTime;
+use DatePeriod;
+use DateInterval;
 use Dompdf\Options;
 use Maatwebsite\Excel\Facades\Excel;
 
     session_start();
+   // use DateTime;
+  
+
+    class Dev{
+        public int $codigo;
+        public $nome;
+        public $nif;
+        public array $meses;
+    
+        public function __construct(){
+            $this->codigo = 0; 
+            $this->meses = [];
+            $this->nome="";
+            $this->nif="";
+        }
+    }
 
 class PagamentoController extends Controller
 {
@@ -31,13 +49,7 @@ class PagamentoController extends Controller
     {
         //
         $pg=$this->todosdados();
-        $cp=DB::table('clientepagamentos')
-        ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
-      
-        ->groupBy('clientepagamentos.cliente_id')
-        ->select('clientes.id','clientes.nome','clientes.nif',DB::raw('SUM(clientepagamentos.valor) as total'),DB::raw('COUNT(clientepagamentos.cliente_id) as qtd'))
-         ->get();
-
+       
     //  dd($cp);
        
         return view('admin.pagamentos',['pg'=>$pg]);
@@ -54,9 +66,12 @@ class PagamentoController extends Controller
        
         if(!is_null($cli[0])){
             $_SESSION['id_cliente'] = $request->nif;
-
+            $c=Cliente::findOrFail($id);
+            $qtdMeses=$this->dividaaPagar($id);
             return view("admin.codigofatura", [
-                'cliente' => $cliente
+                'cliente' => $cliente,
+                'qtd'=>$qtdMeses,
+                'valorPagar'=>$c->preco
                 
             ]); 
         }
@@ -69,14 +84,17 @@ class PagamentoController extends Controller
 
 
     public function buscarclienteId($id){
+       
         $cliente=DB::table('clientes')->where('clientes.id',$id)
         ->join('servicos','clientes.servico_id','=','servicos.id')
         ->join('pts','clientes.pt_id','=','pts.id')
         ->select('clientes.*', 'servicos.descricao as servico','pts.localizacao as pt')->first();
        
+        
         $cli=array($cliente);
+       
 
-        if(!is_null($cli[0])){
+        if(!empty($cli)){
             $_SESSION['id_cliente'] = $id;
 
             $c=Cliente::findOrFail($id);
@@ -563,12 +581,7 @@ class PagamentoController extends Controller
         $cp=ClientePagamento::findOrFail($id);
     
 
-        $pg=DB::table('clientepagamentos')
-        ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
-        ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
-        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento')
-        ->orderBy('clientes.id','desc')
-        ->get();
+        $pg=$this->todosdados();
       
       
        
@@ -589,12 +602,7 @@ class PagamentoController extends Controller
     public function detalhes($id){
 
         //Mostra todos dados de ClientePagamento
-        $pg=DB::table('clientepagamentos')
-            ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
-            ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
-            ->select('clientes.nome as cliente','clientepagamentos.id as idpagamento', 'clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.ano as ano')
-            ->orderBy('clientes.id','desc')
-            ->get(); 
+        $pg=$this->todosdados(); 
 
         //para mostrar detalhes de um ClientePagamento específico
         $detalhes=DB::table('clientepagamentos')->where('clientepagamentos.id', '=',$id)
@@ -615,7 +623,7 @@ class PagamentoController extends Controller
             'clientepagamentos.created_at as data_alteracao',
             'pagamentos.modopagamento as modo',
             'pagamentos.id as id',
-            'pagamentos.nomebanco as banco',
+            'pagamentos.nomebanco as nomebanco',
             'pagamentos.id_docpagamento as referencia',
             'users.name as operador'
 
@@ -660,7 +668,7 @@ class PagamentoController extends Controller
 
       
 
-            if(count($pg)==0){
+            if($pg->count()==0){
                 
 
                 $pg=DB::table('clientepagamentos')
@@ -765,7 +773,7 @@ class PagamentoController extends Controller
         $pg=DB::table('clientepagamentos')
         ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
         ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
-        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento','clientepagamentos.ano as ano')
+        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento','clientepagamentos.ano as ano','clientepagamentos.valorcaixa as caixa','clientepagamentos.valorbanco as banco')
         ->orderBy('clientes.id','desc')
         ->get();
        
@@ -775,6 +783,13 @@ class PagamentoController extends Controller
 
     public function salvarPagamento(Request $request){
         $p=new Pagamento();
+        $pa=Pagamento::where('nomebanco','=',$request->banco)
+        ->where('id_docpagamento','=',$request->id_documento)
+        ->get();
+       // $pa=array($pa);
+       // dd();
+        if($pa->count()==0){
+        //dd(empty($pa));
         $p->modopagamento=$request->modo_pagamento;
         $p->nomebanco=$request->banco;
         $p->id_docpagamento=$request->id_documento;
@@ -782,8 +797,19 @@ class PagamentoController extends Controller
         $p->datapagamento = date('y-m-d');
         $p->save();
         $codigopagamento = $p->id;
-        return view('admin.dadosdepagamento',['codigopagamento'=>$codigopagamento,'sms'=>'codigo de pagamento gerado com sucesso']);
+        $_SESSION['modopagamento'] = $request->modo_pagamento;
+        return view('admin.dadosdepagamento',['codigopagamento'=>$codigopagamento,'sms'=>'codigo de pagamento gerado com sucesso','modo'=>$_SESSION['modopagamento']]);
+        }
 
+        $cliente=DB::table('clientes')->where('clientes.id', $_SESSION['id_cliente'])
+        ->join('servicos','clientes.servico_id','=','servicos.id')
+        ->join('pts','clientes.pt_id','=','pts.id')
+        ->select('clientes.*', 'servicos.descricao as servico','pts.localizacao as pt')->first();
+        // verificar se o codigo de pagamento ja foi pago pelo menos 1 mês
+        $c=Cliente::findOrFail($_SESSION['id_cliente']);
+            $qtdMeses=$this->dividaaPagar($_SESSION['id_cliente']);
+            return view("admin.codigofatura", ['cliente' => $cliente,'qtd'=>$qtdMeses,'valorPagar'=>$c->preco,'erro'=> 'este codigo de referencia ja foi registado']); 
+           
     }
 
 
@@ -820,6 +846,7 @@ class PagamentoController extends Controller
         $mesUltimoPagamento=$mes_ult_pagamento[1];
         
         $diferencaMes=$this->diferencaMes($request->data, $_SESSION['id_cliente']);
+       
         if($mesUltimoPagamento>$mes_a_pagar){
             $diferencaMes=$diferencaMes*(-1);
         }
@@ -855,6 +882,7 @@ class PagamentoController extends Controller
         $dt=new DateTime($data);
         $diferenca =  $ultimoPagamento->diff($dt)->m;
         //dd($ultimoPagamento->diff($dt));
+       // dd($diferenca);
         return  $diferenca;
        
     }
@@ -873,7 +901,7 @@ class PagamentoController extends Controller
      }
      public function dividaaPagar($liente_id){
         $u= Ultimopagamento::where('cliente_id','=',$liente_id)->get();
-      //  dd($u);
+      
         $dataAtual = new DateTime('-1 month');
         $ultimoPagamento = new DateTime($u[0]->data);
         $diferenca=$ultimoPagamento->diff($dataAtual)->m;
@@ -881,5 +909,89 @@ class PagamentoController extends Controller
         return $diferenca;
         
      }
+
+
+     public function devedores_num_periodo(Request $request){
+
+        $dataI = (new DateTime($request->datainicio))->format('Y-m');
+        $dataF = (new DateTime($request->datafim))->format('Y-m');
+
+     
+        $lista_devedor = [];
+       
+        $devedores = DB::table('ultimopagamentos')
+        ->whereBetween('ultimopagamentos.data',[$request->datainicio, $request->datafim])
+        //->where('ultimopagamentos.data','<>',null)
+        ->join('clientes','ultimopagamentos.cliente_id','=','clientes.id')
+        ->select('clientes.nome as cliente','clientes.nif as nif', 'ultimopagamentos.data as ultimo_pagamento','clientes.id as id')
+        ->get();
+
+        
+       // dd( $devedores);
+        foreach ($devedores as $dev){
+
+            if($dev->ultimo_pagamento < $dataF){
+
+                $new_dev = new Dev();
+
+                $new_dev->codigo = $dev->id;
+                $new_dev->nome=$dev->cliente;
+                $new_dev->nif=$dev->nif;
+
+                if($dev->ultimo_pagamento < $dataI){
+
+                    while($dev->ultimo_pagamento < $dataI){
+
+                        $dev->ultimo_pagamento = (new DateTime($dev->ultimo_pagamento));
+
+                        $dev->ultimo_pagamento = ($dev->ultimo_pagamento->add(new DateInterval('P1M')))->format('Y-m');  //soma um mes ao ultimo pagamento
+                    }
+                }    
+
+                while($dev->ultimo_pagamento <= $dataF){ 
+
+                    $data = explode('-', $dev->ultimo_pagamento);
+
+                    $new_dev->meses [] = $this->retornaMes($data[1]).'/'.$data[0];
+                    
+                    $auxiliar_data = (new DateTime($dev->ultimo_pagamento));
+
+                    $dev->ultimo_pagamento = ($auxiliar_data->add(new DateInterval('P1M')))->format('Y-m');  //soma um mes ao ultimo pagamento
+                    
+                    $dev->ultimo_pagamento = $auxiliar_data->format('Y-m');
+                }
+
+                $lista_devedor[] = $new_dev;
+            }
+        }
+        return $lista_devedor;
+        //dd($lista_devedor);
+      //  return view('relatorios.extratodivida',['pg'=>$lista_devedor]);
+    }
+
+
+
+    public function extratodivida(Request $request){
+
+          $pg=$this->devedores_num_periodo($request);
+           //$pg=Pagamento::all();
+            if(count($pg)==0){
+                $pg=DB::table('clientepagamentos')
+                ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
+                ->join('pagamentos','pagamentos.id','=','clientepagamentos.pagamento_id')
+                ->join('pts','pts.id','=','clientes.pt_id')
+                ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.ano','clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento', 'clientepagamentos.multa as multa','pts.localizacao as pt', 'clientes.morada as morada', 'clientepagamentos.valor')
+                ->orderBy('clientepagamentos.id','desc')
+                ->get();
+        
+                return view('admin.recibos',['pg'=>$pg,'erros'=>'não existe devedores dentro deste periodo']);
+            }
+          // dd($pg);
+            PDF::setOption(['isRemoteEnabled' => true]);
+            $pdf=PDF::loadView('relatorios.extratodivida',['pg'=>$pg]);
+            return $pdf->setPaper('a4')->stream('extrato-de-divida.pdf');
+    }
+
+    
 
 }

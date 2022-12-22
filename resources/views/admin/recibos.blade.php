@@ -67,7 +67,7 @@
                         </button> <br>
 
 
-                        <button  style="color: blue" class="" data-toggle="modal" data-target="#modaldataexcel">
+                        <button  style="color: blue" class="" data-toggle="modal" data-target="#modaldata1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-earmark-excel-fill" viewBox="0 0 16 16">
                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM5.884 6.68 8 9.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 10l2.233 2.68a.5.5 0 0 1-.768.64L8 10.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 10 5.116 7.32a.5.5 0 1 1 .768-.64z"/>
                               </svg>
@@ -222,6 +222,67 @@
 
 
 
+<!-- modal buscar extrato de pagamentos -->
+<div class="modal fade" id="modaldata1" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Extracto de Dívida</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div hidden class="sufee-alert alert with-close alert-danger alert-dismissible fade show" id="erroextrato">
+                                
+                                </div>
+
+                                <form target="_blank" id="formextrato-pagamento" action="{{url('/dashboard/extrato-de-divida')}}" method="Post" novalidate="novalidate">
+                                    @csrf
+
+                                    <div class="row">
+                                        
+                                                <div class="col-6">
+                                                    <label for="data1" class="control-label mb-1">Data inicio</label>
+                                                    <div class="input-group">
+                                                        <input id="data1" name="datainicio" type="month" class="form-control"  required>
+                                                    </div>
+                                                </div>
+                                         
+                                      
+                                        <div class="col-6">
+                                            <label for="data2" class="control-label mb-1">Data de fim </label>
+                                            <div class="input-group">
+                                                <input id="data2" name="datafim" type="month" class="form-control"  required>
+                                            </div>
+                                        </div>
+                                    </div>
+         
+                                    <div class="text-right mt-3">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" id="btnextratopagamento" class="btn btn-primary">Confirmar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- end modal medium -->
+
+
+
+
+
 
 <!-- modal buscar extrato de pagamentos excel -->
 <div class="modal fade" id="modaldataexcel" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
@@ -321,23 +382,7 @@ function aprovar(id){
         var botaopesquisar=document.getElementById('btn_send');
         var erro=document.getElementById("div_erro");
         var form=document.getElementById("formenviar");
-        botaopesquisar.addEventListener('click', (event)=>{
-                var nif=document.getElementById("nif").value;
-               // var form=document.getElementById("d");
-               
-                event.preventDefault();
-                
-                if(nif==""){
-                    
-                    erro.removeAttribute('hidden');
-                    
-                }else{
-                    erro.setAttribute('hidden', true);
-                   form.submit();
-
-                }
-               
-               });
+         
 
                var btnextratopagamento=document.getElementById('btnextratopagamento');
                btnextratopagamento.addEventListener('click', (event)=>{

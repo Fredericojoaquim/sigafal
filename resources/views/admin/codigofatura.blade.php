@@ -4,13 +4,17 @@
 
 
 @section('content')
+
+@php
+     
+@endphp
             
 <div class="section__content section__content--p30">
     <div class="container-fluid">
 
         @if($errors->any())
               
-                         @foreach($errors->all() as $erro)
+                        
                             <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
                                 <span class="badge badge-pill badge-danger">Erro</span>
                                 {{$erro}} 
@@ -18,7 +22,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                        @endforeach            
+                             
                     
 
                  @endif  
@@ -106,6 +110,7 @@
                                     <option value="Tranferencia">Transferência</option>
                                     <option value="Cash">Cash</option>
                                     <option value="Cash & banco">Cash & banco</option>
+                                     <option value="Remanescente">Remanescente</option>
                                 </select>
                             </div>
                             

@@ -118,7 +118,7 @@ class ClientesController extends Controller
         ->where('clientes.tipo','=','Particular')
         ->orderBy('clientes.id','desc')
         ->get();
-        return view('admin.clienteparticluar',['cliente'=>$cliente]);
+        return view('admin.clienteParticular',['cliente'=>$cliente]);
 
     }
 
@@ -252,6 +252,25 @@ class ClientesController extends Controller
             return true;
          }
          return false;
+
+    }
+
+
+    public function historico($idcli){
+
+        $pg=DB::table('clientepagamentos')
+        ->where('clientepagamentos.cliente_id','=',$idcli)
+        ->join('clientes','clientepagamentos.cliente_id','=','clientes.id')
+        ->join('pagamentos','clientepagamentos.pagamento_id','=','pagamentos.id')
+        ->select('clientes.nome as cliente','clientes.nif as nif', 'clientepagamentos.mes','pagamentos.datapagamento as data','clientepagamentos.estado as estado','pagamentos.datapagamento as data','pagamentos.modopagamento as modo','pagamentos.id as id','clientepagamentos.id as idpagamento','clientepagamentos.ano as ano')
+        ->orderBy('clientes.id','desc')
+        ->get();
+
+        return view('admin.historico',['pg'=>$pg]);
+
+    
+
+        
 
     }
 }

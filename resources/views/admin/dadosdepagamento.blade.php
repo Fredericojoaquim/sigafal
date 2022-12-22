@@ -130,6 +130,7 @@
                             <div class="col-12" id="valor_multa">
                                 <label for="banco" class="control-label mb-1">Valor da Multa</label>
                                 <input id="valor_multa" name="valor_multa"  value="{{number_format(0, 2,",",".")}}"  min="0" class="form-control multa_valor"  required>
+                                <input id="modopagamento" name="modopagamento" value="{{$modo}}" type="text">
                                  
                             </div>
 
@@ -193,9 +194,10 @@
            var meses=document.getElementsByClassName("mespagamento");
            var erro=document.getElementById("erro_dados_pagamento");
            var textoerro=document.getElementById("texto-erro");
-           var valorbanco=document.getElementsByClassName("valorbanco");
-           var valorcaixa=document.getElementsByClassName("valorcaixa");
+           var valorbanco=document.getElementById("valorbanco");
+           var valorcaixa=document.getElementById("valorcaixa");
            var multa=document.getElementsByClassName("multa_valor");
+           var modo=document.getElementById("modopagamento");
 
             event.preventDefault();
           
@@ -236,8 +238,39 @@
                 return false;
                }else{
                 erro.setAttribute('hidden', true);
-                formulario.submit();
+             
                }
+             
+               if((modo.value =='TPA') || (modo.value =='Depósito')|| (modo.value =='Tranferência')||(modo.value=='TPA')){
+                
+
+                    if((valorbanco.value=='0')||(valorbanco.value=='0,00')){
+                       
+                        textoerro.innerHTML="Por favor digite um valor aceitavel no campo valor banco";
+                         erro.removeAttribute('hidden');
+                         return false;
+                         //formulario.submit();
+                    }else{
+                         erro.setAttribute('hidden', true); 
+                         formulario.submit();
+                    }
+
+               }
+
+               if(modo.value=='Cash'){
+                    if((valorcaixa.value=='0')||(valorcaixa.value=='0,00')){
+                       
+                        textoerro.innerHTML="Por favor digite um valor aceitavel no campo valor Caixa";
+                         erro.removeAttribute('hidden');
+                         return false;
+                         //formulario.submit();
+                    }else{
+                         erro.setAttribute('hidden', true); 
+                         formulario.submit();
+                    }
+
+               }
+               
 
             
         

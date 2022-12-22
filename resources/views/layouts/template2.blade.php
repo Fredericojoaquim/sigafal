@@ -1,16 +1,20 @@
-@php
-if(Auth::check())
-{
+
+
+
+
+@if(Auth::check())
+   @php
     $nomeuser=Auth::user()->name;
     $imagemuser=Auth::user()->imagem;
     $email=Auth::user()->email;
     $id=Auth::user()->id;
-}
-@endphp
-
-@if(!isset($nomeuser))
-
+    @endphp
+@else
+ <input type="hiden" name="is_logado" value="1" >
 @endif
+
+
+
 
 
 <!DOCTYPE html>
@@ -87,7 +91,7 @@ if(Auth::check())
                                         <a href="{{url('/dashboard/clientes')}}">Ver todos</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/dashboard/clientes')}}">Particulares</a>
+                                        <a href="{{url('/dashboard/clientesParticular')}}">Particulares</a>
                                     </li>
                                     <li>
                                         <a href="{{url('/dashboard/clientesempresa')}}">Empresa</a>
@@ -231,29 +235,39 @@ if(Auth::check())
                         </div>
                         <div class="account-wrap">
                             @php
+                             if(isset($imagemuser)){
                                 $caminho='imagens'.'/'.$imagemuser;
+                                }
                                 @endphp
                             <div class="account-item account-item--style2 clearfix js-item-menu">
                                 <div class="image">
+                                @if(isset($caminho))
                                     <img src="{{url("$caminho")}}" alt="{{$nomeuser}}" />
+                                @endif
                                 </div>
+                                 @if(isset($nomeuser))
                                 <div class="content">
-                                    <a class="js-acc-btn" href="#">{{{$nomeuser}}}</a>
+                                    <a class="js-acc-btn" href="#">{{$nomeuser}}</a>
                                 </div>
+                                @endif
                                 
                                 <div class="account-dropdown js-dropdown">
                                     <div class="info clearfix">
+                                      @if(isset($caminho))
                                         <div class="image">
                                             <a href="#">
                                                 <img src="{{url("$caminho")}}" alt="{{$nomeuser}}" />
                                             </a>
                                         </div>
+                                       @endif
+                                        @if(isset($nomeuser) && isset($email))
                                         <div class="content">
                                             <h5 class="name">
-                                                <a href="#">{{{$nomeuser}}}</a>
+                                                <a href="#">{{$nomeuser}}</a>
                                             </h5>
-                                            <span class="email">{{{$email}}}</span>
+                                            <span class="email">{{$email}}</span>
                                         </div>
+                                        @endif
                                     </div>
                                     <div class="account-dropdown__body">
                                         <div class="account-dropdown__item">
@@ -477,28 +491,41 @@ if(Auth::check())
                     </div>
                 </div>
                 <div class="account-wrap">
+
+                     
                                  @php
+                                 if(isset($imagemuser)){
                                 $caminho='imagens'.'/'.$imagemuser;
+                                 }
                                 @endphp
                     <div class="account-item account-item--style2 clearfix js-item-menu">
                         <div class="image">
+                        @if(isset($caminho) && isset($nomeuser))
                             <img src="{{url("$caminho")}}" alt="{{$nomeuser}}" />
+                            @endif
                         </div>
                         <div class="content">
+                            @if(isset($nomeuser))
                             <a class="js-acc-btn" href="#">{{$nomeuser}}</a>
+                            @endif
                         </div>
                         <div class="account-dropdown js-dropdown">
                             <div class="info clearfix">
                                 <div class="image">
                                     <a href="#">
+                                       @if(isset($caminho) && isset($nomeuser))
                                         <img src="{{url("$caminho")}}" alt="{{$nomeuser}}" />
+                                      @endif
                                     </a>
                                 </div>
                                 <div class="content">
+                                 @if(isset($nomeuser) && isset($email))
                                     <h5 class="name">
+                                   
                                         <a href="#">{{$nomeuser}}</a>
                                     </h5>
                                     <span class="email">{{$email}}</span>
+                                @endif
                                 </div>
                             </div>
                             <div class="account-dropdown__body">
@@ -560,6 +587,8 @@ if(Auth::check())
 
     </div>
 
+   
+
     <!-- Jquery JS-->
     <script src="{{url('assets/vendor/jquery-3.2.1.min.js')}}"></script>
     <!-- Bootstrap JS-->
@@ -590,7 +619,19 @@ if(Auth::check())
 
       <!--DATA TABLE-->
    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+   
+   <script>
+       $('document').ready(function(){
+       var valor =  $('input[name=is_logado]').val()
+             
+             if (valor==1) {
+                window.location.href ="{{url('/')}}";
+             }
 
+
+       })
+   
+   </script>
 </body>
 
 </html>

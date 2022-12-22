@@ -38,60 +38,36 @@
                 
 
                 <div style="clear: both; ">
-                    <h3 style="text-align:center; font-size: 30px;">Extracto de Pagamentos</h3>
+                    <h3 style="text-align:center; font-size: 30px;">Extracto de Divida</h3>
                     <table style="padding-top: 15px; width: 100%; ">
                         <thead style="background-color: black; color:white; height: 40px; border:none;">
                             <tr>
                                 <th>Id</th>
-                                <th>Cliente</th>
+                                <th>Nome</th>
+                                <th>Nif</th>
                                 <th>Mês</th>
-                                <th>Ano</th>
-                                <th>Data Pagamento</th>
-                                <th>Valor</th>
-                                <th>Multa</th>
-                              
+                               
+                                
                             </tr>
                         </thead>
                         <tbody>
                             @if(isset($pg))
                                 @foreach($pg as $p)
+                                @php
+                                $size=count($p->meses);
+                                @endphp
+                                @for($i=0;$i<$size; $i++)
                             <tr>
                                
-                                <td>{{$p->idpagamento}}</td>
-                                <td>{{$p->cliente}}</td>
-                                <td>{{$p->mes}}</td>
-                                <td>{{$p->ano}}</td>
-                                <td style="text-align: center;">{{$p->data}}<</td>
-                               
-                                @php 
-                                //formatando o valor que vem da BD no formato de dinheiro
-                                $valor = number_format($p->valor, 2,",",".");
-                                $mt = number_format($p->multa, 2,",",".");
-
-                                $totais= (float)$total;
-                                $total_tudo=number_format($totais, 2,",",".") ;
+                                <td>{{$p->codigo}}</td>
+                                <td>{{$p->nome}}</td>
+                                <td>{{$p->nif}}</td>
+                                <td>{{$p->meses[$i]}}</td>
                                 
-                              
-
-                                $multas=(float) $multa;
-                                $multas_tudo=number_format($multas, 2,",",".")
-                
-                                @endphp
-                                 <td >{{$valor}}<</td>
-                                 <td >{{$mt}}<</td>
-                             
                             </tr>
-
+                                @endfor
                                 @endforeach
-                                <tr>
-                                    <td ><strong>Total</strong></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td> <strong>{{ $total_tudo}}</strong> </td>
-                                    <td><strong>{{ $multas_tudo  }}</strong></td>
-                                </tr>
+                               
                             @endif
                         </tbody>
                     </table>
