@@ -38,6 +38,7 @@ return array(
     'App\\Http\\Requests\\Auth\\LoginRequest' => $baseDir . '/app/Http/Requests/Auth/LoginRequest.php',
     'App\\Models\\Cliente' => $baseDir . '/app/Models/Cliente.php',
     'App\\Models\\ClientePagamento' => $baseDir . '/app/Models/ClientePagamento.php',
+    'App\\Models\\ContaCliente' => $baseDir . '/app/Models/ContaCliente.php',
     'App\\Models\\Contracto' => $baseDir . '/app/Models/Contracto.php',
     'App\\Models\\Contratopagamentos' => $baseDir . '/app/Models/Contratopagamentos.php',
     'App\\Models\\Models\\ModelPermission' => $baseDir . '/app/Models/Models/ModelPermission.php',

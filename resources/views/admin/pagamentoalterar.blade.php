@@ -78,6 +78,7 @@
                         <th>Mês Pago</th>
                         <th>Banco</th>
                         <th>Caixa</th>
+                        <th>Multa</th>
                         <th>Data</th> 
                         <th>Estado</th> 
                         <th>Acções</th>
@@ -105,6 +106,7 @@
                    <td>{{ $p->mes}}/{{ $p->ano}}</td>
                    <td>{{number_format($p->banco, 2,",",".");}}</td>
                    <td>{{number_format($p->caixa, 2,",",".");}}</td>
+                   <td>{{number_format($p->multa, 2,",",".");}}</td>
                     <td>{{ $p->data}}</td>
                     @if($p->estado=="verificado")
                         <td class="status--process"> {{ $p->estado}}</td>

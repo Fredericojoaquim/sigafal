@@ -40,8 +40,6 @@
                     <div class="col-md-12">
                         <div class="overview-wrap">
                             <h2 class="title-1">Gestão de contratos</h2>
-                            <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#registarcontratos" >
-                                <i class="zmdi zmdi-plus"></i>Registar</button>
                         </div>
                     </div>
                 </div>
@@ -51,13 +49,13 @@
             <thead class="table-dark">
            
                 <tr>
-                    <th>Id</th>
+                    <th>Id </th>
                     <th>Cliente</th>
                     <th>Nif</th>
                     <th>Modo de pagamento</th>
-                   
                     <th>Valor do contracto</th>
-                    <th>Data</th> 
+                    <th>valor Pago</th> 
+                     <th>Estado</th> 
                     <th>Acções</th>
                     </tr>
                 
@@ -74,17 +72,22 @@
                   @foreach($contratos as $c)
                   
                
-                <tr>
-                    <td>{{ $c->id}}</td>
-                    <td>{{ $c->cliente}}</td>
+                 <tr>
+                    <td>{{ $c->idcontrato}}</td>
+                    <td>{{ $c->nome}}</td>
                     <td>{{ $c->nif}}</td>
-                    <td>{{ $c->modopagamento}}</td>
+                    <td>{{ $c->modo}}</td>
                    
-                    <td>{{number_format( $c->precocontrato, 2,",",".") }}</td>
-                    <td>{{$c->datacontrato  }}</td>
+                    <td>{{number_format( $c->valor, 2,",",".") }}</td>
+                    <td>{{number_format( $c->total, 2,",",".")  }}</td>
+                    @if($c->valor== $c->total)
+                    <td class="status--process">concluido</td>
+                    @else
+                    <td class="status--denied">inconcluido</td>
+                    @endif
                     <td  class="d-flex justify-content-center"> 
                         <button class="btn btn-secondary mr-1 btn-sm editar  " id="">
-                            <a class="bnEditar" href="{{url("/dashboard/contratos-detalhes/$c->id")}}">Detalhes</a>
+                            <a class="bnEditar" href="{{url("/dashboard/contratos-detalhes/$c->idcontrato")}}">Detalhes</a>
                         </button>
                     </td>
                    

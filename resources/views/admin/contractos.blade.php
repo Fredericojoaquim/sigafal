@@ -291,7 +291,7 @@
         //mascaras com jmask
         $('#valor').mask('#.##0,00',{reverse: true});
         $('#valor').mask('#.##0,00',{reverse: true});
-        $('#valorapagar').mask('#.##0,00',{reverse: true});
+       // $('#valorapagar').mask('#.##0,00',{reverse: true});
         $('#pagarcontrato').mask('#.##0,00',{reverse: true});
 
 
@@ -309,7 +309,7 @@
             var cliente=document.getElementById("cliente").value;
             var valor=document.getElementById("valor").value;
             var modo=document.getElementById("modopagamento").value;
-            var valorapagar=document.getElementById("valorapagar").value;
+            //var valorapagar=document.getElementById("valorapagar").value;
             var erro= document.getElementById("erro-registar");
 
             if(cliente == 'Selecione'){
@@ -337,17 +337,11 @@
                 return false;
             }else{
                 erro.setAttribute('hidden', true);
-            }
-
-            if(valorapagar == ''){
-                erro.innerHTML="O campo <strong> Valor a pagar </strong> é de Obrigatório";
-                erro.removeAttribute('hidden');
-                cliente.focus();
-                return false;
-            }else{
-                erro.setAttribute('hidden', true);
                 formregistar.submit();
             }
+
+            
+              
 
 
 

@@ -88,9 +88,9 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Mês</th>
-                                <th>Ano</th>
-                                <th>Data Pagamento</th>
-                                <th>Valor</th>
+                                <th>Data</th>
+                                <th>Banco</th>
+                                <th>Caixa</th>
                                 <th>Multa</th>
                               
                             </tr>
@@ -99,18 +99,19 @@
                             @if(isset($pg))
                                 @foreach($pg as $p)
                             <tr>
-                                <td>{{$p->idpagamento}}</td>
-                                <td>{{$p->mes}}<</td>
-                                <td>{{$p->ano}}<</td>
-                                <td>{{$p->data}}<</td>
+                                <td style="text-align: center;">{{$p->idpagamento}}</td>
+                                <td style="text-align: center;">{{$p->mes}}/{{$p->ano}}</td>
+                                <td style="text-align: center;">{{$p->data}}</td>
                                
                                 @php 
                                 //formatando o valor que vem da BD no formato de dinheiro
-                                $valor = number_format($p->valor, 2,",",".");
+                                $banco = number_format($p->banco, 2,",",".");
+                                $caixa = number_format($p->caixa, 2,",",".");
                                 $multa = number_format($p->multa, 2,",",".");
                                 @endphp
-                                 <td >{{$valor}}</td>
-                                 <td >{{$multa}}</td>
+                                 <td style="text-align: center;" >{{$banco}}</td>
+                                 <td style="text-align: center;">{{$caixa}}</td>
+                                 <td style="text-align: center;">{{$multa}}</td>
                              
                             </tr>
 
@@ -131,8 +132,8 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td> <strong> {{number_format($totais, 2,",",".")}}</strong> </td>
-                                    <td><strong>{{ $multas  }}</strong></td>
+                                    <td style="text-align: center;"> <strong> {{number_format($totais, 2,",",".")}}</strong> </td>
+                                    <td style="text-align: center;"><strong>{{ $multas  }}</strong></td>
                                 </tr>
                             @endif
                         </tbody>

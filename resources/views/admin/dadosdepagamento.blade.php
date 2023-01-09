@@ -130,7 +130,7 @@
                             <div class="col-12" id="valor_multa">
                                 <label for="banco" class="control-label mb-1">Valor da Multa</label>
                                 <input id="valor_multa" name="valor_multa"  value="{{number_format(0, 2,",",".")}}"  min="0" class="form-control multa_valor"  required>
-                                <input id="modopagamento" name="modopagamento" value="{{$modo}}" type="text">
+                                <input id="modopagamento" name="modopagamento" hidden value="{{$modo}}" type="text">
                                  
                             </div>
 
@@ -151,17 +151,15 @@
                             <button type="submit" id="btnconcluir" class="btn col-12 btn-primary">Registar</button>
                         </div>
 
-                        @if(isset($codimpressao))
-
-                       
-
-                        @endif
+                   
 
                     </form>
+                         @if(isset($codimpressao))
+                            <p class="mt-2" style="text-align: center;"> <a style="color:green;" href="{{url("/pagamentos/recibo$codigopagamento")}}" target="_blank">Imprimir a Factura</a> </p>
+                        @endif
 
-
-                    <p class="mt-2" style="text-align: center;"> <a style="color:green;" href="{{url("/pagamentos/recibo$codigopagamento")}}" target="_blank">Imprimir a Factura</a> </p>
-                    <p class="mt-2" style="text-align: center;"> <a style="color:red;" href="{{url("/dashboard")}}" target="_blank">Sair</a> </p>
+                    
+                    <p class="mt-2" style="text-align: center;"> <a style="color:red;" href="{{url("/dashboard")}}">Sair</a> </p>
                     
                   </div>
               </div>

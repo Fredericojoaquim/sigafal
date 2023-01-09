@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contratopagamentos;
+use App\Models\Contracto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; 
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -56,6 +57,24 @@ class ContratoPagamento extends Controller
             $c->datapagamento=date('y-m-d');
             $c->save();
 
+         $contratos=DB::table('contratopagamentos')
+         ->where('contratopagamentos.contrato_id','=',$request->contrato_id)
+        ->join('contratos','contratopagamentos.contrato_id','=','contratos.id')
+         ->join('clientes','contratos.cliente_id','=','clientes.id')
+        ->groupBy('contratopagamentos.contrato_id')
+        ->select('contratos.precocontrato as valor',DB::raw('SUM(contratopagamentos.valor) as total'),DB::raw('COUNT(contratopagamentos.contrato_id) as qtd'))
+         ->get();
+
+         $estado="";
+       
+         if($contratos[0]->valor == $contratos[0]->total){
+            $estado="Concluido";
+
+         }else{
+            $estado="inconcluido";
+         }
+         $s=['estado'=>$estado];
+         $cont=Contracto::findOrFail($c->contrato_id)->update($s);
             //
 
             $pc=DB::table('contratopagamentos')

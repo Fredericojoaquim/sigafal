@@ -36,7 +36,29 @@
  
                  @endif
 
-                 
+
+        <div class="row">
+
+           
+                <div class="col-3">
+                    <a href="">todos contratos</a>
+                </div>
+
+                <div class="col-3">
+                    <a href="">todos contratos</a>
+                </div>
+
+                <div class="col-3">
+                    <a href="">todos contratos</a>
+                </div>
+
+                <div class="col-3">
+                    <a href="">todos contratos</a>
+                </div>
+               
+           
+
+        </div>  
 
         <div class="myresponsivetable table-responsive table-responsive-data3 ">
         <table class="table " id="datatable">
@@ -49,6 +71,7 @@
                     <th>Modo de pagamento</th>
                     <th>Valor do contracto</th>
                     <th>valor Pago</th> 
+                     <th>Estado</th> 
                     <th>Acções</th>
                     </tr>
                 
@@ -73,6 +96,11 @@
                    
                     <td>{{number_format( $c->valor, 2,",",".") }}</td>
                     <td>{{number_format( $c->total, 2,",",".")  }}</td>
+                    @if($c->valor== $c->total)
+                    <td class="status--process">concluido</td>
+                    @else
+                    <td class="status--denied">inconcluido</td>
+                    @endif
                     <td  class="d-flex justify-content-center"> 
                         <button class="btn btn-secondary mr-1 btn-sm editar  " id="">
                             <a class="bnEditar" href="{{url("/dashboard/contratos-detalhes/$c->idcontrato")}}">Detalhes</a>

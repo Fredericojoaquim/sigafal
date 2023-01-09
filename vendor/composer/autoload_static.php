@@ -620,6 +620,7 @@ class ComposerStaticInit819af6c1a9375ece7179c42d34e84102
         'App\\Http\\Requests\\Auth\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Auth/LoginRequest.php',
         'App\\Models\\Cliente' => __DIR__ . '/../..' . '/app/Models/Cliente.php',
         'App\\Models\\ClientePagamento' => __DIR__ . '/../..' . '/app/Models/ClientePagamento.php',
+        'App\\Models\\ContaCliente' => __DIR__ . '/../..' . '/app/Models/ContaCliente.php',
         'App\\Models\\Contracto' => __DIR__ . '/../..' . '/app/Models/Contracto.php',
         'App\\Models\\Contratopagamentos' => __DIR__ . '/../..' . '/app/Models/Contratopagamentos.php',
         'App\\Models\\Models\\ModelPermission' => __DIR__ . '/../..' . '/app/Models/Models/ModelPermission.php',

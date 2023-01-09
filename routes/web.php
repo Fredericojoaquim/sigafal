@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\ContaCliente;
 use App\Http\Controllers\Pt;
 use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\ContratoPagamento;
@@ -92,7 +93,7 @@ Route::get('/dashboard/clientesParticular', [ClientesController::class,'showpart
 Route::delete('/dashboard/clientes/delete', [ClientesController::class,'destroy']);
 Route::put('/dashboard/clientes/update', [ClientesController::class,'update']);
 Route::get('/dashboard/clientes/show/{id}', [ClientesController::class,'show']);
-Route::get('/dashboard/clientes/historico/{id}', [ClientesController::class,'']);
+Route::get('/dashboard/clientes/historico/{id}', [ClientesController::class,'historico']);
 //contractos
 Route::get('/dashboard/contratos', [ContratoController::class,'index']);
 Route::post('/dashboard/contratos/store', [ContratoController::class,'store']);
@@ -135,3 +136,7 @@ Route::get('/dashboard/gestao-de-contratos', [ContratoPagamento::class,'index'])
 Route::post('/dashboard/pagar-contrato', [ContratoPagamento::class,'store']);
 
 
+//contaclientes
+Route::get('/dashboard/contas', [ContaCliente::class,'index']);
+Route::post('/dashboard/contas/store', [ContaCliente::class,'store']);
+Route::get('/dashboard/contas/detalhes/{id}', [ContaCliente::class,'detalhes']);

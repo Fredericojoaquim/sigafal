@@ -78,6 +78,7 @@
                         <th>Mês Pago</th>
                         <th>Banco</th>
                         <th>Caixa</th>
+                        <th>Multa</th>
                         <th>Data</th> 
                         <th>Estado</th> 
                         <th>Acções</th>
@@ -106,6 +107,7 @@
                     <td>{{ $p->mes}}/{{ $p->ano}}</td>
                     <td>{{number_format($p->banco, 2,",",".");}}</td>
                     <td>{{number_format($p->caixa, 2,",",".");}}</td>
+                    <td>{{number_format($p->multa, 2,",",".");}}</td>
                     <td>{{ $p->data}}</td>
                     @if($p->estado=="verificado")
                         <td class="status--process"> {{ $p->estado}}</td>
@@ -260,18 +262,18 @@
 
         <div hidden id="div_erro" class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
             <span class="badge badge-pill badge-danger">Erro</span>
-            <p>Por favor digite um nif no campo de busca</p>
+            <p>Por favor digite um Código no campo de busca</p>
         </div>
 
         <div hidden id="nif_invalido" class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
             <span class="badge badge-pill badge-danger">Invalido</span>
-            <p>Por favor digite um nif válido</p>
+            <p>Por favor digite um Código válido</p>
         </div>
 
         <div class="modal-body">
             <form id="formenviar" class="d-flex" action="{{url('/dashboard/pagamentos/buscarCliente')}}" method="Post" role="search">
                 @csrf
-                <input id="nif" name="nif" class="form-control me-2" type="search" placeholder="Informe o NIF do Cliente" aria-label="Search" autofocus>
+                <input id="nif" name="nif" class="form-control me-2" type="search" placeholder="Informe o Código do Cliente" aria-label="Search" autofocus>
                 <button class="btn btn-outline-success" id="btn_send" type="submit">Buscar</button>
             </form>
         </div>

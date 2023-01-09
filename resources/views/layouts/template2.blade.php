@@ -155,6 +155,23 @@
                                     </li>
                                 </ul>
                             </li>
+
+
+
+                            <li class="has-sub">
+                                <a href="#">
+                                    <i class="fas fa-desktop"></i>
+                                    <span class="bot-line"></span>Conta Clientes</a>
+                                <ul class="header3-sub-list list-unstyled">
+                                    <li>
+                                        <a href="{{url('/dashboard/contas')}}">Ver Todos</a>
+                                    </li>
+                                   
+                                    <li>
+                                        <a href="{{url('/dashboard/recibos')}}">Gestão de Conta Cliente</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     <div class="header__tool">

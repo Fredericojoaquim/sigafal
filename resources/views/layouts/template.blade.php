@@ -270,6 +270,20 @@ if(Auth::check())
                         </li>
 
 
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-desktop"></i>Conta Clientes</a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>
+                                    <a href="{{url('/dashboard/contas')}}">Ver Todos</a>
+                                    <a href="{{url('/dashboard/pagamentos')}}">Gestão de Conta Cliente</a>
+                                    
+                                    
+                                </li>
+                            </ul>
+                        </li>
+
+
                         
                     </ul>
                 </nav>
@@ -405,14 +419,18 @@ if(Auth::check())
                                 </div>
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
+                                    @if(isset($imagemuser))
                                         <div class="image">
                                             @php
                                             $caminho='imagens'.'/'.$imagemuser;
                                             @endphp
                                             <img src="{{url("$caminho")}}" alt="user" />
                                         </div>
+                                    @endif
                                         <div class="content">
+                                        @if(isset($nomeuser))
                                             <a class="js-acc-btn" href="#">{{ $nomeuser }}</a>
+                                        @endif
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
@@ -423,16 +441,21 @@ if(Auth::check())
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">{{ Auth::user()->name }}</a>
-                                                        
+                                                    @if(isset($nomeuser))
+                                                        <a href="#">{{ $nomeuser}}</a>
+                                                    @endif 
                                                     </h5>
+                                                    @if(isset($email))
                                                     <span class="email">{{ $email }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
                    
                                                 <div class="account-dropdown__item">
+                                                @if(isset($id))
                                                     <a href="{{url("/dashboard/user/profile$id")}}">
+                                                @endif
                                                         <i class=""></i>Account</a>
                                                 </div>
                                                 <div class="account-dropdown__item">

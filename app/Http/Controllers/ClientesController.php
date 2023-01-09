@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\ContaCliente;
 use App\Models\Pt;
 use App\Models\Servico;
 use App\Models\Ultimopagamento;
@@ -63,12 +64,22 @@ class ClientesController extends Controller
             $c->observacao=$request->observacao;
             $c->pt_id=$request->pt;
            // dd($request->pt);
-            $c->save();
-            
-            $u=new Ultimopagamento();
-            $u->cliente_id=$c->id;
-           // $u->data=date('y-m');
-            $u->save();
+           
+            if( $c->save()){
+                $u=new Ultimopagamento();
+                $u->cliente_id=$c->id;
+               // $u->data=date('y-m');
+                $u->save();
+
+                $conta = new ContaCliente();
+                $conta->data = date('y-m-d');
+                $conta->cliente_id = $c->id;
+                $conta->saldo = 0;
+
+                $conta->save();
+
+            }
+           
             
         }else{
             $cliente=DB::table('clientes')
