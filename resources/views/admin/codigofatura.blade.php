@@ -117,7 +117,7 @@
                             
                             <div class="col-6">
                                 <label for="banco" class="control-label mb-1">Banco</label>
-                                <select name="banco" id="banco" class="form-control required">
+                                <select name="banco" id="banco" class="form-control required" > 
                                     <option selected="selected">Selecione</option>
                                     <option value="BFA">BFA</option>
                                     <option value="BAI">BAI</option>
@@ -173,6 +173,7 @@
 <script>
       $(document).ready(function(){
         $('#valor').mask('#.##0,00',{reverse: true});
+        
 
        
       });
@@ -182,6 +183,10 @@
        // alert('ss');
       
          
+      }
+
+      function disablitar(){
+        
       }
 
          btn=document.getElementById("btne");
@@ -218,8 +223,10 @@
             return false;
            }else{
             erro.setAttribute('hidden', true);
-            myform.submit();
+             myform.submit();
            }
+
+           
            
 
            
@@ -239,6 +246,17 @@
             }else{
                
                 $('#id_documento').val('');
+            }
+            //caso selecione a opção de remanescente
+        var modo= document.getElementById("modo_pagamento").value;
+        if(modo == "Remanescente"){
+                
+                $('#id_documento').val(Date.now());
+                var banco= document.getElementById("banco");
+                banco.setAttribute('disabled', true);
+                $('#banco').val('N/h');
+               // $('#banco').setAttribute('disable',true);
+
             }
             
         }

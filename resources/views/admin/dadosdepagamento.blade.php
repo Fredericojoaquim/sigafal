@@ -180,6 +180,14 @@
         //$('#valorbanco').val(000);
         $('#valorcaixa').mask('#.##0,00',{reverse: true});
         $('#valorbanco').mask('#.##0,00',{reverse: true});
+
+        var modo=document.getElementById("modopagamento");
+        var valorbanco=document.getElementById("valorbanco");
+
+        if(modo.value=='Remanescente'){
+            valorbanco.setAttribute('disabled',true);
+
+        }
         
 
 
@@ -192,13 +200,14 @@
            var meses=document.getElementsByClassName("mespagamento");
            var erro=document.getElementById("erro_dados_pagamento");
            var textoerro=document.getElementById("texto-erro");
-           var valorbanco=document.getElementById("valorbanco");
+           
            var valorcaixa=document.getElementById("valorcaixa");
            var multa=document.getElementsByClassName("multa_valor");
            var modo=document.getElementById("modopagamento");
 
             event.preventDefault();
-          
+            
+                //alert('teste');
                if( meses.value==''){
                 textoerro.innerHTML="O campo <strong>mês e ano</strong> é de carcater obrigatório";
                 erro.removeAttribute('hidden');
@@ -255,7 +264,7 @@
 
                }
 
-               if(modo.value=='Cash'){
+               if(modo.value=='Cash' || modo.value=='Remanescente'  ){
                     if((valorcaixa.value=='0')||(valorcaixa.value=='0,00')){
                        
                         textoerro.innerHTML="Por favor digite um valor aceitavel no campo valor Caixa";

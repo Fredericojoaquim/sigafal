@@ -10,6 +10,8 @@ use App\Models\Cliente;
 use App\Models\Servico;
 use App\Models\Pt;
 use App\Models\ClientePagamento;
+use App\Models\ContaCliente;
+use App\Models\Operacao;
 use App\Models\UltimoPagamento;
 use Illuminate\Support\Facades\DB; 
 use Illuminate\Support\Facades\Auth;
@@ -809,7 +811,12 @@ class PagamentoController extends Controller
         if($pa->count()==0){
         //dd(empty($pa));
         $p->modopagamento=$request->modo_pagamento;
-        $p->nomebanco=$request->banco;
+        
+        if($request->modo_pagamento=='Remanescente'){
+            $p->nomebanco='N/H';
+        }else{
+                $p->nomebanco = $request->banco;
+        }
         $p->id_docpagamento=$request->id_documento;
         $p->user_id=Auth::user()->id;
         $p->datapagamento = date('y-m-d');
@@ -835,6 +842,7 @@ class PagamentoController extends Controller
                 $c=new ClientePagamento();
                     $erros=array();
                     $mensagem="";
+                    $verificador = false;
                     $ano = explode('-', $request->data);
                     $c->ano = $ano[0];
                     $c->mes = $this->retornaMes($ano[1]);
@@ -844,6 +852,21 @@ class PagamentoController extends Controller
                     $c->estado = 'não verificado';
                     $c->valorbanco = $this->moeda($request->valorbanco);
                     $c->valorcaixa = $this->moeda($request->valorcaixa);
+
+                    if($_SESSION['modopagamento']=='Remanescente'){
+                        $caixa = (double) $c->valorcaixa;
+                        $multa = (double) $c->multa;
+                        $valor= $caixa+$multa;
+                       if( $this->verificarvalor($c->cliente_id, $valor)){
+                        //fazer o desconto na conta do cliente
+                       $verificador = true;
+                       }else{
+                        $erros[]="o saldo do cliente é insuficente para efectuar este pagamento";
+                        return view('admin.dadosdepagamento',['erros'=>$erros,'codigopagamento'=>$c->pagamento_id,'modo'=>$_SESSION['modopagamento']]);
+
+
+                       }
+                    }
         
                     $codigopagamento = $c->pagamento_id;
                     $codigopagamento = $request->codigopagamento;
@@ -959,8 +982,11 @@ class PagamentoController extends Controller
        // dd( $devedores);
         foreach ($devedores as $dev){
 
-            if($dev->ultimo_pagamento < $dataF){
+            if($dev->ultimo_pagamento>= $dataI && $dev->ultimo_pagamento < $dataF){
+                $dev->ultimo_pagamento = (new DateTime($dev->ultimo_pagamento));
 
+                $dev->ultimo_pagamento = ($dev->ultimo_pagamento->add(new DateInterval('P1M')))->format('Y-m');  //soma um mes ao ultimo pagamento
+                
                 $new_dev = new Dev();
 
                 $new_dev->codigo = $dev->id;
@@ -1028,6 +1054,39 @@ class PagamentoController extends Controller
             return true;
         }
         return false;
+    }
+
+
+    public function verificarvalor($idcli, $valor){
+
+        $c= ContaCliente::where('cliente_id','=',$idcli)->get();
+
+        if($c->count()>0){
+            $saldo = $c[0]->saldo;
+            if($saldo>=$valor){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public function credito(Request $request){
+
+        $c = new Operacao();
+        $c->conta_id = $request->conta_id;
+        $c->debito = 0;
+        $c->credito = $this->moeda($request->valor);
+        $c->data = date('y-m-d');
+
+        return $c->save();
+
+
+    }
+
+    public function descontoSaldoCliente(){
+
     }
 
     
